@@ -1,4 +1,13 @@
-import { BarChart3, BrainCircuit, Database, Layout, Server, Terminal } from "lucide-react";
+import {
+  BarChart3,
+  BrainCircuit,
+  Database,
+  Layout,
+  Server,
+  Terminal,
+  Smartphone,
+  CreditCard,
+} from "lucide-react";
 import {
   EducationItem,
   ExperienceItem,
@@ -17,7 +26,6 @@ export const SOCIAL_LINKS = {
 export const MENU_ITEMS: MenuItem[] = [
   { name: "Home", href: "#banner", color: "bg-blue-500" },
   { name: "About Me", href: "#about-me", color: "bg-purple-500" },
-  { name: "Skills", href: "#skills", color: "bg-rose-500" },
   { name: "Expertise", href: "#stack", color: "bg-emerald-500" },
   { name: "Education", href: "#education", color: "bg-yellow-500" },
   { name: "Experience", href: "#experience", color: "bg-pink-500" },
@@ -56,42 +64,125 @@ export const EXPERIENCE: ExperienceItem[] = [
     company: "Freelancing",
     role: "AI Engineer & Backend Specialist",
     date: "2024 — Present",
-    desc: "Development of production-ready RAG systems with LangChain, autonomous AI agents using Model Context Protocol (MCP), and streaming LLM integrations (Gemini, DeepSeek, OpenAI). Built data pipelines with vector databases (Qdrant, ChromaDB, Pinecone). Self-taught specialization in Deep Learning with PyTorch (CNNs, computer vision), Transformers with Hugging Face, and classical ML with Scikit-learn. Deployed scalable AI solutions with FastAPI and NestJS.",
+    desc: "Development of RAG systems with LangChain, autonomous AI agents using Model Context Protocol (MCP), and streaming LLM integrations (Gemini, DeepSeek, OpenAI). Built data pipelines with vector databases (Qdrant, ChromaDB, Pinecone). Proficient in Deep Learning with PyTorch (CNNs, computer vision), Transformers with Hugging Face, and classical ML with Scikit-learn.",
   },
 ];
 
 export const PROJECTS: ProjectItem[] = [
   {
     id: "01",
-    title: "Intelligent Tutoring System",
+    title: "Syllabi - Intelligent Tutoring System",
     category: "AI & EdTech",
     tech: [
       "NestJS",
       "TypeORM",
+      "PostgreSQL",
       "Qdrant",
       "LangChain",
-      "LCEL",
+      "Mastra",
       "React",
-      "AI Elements UI",
-      "Streaming SSE",
+      "TypeScript",
+      "AI SDK",
+      "Gemini/OpenAI",
+      "SSE",
+      "Zod",
     ],
-    desc: "RAG-powered educational platform with intelligent notebook features and streaming LLM responses. An AI-driven tutoring system built with NestJS and LangChain that provides personalized educational assistance through RAG architecture. Implements vector database (Qdrant) for semantic search across syllabi, activities, and competencies. Features streaming LLM responses via Server-Sent Events, modular backend with TypeORM for syllabus management, activity tracking, and submission processing. Includes context-aware agents that retrieve relevant educational content and generate adaptive learning experiences with proper source citations.",
+    desc: "Syllabi is an intelligent tutoring platform that adapts to each student's learning style and knowledge level.",
+    longDesc:
+      "Hook: Personalized ITS that adapts instruction to each student's profile and reduces manual work for educators.\n\nKey features:\n- Personalized conversational tutor with context-aware explanations tailored to student level\n- Competency mapping and mastery tracking across knowledge domains\n- Generative exercise/assessment creator and adaptive summaries\n- Real-time analytics dashboards and academic calendar\n- Collaborative learning spaces and centralized knowledge repository\n\nTech & architecture:\n- NestJS (TypeORM + PostgreSQL), Qdrant vector DB, LangChain + Mastra for RAG/orchestration, Vercel AI SDK & Gemini/OpenAI for LLMs, SSE for streaming responses, Zod for input validation\n\nImpact:\n- 24/7 personalized tutoring, faster content creation for educators, and data-driven teaching insights.",
+    projectPdf: {
+      title: "Syllabi - Project Document",
+      link: "https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/1807196/90ee7887-7a55-4e58-b85f-a4e96a7eed08/Presentacion-del-Documento-Base-Actualizado-SYLLABI-.docx.pdf",
+      note: "Full spec with competency maps, architecture diagrams, and use cases.",
+    },
+    evidence: [
+      {
+        title: "Project screenshots",
+        images: [
+          "https://via.placeholder.com/800x450?text=Syllabi+Screenshot+1",
+          "https://via.placeholder.com/800x450?text=Syllabi+Screenshot+2",
+        ],
+        note: "UI mockups and sample tutor conversation snapshots.",
+        type: "image",
+      },
+      {
+        title: "GitHub Repository",
+        link: SOCIAL_LINKS.github,
+        note: "Main repo with backend and frontend code",
+        type: "repo",
+      },
+    ],
+    devNotes: [
+      {
+        date: "2024-08-XX",
+        author: "Facundo Majda",
+        content:
+          "Project kickoff: Started Syllabi as a three-person team. Built V1 as a basic RAG system that divided knowledge domains into subjects and enabled interaction with PDF documents.",
+      },
+      {
+        date: "2024-XX-XX",
+        author: "Facundo Majda",
+        content:
+          "From POC to MVP V1 success: First working version handling subject-based domains with PDF processing. Simple retrieval, limited scope, but validated the core concept of AI-assisted academic guidance.",
+      },
+      {
+        date: "2025-03-XX",
+        author: "Facundo Majda",
+        content:
+          "Realizing we're building an ITS: As V2 development began, we recognized Syllabi wasn't just a content platform—it was becoming an Intelligent Tutoring System (STI). This realization shaped the entire V2 architecture around adaptive learning, personalized instruction, and student modeling.",
+      },
+      {
+        date: "2025-XX-XX",
+        author: "Facundo Majda",
+        content:
+          "V2: Competency-based STI: Launched V2 with a complete architectural shift from subject-based to competency-based learning. The STI now tracks skill development, identifies knowledge gaps, maps prerequisites, and adapts content to each student's trajectory.",
+      },
+      {
+        date: "2025-XX-XX",
+        author: "Facundo Majda",
+        content:
+          "Advanced resource management: Implemented high-precision web retrieval capable of recovering nearly any external resource available on the web. The STI can now contextualize external content alongside locally uploaded materials for personalized learning paths.",
+      },
+      {
+        date: "2025-08-XX",
+        author: "Facundo Majda",
+        content:
+          "Document analysis & syllabus extraction: Introduced document analysis pipeline with automatic syllabus extraction as the flagship feature. The system parses institutional documents and generates structured learning plans that feed directly into the STI's competency model.",
+      },
+      {
+        date: "2025-12-10",
+        author: "Facundo Majda",
+        content:
+          "200+ endpoints: Backend reached over 200 endpoints covering student features, intelligent tutoring capabilities, and back office operations. The platform evolved from prototype to production-grade STI infrastructure.",
+      },
+    ],
     link: SOCIAL_LINKS.github,
     color: "from-blue-600 to-purple-600",
   },
   {
     id: "02",
-    title: "Hackathon Formosa 2024",
-    category: "Computer Vision",
-    tech: [
-      "PyTorch",
-      "CNN Models",
-      "RAG",
-      "Vector Embeddings",
-      "React",
-      "Computer Vision",
+    title: "Hackathon Formosa 2024 - Plant Recognition",
+    category: "AI Engineering",
+    tech: ["Plant Detection API", "LangChain", "RAG", "React Native", "Expo"],
+    desc: "Mobile app for plant identification that provides safety guidance about edible and toxic parts.",
+    longDesc:
+      "Hook: Mobile plant identification app that gives immediate, safety-focused guidance after a photo capture.\n\nKey features:\n- Photo-based plant detection and species identification\n- Safety guidance about edible vs. poisonous parts with source citations\n- RAG-backed assistant that retrieves botanical references and safety notes\n- Privacy-first capture and optional offline image preprocessing\n\nTech & architecture:\n- React Native + Expo, Plant Detection API for visual recognition, LangChain for retrieval orchestration and RAG, serverless functions for citations and privacy-preserving capture\n\nImpact:\n- Helps users avoid accidental ingestion of toxic plants and provides fast, context-aware guidance for outdoor use.",
+    projectPdf: {
+      title: "Hackathon slides & notes",
+      link: SOCIAL_LINKS.github,
+      note: "Presentation slides and architecture notes used during the hackathon.",
+    },
+    evidence: [
+      {
+        title: "App screenshots",
+        images: [
+          "https://via.placeholder.com/800x450?text=Plant+Recognition+1",
+          "https://via.placeholder.com/800x450?text=Plant+Recognition+2",
+        ],
+        note: "Detection and results screen showing safety guidance and source citations.",
+        type: "image",
+      },
     ],
-    desc: "RAG-enhanced computer vision application for image analysis and intelligent recommendations. Developed a computer vision system integrating convolutional neural networks with RAG architecture for semantic image analysis. Combined PyTorch-based CNN models with vector embeddings for similarity search and context-aware recommendations. Implemented React frontend with real-time inference and intelligent retrieval from visual knowledge base.",
     link: SOCIAL_LINKS.github,
     color: "from-emerald-500 to-teal-600",
   },
@@ -110,7 +201,24 @@ export const PROJECTS: ProjectItem[] = [
       "class-validator",
       "Swagger",
     ],
-    desc: "Human-Centered AI system for incident routing with multi-option recommendation engine and transparent decision support. Intelligent API backend for civic incident reporting with AI-powered analysis and authority routing. Built a human-in-the-loop system where AI provides ranked recommendations (2-4 options) with explicit pros/cons, but operators make final decisions. Implements Google Gemini 2.0 Flash for multidimensional analysis: severity classification, urgency levels, automatic keyword detection, and confidence scoring. Features modular NestJS backend with TypeORM and PostgreSQL, communication module with intelligent routing service using structured LLM output, zero-automation principle, historical context learning, full transparency, human override capability, and soft delete architecture.",
+    desc: "Human-centered incident routing system that provides ranked, transparent recommendations to operators.",
+    longDesc:
+      "Hook: Improves civic incident routing by offering ranked, explainable recommendations while keeping humans in the loop.\n\nKey features:\n- Multi-option recommendation engine (ranked choices with pros/cons)\n- Severity classification and urgency scoring for triage\n- Transparent reasoning and human override capability\n- Historical context learning and soft-delete for auditability\n\nTech & architecture:\n- NestJS (TypeORM + PostgreSQL), structured LLM output for analysis (Gemini/OpenAI), Zod for validation, modular routing microservice and audit logs\n\nImpact:\n- Faster, more accurate routing decisions and improved accountability for civic services.",
+    projectPdf: {
+      title: "Project notes",
+      link: SOCIAL_LINKS.github,
+      note: "Design and routing diagrams.",
+    },
+    evidence: [
+      {
+        title: "Architecture screenshot",
+        images: [
+          "https://via.placeholder.com/800x450?text=Incident+Reporting+Diagram",
+        ],
+        note: "System diagram and data flow.",
+        type: "image",
+      },
+    ],
     link: SOCIAL_LINKS.github,
     color: "from-purple-500 to-indigo-600",
   },
@@ -127,7 +235,24 @@ export const PROJECTS: ProjectItem[] = [
       "Medical PDF Processing",
       "Streaming Responses",
     ],
-    desc: "Clinical decision support system using RAG for diagnostic assistance with medical literature. A medical assistant using retrieval-augmented generation to process clinical practice guidelines, pathology records, and pharmacopeia PDFs. Implements dual-mode operation: urgent mode for rapid differential diagnosis in critical cases, and academic mode for comprehensive analysis with detailed citations. Generates structured diagnoses with medication recommendations, ICD-10 codes, and source references. Built with LangChain 1.x using LCEL pipelines, structured output with Pydantic, and query expansion for improved medical document retrieval.",
+    desc: "Clinical decision support assistant that uses RAG to provide evidence-backed diagnostic guidance and citations.",
+    longDesc:
+      "Hook: A clinician-facing assistant that accelerates evidence retrieval and presents concise, cited diagnostic guidance.\n\nKey features:\n- Dual-mode: urgent mode for rapid differential diagnosis and academic mode for detailed evidence review\n- Structured outputs (ICD-10 codes, medication suggestions) and explicit source citations\n- Streaming LLM responses for fast, interactive consultations\n\nTech & architecture:\n- Python + FastAPI backend, LangChain for RAG pipelines, Vector DB for embeddings, medical PDF processing and structured output with Pydantic\n\nImpact:\n- Reduces time to relevant evidence and improves traceability of clinical recommendations.",
+    projectPdf: {
+      title: "Clinical assistant notes",
+      link: SOCIAL_LINKS.github,
+      note: "Design notes and test cases.",
+    },
+    evidence: [
+      {
+        title: "UI mockups",
+        images: [
+          "https://via.placeholder.com/800x450?text=Clinical+Assistant+1",
+        ],
+        note: "Screenshots of urgent vs academic modes.",
+        type: "image",
+      },
+    ],
     link: SOCIAL_LINKS.github,
     color: "from-red-500 to-pink-600",
   },
@@ -140,6 +265,7 @@ export const STACK_CATEGORIES: StackCategory[] = [
       { name: "LangChain", icon: "https://cdn.simpleicons.org/langchain" },
       { name: "LangGraph", icon: "https://cdn.simpleicons.org/langgraph" },
       { name: "PyTorch", icon: "https://cdn.simpleicons.org/pytorch" },
+      { name: "torchvision", icon: "https://cdn.simpleicons.org/pytorch" },
       { name: "Ollama", icon: "https://cdn.simpleicons.org/ollama" },
       { name: "Hugging Face", icon: "https://cdn.simpleicons.org/huggingface" },
       { name: "Vercel AI SDK", icon: "https://cdn.simpleicons.org/vercel" },
@@ -153,11 +279,29 @@ export const STACK_CATEGORIES: StackCategory[] = [
         name: "DeepSeek",
         icon: "https://registry.npmmirror.com/@lobehub/icons-static-svg/latest/files/icons/deepseek.svg",
       },
+      {
+        name: "sentence-transformers",
+        icon: "https://cdn.simpleicons.org/huggingface",
+      },
+      { name: "Scikit-learn", icon: "https://cdn.simpleicons.org/scikitlearn" },
       { name: "TensorFlow", icon: "https://cdn.simpleicons.org/tensorflow" },
-      { name: "scikit-learn", icon: "https://cdn.simpleicons.org/scikitlearn" },
       { name: "Keras", icon: "https://cdn.simpleicons.org/keras" },
     ],
     icon: <BrainCircuit className="w-8 h-8 text-purple-500" />,
+  },
+  {
+    name: "Data Science & Analysis",
+    items: [
+      { name: "NumPy", icon: "https://cdn.simpleicons.org/numpy" },
+      { name: "Pandas", icon: "https://cdn.simpleicons.org/pandas" },
+      {
+        name: "Matplotlib",
+        icon: "https://upload.wikimedia.org/wikipedia/commons/8/84/Matplotlib_icon.svg",
+      },
+      { name: "Jupyter", icon: "https://cdn.simpleicons.org/jupyter" },
+      { name: "Streamlit", icon: "https://cdn.simpleicons.org/streamlit" },
+    ],
+    icon: <BarChart3 className="w-8 h-8 text-orange-500" />,
   },
   {
     name: "Backend Architecture",
@@ -188,7 +332,6 @@ export const STACK_CATEGORIES: StackCategory[] = [
       { name: "MySQL", icon: "https://cdn.simpleicons.org/mysql" },
       { name: "TypeORM", icon: "https://cdn.simpleicons.org/typeorm" },
       { name: "Prisma", icon: "https://cdn.simpleicons.org/prisma" },
-      { name: "Pandas", icon: "https://cdn.simpleicons.org/pandas" },
     ],
     icon: <Database className="w-8 h-8 text-emerald-500" />,
   },
@@ -199,11 +342,28 @@ export const STACK_CATEGORIES: StackCategory[] = [
       { name: "Kubernetes", icon: "https://cdn.simpleicons.org/kubernetes" },
       { name: "Git", icon: "https://cdn.simpleicons.org/git" },
       { name: "GitHub", icon: "https://cdn.simpleicons.org/github" },
+      { name: "Postman", icon: "https://cdn.simpleicons.org/postman" },
       { name: "Jira", icon: "https://cdn.simpleicons.org/jira" },
       { name: "ClickUp", icon: "https://cdn.simpleicons.org/clickup" },
       { name: "Slack", icon: "https://cdn.simpleicons.org/slack" },
     ],
     icon: <Terminal className="w-8 h-8 text-gray-500" />,
+  },
+  {
+    name: "Payments",
+    items: [
+      { name: "Stripe", icon: "https://cdn.simpleicons.org/stripe" },
+      { name: "Mercado Pago", icon: "https://cdn.simpleicons.org/mercadopago" },
+    ],
+    icon: <CreditCard className="w-8 h-8 text-yellow-500" />,
+  },
+  {
+    name: "Mobile",
+    items: [
+      { name: "React Native", icon: "https://cdn.simpleicons.org/react" },
+      { name: "Expo", icon: "https://cdn.simpleicons.org/expo" },
+    ],
+    icon: <Smartphone className="w-8 h-8 text-pink-500" />,
   },
   {
     name: "Frontend Development",

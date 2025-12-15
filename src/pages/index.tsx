@@ -1,6 +1,8 @@
 import { ArrowUpRight, MoveUpRight } from "lucide-react";
-import { Anton, Manrope } from "next/font/google";
+import { Manrope } from "next/font/google";
 import { useState } from "react";
+import ProjectModal from "@/components/ProjectModal";
+import { ProjectItem } from "@/types";
 import {
   EDUCATION,
   EXPERIENCE,
@@ -9,9 +11,9 @@ import {
   SOCIAL_LINKS,
   STACK_CATEGORIES,
 } from "@/config/profile";
+import { CORE_SKILLS } from "@/config/skills";
 import { Reveal } from "@/utils";
 
-const anton = Anton({ subsets: ["latin"], weight: ["400"] });
 const manrope = Manrope({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
@@ -62,6 +64,9 @@ const SpinningBrain = () => (
 
 export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(
+    null
+  );
 
   return (
     <div
@@ -207,7 +212,7 @@ export default function Portfolio() {
               <Reveal delay={50}>
                 <h2 className="font-manrope font-light text-zinc-300 mt-4">
                   <span className="text-xl sm:text-2xl md:text-3xl block">
-                    Hi, I'm{" "}
+                    Hi, I&apos;m{" "}
                     <span className="font-bold text-white">Facundo Majda</span>
                   </span>
                   <span className="text-base sm:text-lg md:text-xl block mt-2">
@@ -274,6 +279,13 @@ export default function Portfolio() {
           </div>
         </section>
 
+        {selectedProject && (
+          <ProjectModal
+            project={selectedProject}
+            onClose={() => setSelectedProject(null)}
+          />
+        )}
+
         <section
           id="about-me"
           className="py-32 px-6 md:px-20 bg-[#0a0a0a] border-t border-zinc-900"
@@ -308,7 +320,7 @@ export default function Portfolio() {
                     <p>
                       I build scalable backend systems with{" "}
                       <strong className="text-white">NestJS</strong>, applying
-                      design patterns like SOLID, DDD, and Clean Architecture. I
+                      design patterns like SOLID, and Clean Architecture. I
                       integrate AI technologies such as{" "}
                       <span className="text-blue-400 underline decoration-blue-500/50 hover:text-blue-300">
                         RAG pipelines
@@ -317,7 +329,7 @@ export default function Portfolio() {
                       <span className="text-purple-400 underline decoration-purple-500/50 hover:text-purple-300">
                         LLM agents
                       </span>{" "}
-                      into production-ready applications.
+                      into operational applications.
                     </p>
                   </Reveal>
                   <Reveal delay={200}>
@@ -327,9 +339,7 @@ export default function Portfolio() {
                     <p>
                       As a fullstack developer, I focus on object-oriented
                       programming, Test-Driven Development (TDD), and
-                      Domain-Driven Design (DDD). I design microservices with
-                      clean separation of concerns and maintainable
-                      architecture.
+                      Domain-Driven Design (DDD).
                     </p>
                   </Reveal>
                   <Reveal delay={300}>
@@ -337,10 +347,10 @@ export default function Portfolio() {
                       Independent Projects
                     </h3>
                     <p>
-                      I've developed a Sistema Tutor Inteligente with RAG
-                      architecture for educational context and LLM agents for
-                      automated workflows, plus a Computer Vision app using RAG
-                      in a hackathon.
+                      I have built several independent projects involving AI
+                      integration, including chatbots, recommendation systems,
+                      and data analysis tools, proficient to deliver end-to-end
+                      solutions.
                     </p>
                   </Reveal>
                   <Reveal delay={400}>
@@ -407,6 +417,43 @@ export default function Portfolio() {
                 </div>
               ))}
             </div>
+
+            <Reveal delay={600}>
+              <div className="mt-12 pt-8 border-t border-zinc-900">
+                <div className="mb-8">
+                  <h3 className="text-3xl md:text-4xl font-anton font-black text-zinc-200 uppercase tracking-wider mb-2">
+                    Core Competencies
+                  </h3>
+                  <p className="text-zinc-500 font-manrope text-sm uppercase tracking-widest">
+                    Technical Expertise & Specializations
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 md:gap-8">
+                  {Object.entries(CORE_SKILLS).map(
+                    ([category, skills], idx) => (
+                      <Reveal key={category} delay={700 + idx * 100}>
+                        <div className="group">
+                          <h4 className="text-lg md:text-xl font-anton font-bold text-zinc-300 mb-4 uppercase tracking-wide group-hover:text-white transition-colors">
+                            {category}
+                          </h4>
+                          <div className="space-y-2">
+                            {skills.map((skill, i) => (
+                              <span
+                                key={i}
+                                className="inline-block text-zinc-400 text-sm font-manrope border border-zinc-800 rounded-full px-4 py-2 hover:border-zinc-600 hover:text-zinc-300 transition-all cursor-default"
+                              >
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </Reveal>
+                    )
+                  )}
+                </div>
+              </div>
+            </Reveal>
           </div>
         </section>
 
@@ -506,12 +553,7 @@ export default function Portfolio() {
             <div className="flex flex-col">
               {PROJECTS.map((project, index) => (
                 <Reveal key={index} delay={index * 100} className="w-full">
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group block py-12 border-t border-zinc-800 last:border-b relative overflow-hidden transition-all hover:bg-zinc-900/30"
-                  >
+                  <div className="group block text-left w-full py-12 border-t border-zinc-800 last:border-b relative overflow-hidden transition-all hover:bg-zinc-900/30">
                     <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-12 relative z-10">
                       <span className="font-anton text-zinc-700 text-2xl">
                         0{index + 1}
@@ -541,11 +583,22 @@ export default function Portfolio() {
                           {project.desc}
                         </p>
                         <div className="flex items-center gap-2 text-zinc-500 group-hover:text-blue-400 transition-colors text-sm font-manrope uppercase tracking-wider">
-                          View Case Study <ArrowUpRight className="w-4 h-4" />
+                          <div className="flex items-center gap-4">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedProject(project);
+                              }}
+                              className="flex items-center gap-2 text-blue-400 hover:underline"
+                            >
+                              View Case Study{" "}
+                              <ArrowUpRight className="w-4 h-4" />
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </a>
+                  </div>
                 </Reveal>
               ))}
             </div>

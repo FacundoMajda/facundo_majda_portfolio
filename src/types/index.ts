@@ -29,6 +29,20 @@ export interface ProjectItem {
   category: string;
   tech: string[];
   desc: string;
+  /** Optional long description shown in a modal or detail view */
+  longDesc?: string;
+  /** Optional evidence entries (presentations, repos, images) */
+  evidence?: {
+    title: string;
+    link?: string;
+    note?: string;
+    images?: string[]; // urls to images/screenshots
+    type?: "repo" | "image" | "video" | "other";
+  }[];
+  /** Optional canonical project PDF (presentation/spec) shown in its own section */
+  projectPdf?: { title: string; link: string; note?: string };
+  /** Optional development notes (author-written) with optional date */
+  devNotes?: { date?: string; content: string; author?: string }[];
   link: string;
   color: string;
 }
