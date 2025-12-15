@@ -23,7 +23,7 @@ const manrope = Manrope({
   weight: ["300", "400", "500", "600"],
 });
 
-const useOnScreen = (options) => {
+const useOnScreen = (options: IntersectionObserverInit) => {
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
