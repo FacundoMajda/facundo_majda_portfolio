@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import { X, FileText } from "lucide-react";
 import { ProjectItem } from "@/types";
 
@@ -222,10 +223,12 @@ export default function ProjectModal({ project, onClose }: Props) {
                           rel="noreferrer"
                           className="block flex-shrink-0"
                         >
-                          <img
+                          <Image
                             src={img}
                             alt={`${project.title} screenshot ${j + 1}`}
-                            className="w-[220px] h-[124px] object-cover rounded border border-zinc-800"
+                            width={220}
+                            height={124}
+                            className="object-cover rounded border border-zinc-800"
                           />
                         </a>
                       ))}
