@@ -112,6 +112,8 @@ const MENU_ITEMS: MenuItem[] = [
   { name: "Home", href: "#banner", color: "bg-blue-500" },
   { name: "About Me", href: "#about-me", color: "bg-purple-500" },
   { name: "Expertise", href: "#stack", color: "bg-emerald-500" },
+  { name: "Education", href: "#education", color: "bg-yellow-500" },
+  { name: "Experience", href: "#experience", color: "bg-pink-500" },
   { name: "Projects", href: "#projects", color: "bg-indigo-500" },
 ];
 
@@ -398,9 +400,20 @@ export default function Portfolio() {
             <ul className="space-y-4">
               {MENU_ITEMS.map((item, idx) => (
                 <li key={idx}>
-                  <button
-                    onClick={() => setIsMenuOpen(false)}
-                    className="group text-4xl font-anton flex items-center gap-4 hover:pl-2 transition-all"
+                  <a
+                    href={item.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsMenuOpen(false);
+                      const element = document.querySelector(item.href);
+                      if (element) {
+                        element.scrollIntoView({
+                          behavior: "smooth",
+                          block: "start",
+                        });
+                      }
+                    }}
+                    className="group text-4xl font-anton flex items-center gap-4 hover:pl-2 transition-all cursor-pointer"
                   >
                     <span
                       className={`size-3 rounded-full flex items-center justify-center ${item.color} group-hover:scale-[250%] transition-transform duration-300`}
@@ -413,7 +426,7 @@ export default function Portfolio() {
                     <span className="text-zinc-100 group-hover:text-white transition-colors">
                       {item.name}
                     </span>
-                  </button>
+                  </a>
                 </li>
               ))}
             </ul>
