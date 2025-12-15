@@ -1,21 +1,55 @@
-import React, { useState, useEffect, useRef } from "react";
 import {
   ArrowUpRight,
-  Github,
-  Linkedin,
-  Mail,
-  Menu,
-  X,
-  MoveUpRight,
   BrainCircuit,
-  Server,
   Database,
-  Code2,
   Layout,
-  Smartphone,
+  MoveUpRight,
+  Server,
   Terminal,
 } from "lucide-react";
 import { Anton, Manrope } from "next/font/google";
+
+interface StackItem {
+  name: string;
+  icon: string;
+}
+
+interface StackCategory {
+  name: string;
+  items: StackItem[];
+  icon: React.ReactElement;
+}
+
+interface EducationItem {
+  institution: string;
+  degree: string;
+  date: string;
+  desc: string;
+}
+
+interface ExperienceItem {
+  company: string;
+  role: string;
+  date: string;
+  desc: string;
+}
+
+interface ProjectItem {
+  id: string;
+  title: string;
+  category: string;
+  tech: string[];
+  desc: string;
+  link: string;
+  color: string;
+}
+
+interface MenuItem {
+  name: string;
+  href: string;
+  color: string;
+}
+import React, { useEffect, useRef, useState } from "react";
 
 const anton = Anton({ subsets: ["latin"], weight: ["400"] });
 const manrope = Manrope({
@@ -24,7 +58,7 @@ const manrope = Manrope({
 });
 
 const useOnScreen = (options: IntersectionObserverInit) => {
-  const ref = useRef(null);
+  const ref = useRef<HTMLElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -44,7 +78,15 @@ const useOnScreen = (options: IntersectionObserverInit) => {
   return [ref, isVisible];
 };
 
-const Reveal = ({ children, delay = 0, className = "" }) => {
+const Reveal = ({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}) => {
   const [ref, isVisible] = useOnScreen({ threshold: 0.1 });
   return (
     <div
@@ -66,14 +108,14 @@ const SOCIAL_LINKS = {
   email: "mailto:facundomajda13@gmail.com",
 };
 
-const MENU_ITEMS = [
+const MENU_ITEMS: MenuItem[] = [
   { name: "Home", href: "#banner", color: "bg-blue-500" },
   { name: "About Me", href: "#about-me", color: "bg-purple-500" },
   { name: "Expertise", href: "#stack", color: "bg-emerald-500" },
   { name: "Projects", href: "#projects", color: "bg-indigo-500" },
 ];
 
-const EDUCATION = [
+const EDUCATION: EducationItem[] = [
   {
     institution: "Instituto Politécnico Formosa (IPF)",
     degree: "Tecnicatura Superior en Desarrollo de Software Multiplataforma",
@@ -94,7 +136,7 @@ const EDUCATION = [
   },
 ];
 
-const EXPERIENCE = [
+const EXPERIENCE: ExperienceItem[] = [
   {
     company: "Push Software / Orbitalab",
     role: "Fullstack Developer",
@@ -109,7 +151,7 @@ const EXPERIENCE = [
   },
 ];
 
-const PROJECTS = [
+const PROJECTS: ProjectItem[] = [
   {
     id: "01",
     title: "Intelligent Tutoring System",
@@ -182,7 +224,7 @@ const PROJECTS = [
   },
 ];
 
-const STACK_CATEGORIES = [
+const STACK_CATEGORIES: StackCategory[] = [
   {
     name: "AI & Machine Learning",
     items: [
@@ -266,7 +308,13 @@ const STACK_CATEGORIES = [
   },
 ];
 
-const LiquidButton = ({ href, children }) => (
+const LiquidButton = ({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) => (
   <a
     href={href}
     target="_blank"
