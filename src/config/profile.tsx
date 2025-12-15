@@ -166,7 +166,7 @@ export const PROJECTS: ProjectItem[] = [
     tech: ["Plant Detection API", "LangChain", "RAG", "React Native", "Expo"],
     desc: "Mobile app for plant identification that provides safety guidance about edible and toxic parts.",
     longDesc:
-      "El sistema integraba una API de detección de plantas de terceros para identificar especies desde fotos, y luego usaba un pipeline RAG con LangChain para recuperar información específica sobre qué partes de cada planta son venenosas o comestibles. La arquitectura combinaba computer vision externa (sin entrenamiento de modelos propios) con ingeniería de IA para casos de uso prácticos de seguridad.\n\nStack Tecnológico\nSe desarrolló como aplicación mobile con React Native + Expo, utilizando la API de plantas para reconocimiento visual y RAG para la recuperación inteligente de información de seguridad. El proyecto demostró integración práctica de servicios de AI en aplicaciones cross-platform, enfocándose en AI engineering",
+      "The system integrated a third-party plant detection API to identify species from photos, and then used a RAG pipeline with LangChain to retrieve specific information about which parts of each plant are poisonous or edible. The architecture combined external computer vision (without training our own models) with AI engineering for practical security use cases.\n\nTechnological Stack\nIt was developed as a mobile application with React Native + Expo, using the plant API for visual recognition and RAG for intelligent retrieval of safety information. The project demonstrated practical integration of AI services in cross-platform applications, focusing on AI engineering.",
     projectPdf: {
       title: "Hackathon slides & notes",
       link: SOCIAL_LINKS.github,
