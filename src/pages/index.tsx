@@ -487,7 +487,8 @@ export default function Portfolio() {
               <Reveal delay={50}>
                 <h2 className="font-manrope font-light text-zinc-300 mt-4">
                   <span className="text-xl sm:text-2xl md:text-3xl block">
-                    Hi, I'm Facundo Majda
+                    Hi, I'm{" "}
+                    <span className="font-bold text-white">Facundo Majda</span>
                   </span>
                   <span className="text-base sm:text-lg md:text-xl block mt-2">
                     Building{" "}
