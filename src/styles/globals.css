@@ -2,11 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-heading;
+.marquee {
+  display: inline-block;
+  animation: marquee 30s linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
   }
-  body {
-    @apply font-sans;
+  100% {
+    transform: translateX(-50%);
   }
 }
