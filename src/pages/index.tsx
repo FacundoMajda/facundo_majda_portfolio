@@ -58,7 +58,7 @@ const manrope = Manrope({
 });
 
 const useOnScreen = (options: IntersectionObserverInit) => {
-  const ref = useRef<HTMLElement | null>(null);
+  const ref = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
