@@ -469,15 +469,15 @@ export default function Portfolio() {
       <main className="bg-[#050505]">
         <section
           id="banner"
-          className="relative min-h-screen flex flex-col justify-center px-12 md:px-20 lg:px-24 overflow-hidden"
+          className="relative min-h-screen flex flex-col justify-center px-6 md:px-20 lg:px-24 overflow-hidden"
         >
           <div className="absolute inset-0 z-0 opacity-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 
-          <div className="container mx-auto h-full flex flex-col md:flex-row justify-center md:justify-between items-center z-10">
-            <div className="max-w-[800px] space-y-1">
+          <div className="container mx-auto h-full flex flex-col lg:flex-row justify-center lg:justify-between items-center lg:items-end gap-12 lg:gap-16 z-10 py-12">
+            <div className="max-w-full lg:max-w-[800px] space-y-1">
               <Reveal>
                 <h1
-                  className="font-anton text-6xl md:text-7xl lg:text-8xl font-black leading-none text-white"
+                  className="font-anton text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-none text-white"
                   style={{ letterSpacing: "0.02em" }}
                 >
                   <span className="text-white">BACKEND & </span>
@@ -486,10 +486,10 @@ export default function Portfolio() {
               </Reveal>
               <Reveal delay={50}>
                 <h2 className="font-manrope font-light text-zinc-300 mt-4">
-                  <span className="text-2xl md:text-3xl block">
+                  <span className="text-xl sm:text-2xl md:text-3xl block">
                     Hi, I'm Facundo Majda
                   </span>
-                  <span className="text-lg md:text-xl block mt-2">
+                  <span className="text-base sm:text-lg md:text-xl block mt-2">
                     Building{" "}
                     <span className="text-blue-500">
                       LLM agents and RAG systems
@@ -503,7 +503,7 @@ export default function Portfolio() {
               </Reveal>
               <Reveal delay={100}>
                 <div className="mt-6 overflow-hidden">
-                  <div className="marquee whitespace-nowrap text-sm md:text-base text-zinc-300 font-manrope">
+                  <div className="marquee whitespace-nowrap text-xs sm:text-sm md:text-base text-zinc-300 font-manrope">
                     <span className="font-bold text-white">
                       AI Engineer & Full‑Stack Developer
                     </span>{" "}
@@ -528,10 +528,10 @@ export default function Portfolio() {
               </Reveal>
             </div>
 
-            <div className="mt-16 md:mt-0 flex md:flex-col gap-8 text-center md:text-right absolute right-8 md:right-16 top-1/2 -translate-y-1/2 space-y-8">
+            <div className="flex md:flex-row lg:flex-col gap-8 md:gap-12 lg:gap-8 text-center lg:text-right justify-center lg:justify-end lg:self-end">
               <Reveal delay={300}>
                 <div>
-                  <h5 className="text-5xl font-anton font-black bg-gradient-to-r from-blue-400 via-purple-400 to-green-400 bg-clip-text text-transparent mb-1">
+                  <h5 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl font-anton font-black bg-gradient-to-r from-blue-400 via-purple-400 to-green-400 bg-clip-text text-transparent mb-1">
                     4+
                   </h5>
                   <p className="text-zinc-500 font-manrope text-xs md:text-sm uppercase tracking-widest">
@@ -541,7 +541,7 @@ export default function Portfolio() {
               </Reveal>
               <Reveal delay={400}>
                 <div>
-                  <h5 className="text-5xl font-anton font-black bg-gradient-to-r from-blue-400 via-purple-400 to-green-400 bg-clip-text text-transparent mb-1">
+                  <h5 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl font-anton font-black bg-gradient-to-r from-blue-400 via-purple-400 to-green-400 bg-clip-text text-transparent mb-1">
                     5+
                   </h5>
                   <p className="text-zinc-500 font-manrope text-xs md:text-sm uppercase tracking-widest">
@@ -573,7 +573,7 @@ export default function Portfolio() {
               <p className="pb-3 border-b border-zinc-800 text-zinc-500 font-manrope mb-10 uppercase tracking-widest text-sm"></p>
             </Reveal>
 
-            <div className="grid md:grid-cols-12 gap-16">
+            <div className="grid md:grid-cols-12 gap-8 md:gap-12 lg:gap-16">
               <div className="md:col-span-5">
                 <Reveal>
                   <p className="text-5xl md:text-7xl font-anton font-black text-white leading-none">
@@ -654,11 +654,11 @@ export default function Portfolio() {
               </div>
             </Reveal>
 
-            <div className="space-y-16">
+            <div className="space-y-12 md:space-y-16">
               {STACK_CATEGORIES.map((cat, idx) => (
                 <div
                   key={idx}
-                  className="grid sm:grid-cols-12 gap-y-8 border-b border-zinc-900 pb-12 last:border-0"
+                  className="grid sm:grid-cols-12 gap-y-6 md:gap-y-8 border-b border-zinc-900 pb-10 md:pb-12 last:border-0"
                 >
                   <div className="sm:col-span-5">
                     <Reveal delay={idx * 100}>
