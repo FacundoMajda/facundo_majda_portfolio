@@ -58,7 +58,7 @@ const manrope = Manrope({
 });
 
 const useOnScreen = (options: IntersectionObserverInit) => {
-  const ref = useRef<HTMLDivElement | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -73,9 +73,9 @@ const useOnScreen = (options: IntersectionObserverInit) => {
     return () => {
       if (ref.current) observer.unobserve(ref.current);
     };
-  }, [ref, options]);
+  }, [options]);
 
-  return [ref, isVisible];
+  return { ref, isVisible };
 };
 
 const Reveal = ({
@@ -87,7 +87,7 @@ const Reveal = ({
   delay?: number;
   className?: string;
 }) => {
-  const [ref, isVisible] = useOnScreen({ threshold: 0.1 });
+  const { ref, isVisible } = useOnScreen({ threshold: 0.1 });
   return (
     <div
       ref={ref}
@@ -362,6 +362,7 @@ export default function Portfolio() {
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className="group w-12 h-12 relative flex items-center justify-center"
+          aria-label="Toggle menu"
         >
           <span
             className={`absolute w-8 h-0.5 bg-white transition-transform duration-300 ${
