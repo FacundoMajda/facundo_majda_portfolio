@@ -1,6 +1,19 @@
 import { ArrowUpRight, MoveUpRight } from "lucide-react";
 import { Manrope } from "next/font/google";
 import { useState } from "react";
+import { Bend } from "@/components/canvasui/Bend";
+import { Bubble } from "@/components/canvasui/Bubble";
+import { Displacement } from "@/components/canvasui/Displacement";
+import { Glass } from "@/components/canvasui/Glass";
+import { Glitch } from "@/components/canvasui/Glitch";
+import { Grid } from "@/components/canvasui/Grid";
+import { GlyphRain } from "@/components/canvasui/GlyphRain";
+import { LazyEffect } from "@/components/canvasui/LazyEffect";
+import { Liquid } from "@/components/canvasui/Liquid";
+import { ParticleReveal } from "@/components/canvasui/ParticleReveal";
+import { Peel } from "@/components/canvasui/Peel";
+import { Ripple } from "@/components/canvasui/Ripple";
+import { VHS } from "@/components/canvasui/VHS";
 import ProjectModal from "@/components/ProjectModal";
 import { ProjectItem } from "@/types";
 import {
@@ -73,22 +86,30 @@ export default function Portfolio() {
       className={`bg-[#050505] text-slate-200 min-h-screen ${manrope.className} overflow-x-hidden selection:bg-blue-500 selection:text-white`}
     >
       <div className="fixed top-0 right-0 z-50 p-6 md:p-10 mix-blend-difference">
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="group w-12 h-12 relative flex items-center justify-center"
-          aria-label="Toggle menu"
+        <LazyEffect
+          as={Glitch}
+          rootMargin="0px"
+          intensity={0.6}
+          interval={8}
+          duration={0.25}
         >
-          <span
-            className={`absolute w-8 h-0.5 bg-white transition-transform duration-300 ${
-              isMenuOpen ? "rotate-45" : "-translate-y-1.5"
-            }`}
-          ></span>
-          <span
-            className={`absolute w-8 h-0.5 bg-white transition-transform duration-300 ${
-              isMenuOpen ? "-rotate-45" : "translate-y-1.5"
-            }`}
-          ></span>
-        </button>
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="group w-12 h-12 relative flex items-center justify-center"
+            aria-label="Toggle menu"
+          >
+            <span
+              className={`absolute w-8 h-0.5 bg-white transition-transform duration-300 ${
+                isMenuOpen ? "rotate-45" : "-translate-y-1.5"
+              }`}
+            ></span>
+            <span
+              className={`absolute w-8 h-0.5 bg-white transition-transform duration-300 ${
+                isMenuOpen ? "-rotate-45" : "translate-y-1.5"
+              }`}
+            ></span>
+          </button>
+        </LazyEffect>
       </div>
 
       <div
@@ -143,6 +164,7 @@ export default function Portfolio() {
               ))}
             </ul>
           </div>
+          <LazyEffect as={Bubble} rootMargin="0px">
           <div>
             <p className="text-zinc-500 mb-6 font-manrope text-sm tracking-widest">
               SOCIAL
@@ -180,6 +202,7 @@ export default function Portfolio() {
               </li>
             </ul>
           </div>
+          </LazyEffect>
           <div>
             <p className="text-zinc-500 mb-4 font-manrope text-sm tracking-widest">
               CONTACT
@@ -198,16 +221,36 @@ export default function Portfolio() {
         >
           <div className="absolute inset-0 z-0 opacity-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 
-          <div className="container mx-auto h-full flex flex-col lg:flex-row justify-center lg:justify-between items-center lg:items-end gap-12 lg:gap-16 z-10 py-12">
+          <GlyphRain
+            className="relative z-10 w-full"
+            density={0.15}
+            speed={0.25}
+            cell={16}
+          >
+          <Liquid
+            className="w-full"
+            intensity={0.8}
+            blend={1.5}
+            densityDissipation={0.9}
+            velocityDissipation={0.9}
+            curl={0.4}
+            radius={0.15}
+          >
+          <div className="container mx-auto h-full flex flex-col lg:flex-row justify-center lg:justify-between items-center lg:items-end gap-12 lg:gap-16 py-12">
             <div className="max-w-full lg:max-w-[800px] space-y-1">
               <Reveal>
                 <h1
                   className="font-anton text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-none text-white"
                   style={{ letterSpacing: "0.02em" }}
                 >
-                  <span className="text-white">BACKEND & </span>
-                  <span className="text-blue-600">AI ENGINEER</span>
+                  <span className="text-white">SWE </span>
+                  <span className="text-blue-600">& FDE</span>
                 </h1>
+              </Reveal>
+              <Reveal delay={25}>
+                <p className="text-xs sm:text-sm text-zinc-500 font-manrope tracking-wide mt-2">
+                  Software Engineer & Forward Deployed Engineer
+                </p>
               </Reveal>
               <Reveal delay={50}>
                 <h2 className="font-manrope font-light text-zinc-300 mt-4">
@@ -216,32 +259,41 @@ export default function Portfolio() {
                     <span className="font-bold text-white">Facundo Majda</span>
                   </span>
                   <span className="text-base sm:text-lg md:text-xl block mt-2">
-                    Building{" "}
                     <span className="text-blue-500">
-                      LLM agents and RAG systems
+                      Data & AI-Driven Apps
                     </span>{" "}
-                    with{" "}
+                    — a Deployed Software Developer across the{" "}
                     <span className="text-purple-500">
-                      TypeScript, Python, and modern AI frameworks
+                      full software lifecycle, from design to deployment
                     </span>
                   </span>
                 </h2>
               </Reveal>
               <Reveal delay={100}>
-                <div className="mt-6 overflow-hidden">
+                <div
+                  className="mt-6 overflow-hidden"
+                  style={{
+                    maskImage:
+                      "linear-gradient(to right, transparent, black 5%, black 95%, transparent)",
+                    WebkitMaskImage:
+                      "linear-gradient(to right, transparent, black 5%, black 95%, transparent)",
+                  }}
+                >
                   <div className="marquee whitespace-nowrap text-xs sm:text-sm md:text-base text-zinc-300 font-manrope">
                     <span className="font-bold text-white">
-                      AI Engineer & Full‑Stack Developer
+                      SWE | Data & AI-Driven Apps | FDE
                     </span>{" "}
-                    | Agents, LLMs, RAG & AI‑Driven Apps | LangChain · LangGraph
-                    · Mastra · AI SDK · MCP | Python · TypeScript · Rust |
-                    Node/Nest · FastAPI · Flask · React/Next{" "}
+                    | Full-Stack + Automation | LangChain · LangGraph ·
+                    Mastra · AI SDK · MCP | Python · TypeScript · Java · Rust |
+                    NestJS · Spring Boot · FastAPI · Flask | React · Next.js ·
+                    Angular | n8n · Make · Zapier{" "}
                     <span className="font-bold text-white">
-                      AI Engineer & Full‑Stack Developer
+                      SWE | Data & AI-Driven Apps | FDE
                     </span>{" "}
-                    | Agents, LLMs, RAG & AI‑Driven Apps | LangChain · LangGraph
-                    · Mastra · AI SDK · MCP | Python · TypeScript · Rust |
-                    Node/Nest · FastAPI · Flask · React/Next
+                    | Full-Stack + Automation | LangChain · LangGraph ·
+                    Mastra · AI SDK · MCP | Python · TypeScript · Java · Rust |
+                    NestJS · Spring Boot · FastAPI · Flask | React · Next.js ·
+                    Angular | n8n · Make · Zapier
                   </div>
                 </div>
               </Reveal>
@@ -277,6 +329,8 @@ export default function Portfolio() {
               </Reveal>
             </div>
           </div>
+          </Liquid>
+          </GlyphRain>
         </section>
 
         {selectedProject && (
@@ -292,14 +346,16 @@ export default function Portfolio() {
         >
           <div className="container mx-auto">
             <Reveal>
-              <h2 className="text-3xl md:text-5xl font-manrope font-light mb-20 leading-tight text-zinc-200">
-                I specialize in building{" "}
-                <span className="text-blue-500">
-                  intelligent backend systems
-                </span>{" "}
-                that bridge traditional software engineering with{" "}
-                <span className="text-purple-500">AI capabilities</span>.
-              </h2>
+              <LazyEffect as={Glass} shape="circle" size={140} zoom={1.4}>
+                <h2 className="text-3xl md:text-5xl font-manrope font-light mb-20 leading-tight text-zinc-200">
+                  A Deployed Software Developer across the{" "}
+                  <span className="text-blue-500">
+                    full software lifecycle
+                  </span>
+                  , building data-driven applications powered by{" "}
+                  <span className="text-purple-500">AI capabilities</span>.
+                </h2>
+              </LazyEffect>
             </Reveal>
 
             <Reveal>
@@ -318,10 +374,18 @@ export default function Portfolio() {
                 <div className="text-lg text-zinc-400 font-manrope space-y-6 max-w-[600px]">
                   <Reveal delay={100}>
                     <p>
-                      I build scalable backend systems with{" "}
-                      <strong className="text-white">NestJS</strong>, applying
-                      design patterns like SOLID, and Clean Architecture. I
-                      integrate AI technologies such as{" "}
+                      Deployed Software Developer with experience across the
+                      full software lifecycle, from solution design and
+                      development to deployment and continuous improvement.
+                      Skilled in automation, workflow optimization, backend
+                      development, and API design — with{" "}
+                      <strong className="text-white">NestJS</strong>,{" "}
+                      <strong className="text-white">Spring Boot</strong>,{" "}
+                      <strong className="text-white">React</strong>,{" "}
+                      <strong className="text-white">Angular</strong>, and{" "}
+                      <strong className="text-white">n8n</strong>. Experienced
+                      in AI, machine learning, computer vision, and NLP,
+                      integrating{" "}
                       <span className="text-blue-400 underline decoration-blue-500/50 hover:text-blue-300">
                         RAG pipelines
                       </span>{" "}
@@ -339,7 +403,18 @@ export default function Portfolio() {
                     <p>
                       As a fullstack developer, I focus on object-oriented
                       programming, Test-Driven Development (TDD), and
-                      Domain-Driven Design (DDD).
+                      Domain-Driven Design (DDD). I also work with modern
+                      AI-augmented workflows like{" "}
+                      <strong className="text-white">
+                        Spec-Driven Development (SDD)
+                      </strong>{" "}
+                      and{" "}
+                      <strong className="text-white">
+                        Receipt-Driven Development (RDD)
+                      </strong>
+                      , integrating coding agents through harnesses and
+                      scaffolding to get the most out of the latest LLM
+                      tooling — always framed within a structured workflow.
                     </p>
                   </Reveal>
                   <Reveal delay={300}>
@@ -354,19 +429,31 @@ export default function Portfolio() {
                     </p>
                   </Reveal>
                   <Reveal delay={400}>
-                    <h3 className="text-xl font-bold text-white mb-2">
-                      Technical Stack
-                    </h3>
-                    <p className="text-zinc-300">
-                      <strong className="text-white">NestJS</strong> for backend
-                      development,{" "}
-                      <strong className="text-white">Python/PyTorch</strong> for
-                      machine learning, and{" "}
-                      <strong className="text-white">
-                        LangChain, LangGraph, Mastra & Vercel AI SDK
-                      </strong>{" "}
-                      for AI integration.
-                    </p>
+                    <LazyEffect as={Peel} side="right">
+                      <h3 className="text-xl font-bold text-white mb-2">
+                        Technical Stack
+                      </h3>
+                      <p className="text-zinc-300">
+                        <strong className="text-white">
+                          NestJS, Spring Boot & Java
+                        </strong>{" "}
+                        for backend development,{" "}
+                        <strong className="text-white">
+                          React, Next.js & Angular
+                        </strong>{" "}
+                        for frontend,{" "}
+                        <strong className="text-white">Python/PyTorch</strong>{" "}
+                        for machine learning,{" "}
+                        <strong className="text-white">
+                          LangChain, LangGraph, Mastra & Vercel AI SDK
+                        </strong>{" "}
+                        for AI integration, and{" "}
+                        <strong className="text-white">
+                          n8n, Make & Zapier
+                        </strong>{" "}
+                        for automation.
+                      </p>
+                    </LazyEffect>
                   </Reveal>
                 </div>
               </div>
@@ -377,28 +464,30 @@ export default function Portfolio() {
         <section id="stack" className="py-32 px-6 md:px-20 bg-[#050505]">
           <div className="container mx-auto">
             <Reveal>
-              <div className="flex items-center gap-4 mb-20">
-                <SpinningBrain />
-                <h2 className="font-anton text-4xl font-black uppercase text-zinc-100 tracking-wide">
-                  My Expertise
-                </h2>
-              </div>
+              <LazyEffect as={GlyphRain} density={0.2} speed={0.3} cell={14}>
+                <div className="flex items-center gap-4 mb-20">
+                  <SpinningBrain />
+                  <h2 className="font-anton text-4xl font-black uppercase text-zinc-100 tracking-wide">
+                    My Expertise
+                  </h2>
+                </div>
+              </LazyEffect>
             </Reveal>
 
             <div className="space-y-12 md:space-y-16">
               {STACK_CATEGORIES.map((cat, idx) => (
                 <div
                   key={idx}
-                  className="grid sm:grid-cols-12 gap-y-6 md:gap-y-8 border-b border-zinc-900 pb-10 md:pb-12 last:border-0"
+                  className="grid lg:grid-cols-12 gap-y-6 md:gap-y-8 border-b border-zinc-900 pb-10 md:pb-12 last:border-0"
                 >
-                  <div className="sm:col-span-5">
+                  <div className="lg:col-span-5">
                     <Reveal delay={idx * 100}>
                       <h3 className="text-3xl md:text-4xl font-anton font-black text-zinc-700 uppercase tracking-wider">
                         {cat.name}
                       </h3>
                     </Reveal>
                   </div>
-                  <div className="sm:col-span-7 flex flex-wrap gap-x-6 gap-y-3">
+                  <div className="lg:col-span-7 flex flex-wrap gap-x-6 gap-y-3">
                     {cat.items.map((item, itemIdx) => (
                       <Reveal key={itemIdx} delay={idx * 100 + itemIdx * 50}>
                         <div className="flex items-center gap-2">
@@ -420,14 +509,16 @@ export default function Portfolio() {
 
             <Reveal delay={600}>
               <div className="mt-12 pt-8 border-t border-zinc-900">
-                <div className="mb-8">
-                  <h3 className="text-3xl md:text-4xl font-anton font-black text-zinc-200 uppercase tracking-wider mb-2">
-                    Core Competencies
-                  </h3>
-                  <p className="text-zinc-500 font-manrope text-sm uppercase tracking-widest">
-                    Technical Expertise & Specializations
-                  </p>
-                </div>
+                <LazyEffect as={GlyphRain} density={0.2} speed={0.3} cell={14}>
+                  <div className="mb-8">
+                    <h3 className="text-3xl md:text-4xl font-anton font-black text-zinc-200 uppercase tracking-wider mb-2">
+                      Core Competencies
+                    </h3>
+                    <p className="text-zinc-500 font-manrope text-sm uppercase tracking-widest">
+                      Technical Expertise & Specializations
+                    </p>
+                  </div>
+                </LazyEffect>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 md:gap-8">
                   {Object.entries(CORE_SKILLS).map(
@@ -460,12 +551,14 @@ export default function Portfolio() {
         <section id="education" className="py-32 px-6 md:px-20 bg-[#0a0a0a]">
           <div className="container mx-auto">
             <Reveal>
-              <div className="flex items-center gap-4 mb-16">
-                <div className="w-2 h-2 bg-green-500 animate-pulse"></div>
-                <h2 className="font-anton text-2xl font-black uppercase text-zinc-500 tracking-widest">
-                  Education
-                </h2>
-              </div>
+              <LazyEffect as={VHS} wave={0.4} grain={0.15} jitter={0.3}>
+                <div className="flex items-center gap-4 mb-16">
+                  <div className="w-2 h-2 bg-green-500 animate-pulse"></div>
+                  <h2 className="font-anton text-2xl font-black uppercase text-zinc-500 tracking-widest">
+                    Education
+                  </h2>
+                </div>
+              </LazyEffect>
             </Reveal>
 
             <div className="space-y-12 border-l border-zinc-800 ml-3 md:ml-0">
@@ -506,12 +599,14 @@ export default function Portfolio() {
         <section id="experience" className="py-32 px-6 md:px-20 bg-zinc-900/20">
           <div className="container mx-auto">
             <Reveal>
-              <div className="flex items-center gap-4 mb-16">
-                <div className="w-2 h-2 bg-blue-500 animate-pulse"></div>
-                <h2 className="font-anton text-2xl font-black uppercase text-zinc-500 tracking-widest">
-                  Experience Timeline
-                </h2>
-              </div>
+              <LazyEffect as={Grid} tileSize={32}>
+                <div className="flex items-center gap-4 mb-16">
+                  <div className="w-2 h-2 bg-blue-500 animate-pulse"></div>
+                  <h2 className="font-anton text-2xl font-black uppercase text-zinc-500 tracking-widest">
+                    Experience Timeline
+                  </h2>
+                </div>
+              </LazyEffect>
             </Reveal>
 
             <div className="space-y-12 border-l border-zinc-800 ml-3 md:ml-0">
@@ -545,9 +640,11 @@ export default function Portfolio() {
         <section id="projects" className="py-32 px-6 md:px-20 bg-[#050505]">
           <div className="container mx-auto">
             <Reveal>
-              <h2 className="text-3xl font-anton font-black uppercase mb-16 text-zinc-300">
-                Featured Projects
-              </h2>
+              <LazyEffect as={ParticleReveal} background="#050505" radius={220}>
+                <h2 className="text-3xl font-anton font-black uppercase mb-16 text-zinc-300">
+                  Featured Projects
+                </h2>
+              </LazyEffect>
             </Reveal>
 
             <div className="flex flex-col">
@@ -610,46 +707,54 @@ export default function Portfolio() {
           className="py-32 px-6 md:px-20 text-center bg-[#0a0a0a] text-white border-t border-zinc-900"
         >
           <Reveal>
-            <p className="text-xl font-manrope text-zinc-500 mb-8 tracking-wide">
-              Ready to build intelligent systems?
-            </p>
-            <a
-              href={SOCIAL_LINKS.email}
-              className="font-anton text-[8vw] md:text-7xl font-black hover:text-blue-500 transition-colors inline-block leading-tight text-zinc-100"
-            >
-              LETS TALK
-            </a>
+            <LazyEffect as={GlyphRain} density={0.3} speed={0.4}>
+              <p className="text-xl font-manrope text-zinc-500 mb-8 tracking-wide">
+                Ready to build intelligent systems?
+              </p>
+            </LazyEffect>
+            <LazyEffect as={Ripple} trigger="click" amplitude={1.2}>
+              <a
+                href={SOCIAL_LINKS.email}
+                className="block py-4 font-anton text-[8vw] md:text-7xl font-black hover:text-blue-500 transition-colors leading-tight text-zinc-100"
+              >
+                LETS TALK
+              </a>
+            </LazyEffect>
 
-            <div className="flex flex-wrap justify-center gap-8 mt-16 font-manrope text-lg text-zinc-500">
-              <a
-                href={SOCIAL_LINKS.github}
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-white hover:underline transition-colors"
-              >
-                GitHub
-              </a>
-              <a
-                href={SOCIAL_LINKS.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-white hover:underline transition-colors"
-              >
-                LinkedIn
-              </a>
-              <a
-                href={SOCIAL_LINKS.upwork}
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-white hover:underline transition-colors"
-              >
-                Upwork
-              </a>
-            </div>
+            <LazyEffect as={Bend} zone={24}>
+              <div className="flex flex-wrap justify-center gap-8 mt-16 font-manrope text-lg text-zinc-500">
+                <a
+                  href={SOCIAL_LINKS.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-white hover:underline transition-colors"
+                >
+                  GitHub
+                </a>
+                <a
+                  href={SOCIAL_LINKS.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-white hover:underline transition-colors"
+                >
+                  LinkedIn
+                </a>
+                <a
+                  href={SOCIAL_LINKS.upwork}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-white hover:underline transition-colors"
+                >
+                  Upwork
+                </a>
+              </div>
+            </LazyEffect>
 
-            <p className="mt-24 text-zinc-800 text-xs font-manrope uppercase tracking-widest">
-              © {new Date().getFullYear()} Facundo Majda. Formosa, Argentina.
-            </p>
+            <LazyEffect as={Displacement} grid={16} shift={0.6} grain={0.1}>
+              <p className="mt-24 text-zinc-800 text-xs font-manrope uppercase tracking-widest">
+                © {new Date().getFullYear()} Facundo Majda. Formosa, Argentina.
+              </p>
+            </LazyEffect>
           </Reveal>
         </footer>
       </main>

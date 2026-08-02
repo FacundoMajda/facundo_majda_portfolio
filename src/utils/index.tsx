@@ -29,7 +29,7 @@ export const Reveal = ({
   children: React.ReactNode;
   delay?: number;
   className?: string;
-}): JSX.Element => {
+}): React.JSX.Element => {
   const { ref, isVisible } = useOnScreen({ threshold: 0.1 });
   return (
     <div

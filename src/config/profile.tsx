@@ -5,8 +5,8 @@ import {
   Layout,
   Server,
   Terminal,
-  Smartphone,
   CreditCard,
+  Workflow,
 } from "lucide-react";
 import {
   EducationItem,
@@ -35,7 +35,7 @@ export const MENU_ITEMS: MenuItem[] = [
 export const EDUCATION: EducationItem[] = [
   {
     institution: "Instituto Politécnico Formosa (IPF)",
-    degree: "Tecnicatura Superior en Desarrollo de Software Multiplataforma",
+    degree: "Higher Technical Degree in Cross-Platform Software Development",
     date: "2023 — 2025",
     desc: "Intensive technical program focused on cross-platform software development. Covered software architecture, object-oriented design, database modeling, and full-stack development through hands-on projects. Built foundation in design patterns, clean code principles, and systematic problem-solving that I now apply to AI-driven backend systems.",
   },
@@ -51,20 +51,38 @@ export const EDUCATION: EducationItem[] = [
     date: "2024 — 2025",
     desc: "Comprehensive data science training covering the full ML pipeline: data manipulation with NumPy/Pandas, statistical visualization with Matplotlib, classical ML algorithms (KNN, Linear Regression) with Scikit-learn, and deep learning with Keras/TensorFlow. Focused on algorithm optimization, complexity analysis, model evaluation, and end-to-end project development from data cleaning to deployment.",
   },
+  {
+    institution: "Universidad de la Defensa Nacional (UNDEF)",
+    degree: "Bachelor's Degree in Cyber Defense",
+    date: "Mar 2026 — Present",
+    desc: "Bachelor's degree focused on cyber defense, cybersecurity, and information security, combining security principles, cyber operations, risk management, threat analysis, and defensive strategies for protecting digital systems and critical infrastructure. Covers secure software development, cryptography, digital forensics, risk and threat assessment, incident response, and AI/ML applications in cybersecurity contexts.",
+  },
 ];
 
 export const EXPERIENCE: ExperienceItem[] = [
   {
-    company: "Push Software / Orbitalab",
-    role: "Fullstack Developer",
+    company: "Push Software",
+    role: "Full Stack Engineer Jr.",
     date: "Mar 2024 — Aug 2024",
-    desc: "Design of microservices architecture with NestJS. Development of RESTful APIs applying SOLID principles and Clean Architecture. Implemented TypeORM for database modeling and PostgreSQL integration.",
+    desc: "Developed web applications using JavaScript/TypeScript and Node.js. Implemented clean architecture principles to improve project maintainability and scalability. Built structured and efficient RESTful APIs using Express and NestJS. Designed and managed databases using MongoDB, PostgreSQL, and MySQL.",
   },
   {
     company: "Freelancing",
     role: "AI Engineer & Backend Specialist",
     date: "2024 — Present",
     desc: "Development of RAG systems with LangChain, autonomous AI agents using Model Context Protocol (MCP), and streaming LLM integrations (Gemini, DeepSeek, OpenAI). Built data pipelines with vector databases (Qdrant, ChromaDB, Pinecone). Proficient in Deep Learning with PyTorch (CNNs, computer vision), Transformers with Hugging Face, and classical ML with Scikit-learn.",
+  },
+  {
+    company: "MF Consultora",
+    role: "Solutions Architect Jr.",
+    date: "Mar 2026 — Jul 2026",
+    desc: "Applied engineering and technical architecture principles to design and develop scalable systems, working part-time and remote from Buenos Aires Province, Argentina.",
+  },
+  {
+    company: "Lumen",
+    role: "Automation Specialist Jr.",
+    date: "Apr 2026 — Present",
+    desc: "Automation and workflow optimization using n8n and programming, applying automation technologies and AI solutions to design scalable software processes. Part-time and remote.",
   },
 ];
 
@@ -256,6 +274,33 @@ export const PROJECTS: ProjectItem[] = [
     link: SOCIAL_LINKS.github,
     color: "from-red-500 to-pink-600",
   },
+  {
+    id: "05",
+    title: "talkitdown - Offline Dictation & Transcription",
+    category: "Privacy-First AI",
+    tech: [
+      "Parakeet v3 (NVIDIA)",
+      "Local Inference",
+      "CPU-only",
+      "Multilingual",
+      "Desktop (Win/Mac/Linux)",
+      "System Audio Capture",
+      "Offline-First",
+    ],
+    desc: "Offline dictation and transcription app that runs NVIDIA's Parakeet v3 locally on your CPU — speak into any text field or transcribe meetings, videos, and podcasts, with zero data ever leaving your machine.",
+    longDesc:
+      "Hook: \"Sapiens use language to create completely new realities\" — Yuval Noah Harari. talkitdown is built on the idea that your words are yours: no cloud, no upload, no bot joining your calls.\n\nKey features:\n- Dictate mode: speak into any text field — code, email, chat — and it writes at your cursor\n- Transcribe mode: captures mic or system audio to transcribe meetings, videos, podcasts, and calls\n- No bot joins your call, unlike most cloud meeting-note tools\n- Transcripts saved locally as markdown; nothing is uploaded or analyzed by someone else's model\n- Paid tiers add AI meeting summaries, action items, and unlimited history — still 100% local processing\n\nTech & architecture:\n- NVIDIA Parakeet v3 running locally on CPU only, multilingual, fast inference, no GPU required, 4GB RAM minimum\n- Cross-platform desktop app for Windows, Mac, and Linux\n\nImpact:\n- Private speech-to-text for writers, coders, and anyone in sensitive meetings — dictation and transcription in one offline tool.",
+    evidence: [
+      {
+        title: "Live landing page",
+        link: "https://tid-landing.vercel.app/",
+        note: "Product site with pricing, FAQ, and platform downloads.",
+        type: "other",
+      },
+    ],
+    link: SOCIAL_LINKS.github,
+    color: "from-slate-500 to-zinc-700",
+  },
 ];
 
 export const STACK_CATEGORIES: StackCategory[] = [
@@ -266,19 +311,13 @@ export const STACK_CATEGORIES: StackCategory[] = [
       { name: "LangGraph", icon: "https://cdn.simpleicons.org/langgraph" },
       { name: "PyTorch", icon: "https://cdn.simpleicons.org/pytorch" },
       { name: "torchvision", icon: "https://cdn.simpleicons.org/pytorch" },
-      { name: "Ollama", icon: "https://cdn.simpleicons.org/ollama" },
+      { name: "Ollama", icon: "https://cdn.simpleicons.org/ollama/ffffff" },
       { name: "Hugging Face", icon: "https://cdn.simpleicons.org/huggingface" },
-      { name: "Vercel AI SDK", icon: "https://cdn.simpleicons.org/vercel" },
-      {
-        name: "Mastra",
-        icon: "https://registry.npmmirror.com/@lobehub/icons-static-svg/latest/files/icons/mastra.svg",
-      },
+      { name: "Vercel AI SDK", icon: "https://cdn.simpleicons.org/vercel/ffffff" },
+      { name: "Mastra", icon: "/icons/mastra.svg" },
       { name: "Google Gemini", icon: "https://cdn.simpleicons.org/google" },
-      { name: "OpenAI", icon: "https://cdn.simpleicons.org/openai" },
-      {
-        name: "DeepSeek",
-        icon: "https://registry.npmmirror.com/@lobehub/icons-static-svg/latest/files/icons/deepseek.svg",
-      },
+      { name: "OpenAI", icon: "/icons/openai.svg" },
+      { name: "DeepSeek", icon: "/icons/deepseek.svg" },
       {
         name: "sentence-transformers",
         icon: "https://cdn.simpleicons.org/huggingface",
@@ -286,8 +325,60 @@ export const STACK_CATEGORIES: StackCategory[] = [
       { name: "Scikit-learn", icon: "https://cdn.simpleicons.org/scikitlearn" },
       { name: "TensorFlow", icon: "https://cdn.simpleicons.org/tensorflow" },
       { name: "Keras", icon: "https://cdn.simpleicons.org/keras" },
+      {
+        name: "RunPod",
+        icon: "https://avatars.githubusercontent.com/u/95939477?v=4",
+      },
     ],
     icon: <BrainCircuit className="w-8 h-8 text-purple-500" />,
+  },
+  {
+    name: "Backend Architecture",
+    items: [
+      { name: "NestJS", icon: "https://cdn.simpleicons.org/nestjs" },
+      { name: "Express", icon: "https://cdn.simpleicons.org/express/ffffff" },
+      { name: "Node.js", icon: "https://cdn.simpleicons.org/nodedotjs" },
+      { name: "Python", icon: "https://cdn.simpleicons.org/python" },
+      { name: "FastAPI", icon: "https://cdn.simpleicons.org/fastapi" },
+      { name: "Flask", icon: "https://cdn.simpleicons.org/flask" },
+      { name: "Java", icon: "https://cdn.simpleicons.org/openjdk/ffffff" },
+      { name: "Spring Boot", icon: "https://cdn.simpleicons.org/springboot" },
+    ],
+    icon: <Server className="w-8 h-8 text-blue-500" />,
+  },
+  {
+    name: "Mobile & Frontend Dev",
+    items: [
+      { name: "React", icon: "https://cdn.simpleicons.org/react" },
+      { name: "Next.js", icon: "https://cdn.simpleicons.org/nextdotjs/ffffff" },
+      { name: "TypeScript", icon: "https://cdn.simpleicons.org/typescript" },
+      { name: "Tailwind CSS", icon: "https://cdn.simpleicons.org/tailwindcss" },
+      { name: "shadcn/ui", icon: "https://cdn.simpleicons.org/shadcnui/ffffff" },
+      { name: "Angular", icon: "https://cdn.simpleicons.org/angular/ffffff" },
+      { name: "React Native", icon: "https://cdn.simpleicons.org/react" },
+      { name: "Expo", icon: "https://cdn.simpleicons.org/expo/ffffff" },
+    ],
+    icon: <Layout className="w-8 h-8 text-indigo-500" />,
+  },
+  {
+    name: "Databases",
+    items: [
+      {
+        name: "Qdrant",
+        icon: "https://cdn.simpleicons.org/qdrant",
+      },
+      {
+        name: "ChromaDB",
+        icon: "https://api.iconify.design/logos/chroma.svg",
+      },
+      { name: "Pinecone", icon: "/icons/pinecone.svg" },
+      { name: "PostgreSQL", icon: "https://cdn.simpleicons.org/postgresql" },
+      { name: "MongoDB", icon: "https://cdn.simpleicons.org/mongodb" },
+      { name: "MySQL", icon: "https://cdn.simpleicons.org/mysql" },
+      { name: "TypeORM", icon: "https://cdn.simpleicons.org/typeorm" },
+      { name: "Prisma", icon: "https://cdn.simpleicons.org/prisma" },
+    ],
+    icon: <Database className="w-8 h-8 text-emerald-500" />,
   },
   {
     name: "Data Science & Analysis",
@@ -304,36 +395,13 @@ export const STACK_CATEGORIES: StackCategory[] = [
     icon: <BarChart3 className="w-8 h-8 text-orange-500" />,
   },
   {
-    name: "Backend Architecture",
+    name: "Automation",
     items: [
-      { name: "NestJS", icon: "https://cdn.simpleicons.org/nestjs" },
-      { name: "Express", icon: "https://cdn.simpleicons.org/express" },
-      { name: "Node.js", icon: "https://cdn.simpleicons.org/nodedotjs" },
-      { name: "Python", icon: "https://cdn.simpleicons.org/python" },
-      { name: "FastAPI", icon: "https://cdn.simpleicons.org/fastapi" },
-      { name: "Flask", icon: "https://cdn.simpleicons.org/flask" },
+      { name: "n8n", icon: "https://cdn.simpleicons.org/n8n" },
+      { name: "Make", icon: "https://cdn.simpleicons.org/make" },
+      { name: "Zapier", icon: "https://cdn.simpleicons.org/zapier" },
     ],
-    icon: <Server className="w-8 h-8 text-blue-500" />,
-  },
-  {
-    name: "Data & Vector DBs",
-    items: [
-      { name: "Qdrant", icon: "https://logo.svgcdn.com/l/qdrant.svg" },
-      {
-        name: "ChromaDB",
-        icon: "https://files.brandlogos.net/svg/aqOfS52Rxn/chroma-logo-brandlogos.net_k7cayrasq.svg",
-      },
-      {
-        name: "Pinecone",
-        icon: "https://images.seeklogo.com/logo-png/48/1/pinecone-icon-logo-png_seeklogo-482365.png",
-      },
-      { name: "PostgreSQL", icon: "https://cdn.simpleicons.org/postgresql" },
-      { name: "MongoDB", icon: "https://cdn.simpleicons.org/mongodb" },
-      { name: "MySQL", icon: "https://cdn.simpleicons.org/mysql" },
-      { name: "TypeORM", icon: "https://cdn.simpleicons.org/typeorm" },
-      { name: "Prisma", icon: "https://cdn.simpleicons.org/prisma" },
-    ],
-    icon: <Database className="w-8 h-8 text-emerald-500" />,
+    icon: <Workflow className="w-8 h-8 text-cyan-500" />,
   },
   {
     name: "DevOps & Tools",
@@ -341,11 +409,14 @@ export const STACK_CATEGORIES: StackCategory[] = [
       { name: "Docker", icon: "https://cdn.simpleicons.org/docker" },
       { name: "Kubernetes", icon: "https://cdn.simpleicons.org/kubernetes" },
       { name: "Git", icon: "https://cdn.simpleicons.org/git" },
-      { name: "GitHub", icon: "https://cdn.simpleicons.org/github" },
+      { name: "GitHub", icon: "https://cdn.simpleicons.org/github/ffffff" },
       { name: "Postman", icon: "https://cdn.simpleicons.org/postman" },
       { name: "Jira", icon: "https://cdn.simpleicons.org/jira" },
       { name: "ClickUp", icon: "https://cdn.simpleicons.org/clickup" },
-      { name: "Slack", icon: "https://cdn.simpleicons.org/slack" },
+      {
+        name: "Slack",
+        icon: "https://svgl.app/library/slack.svg",
+      },
     ],
     icon: <Terminal className="w-8 h-8 text-gray-500" />,
   },
@@ -354,25 +425,8 @@ export const STACK_CATEGORIES: StackCategory[] = [
     items: [
       { name: "Stripe", icon: "https://cdn.simpleicons.org/stripe" },
       { name: "Mercado Pago", icon: "https://cdn.simpleicons.org/mercadopago" },
+      { name: "PayPal", icon: "https://cdn.simpleicons.org/paypal" },
     ],
     icon: <CreditCard className="w-8 h-8 text-yellow-500" />,
-  },
-  {
-    name: "Mobile",
-    items: [
-      { name: "React Native", icon: "https://cdn.simpleicons.org/react" },
-      { name: "Expo", icon: "https://cdn.simpleicons.org/expo" },
-    ],
-    icon: <Smartphone className="w-8 h-8 text-pink-500" />,
-  },
-  {
-    name: "Frontend Development",
-    items: [
-      { name: "React", icon: "https://cdn.simpleicons.org/react" },
-      { name: "Next.js", icon: "https://cdn.simpleicons.org/nextdotjs" },
-      { name: "TypeScript", icon: "https://cdn.simpleicons.org/typescript" },
-      { name: "Tailwind CSS", icon: "https://cdn.simpleicons.org/tailwindcss" },
-    ],
-    icon: <Layout className="w-8 h-8 text-indigo-500" />,
   },
 ];
