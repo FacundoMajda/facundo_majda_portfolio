@@ -1,4 +1,4 @@
-import { ArrowUpRight, MoveUpRight } from "lucide-react";
+import { ArrowUpRight, Github, Linkedin, MoveUpRight } from "lucide-react";
 import Head from "next/head";
 import { useState } from "react";
 import { Bend } from "@/components/canvasui/Bend";
@@ -26,7 +26,6 @@ import {
   SOCIAL_LINKS,
   STACK_CATEGORIES,
 } from "@/config/profile";
-import { CORE_SKILLS } from "@/config/skills";
 import { manrope, spaceGrotesk } from "@/styles/fonts";
 import { Reveal } from "@/utils";
 
@@ -297,7 +296,7 @@ export default function Portfolio() {
               CONTACT
             </p>
             <p className="font-manrope text-lg text-zinc-300">
-              Available for projects
+              Available for remote engineering roles and selected projects
             </p>
           </div>
         </div>
@@ -328,6 +327,28 @@ export default function Portfolio() {
               <div className="relative z-30 container mx-auto h-full flex flex-col lg:flex-row justify-start lg:justify-between items-center lg:items-end gap-12 lg:gap-16 pb-12">
                 <div className="max-w-full lg:max-w-[800px] space-y-1">
                   <Reveal>
+                    <div className="flex items-center gap-2 mb-4">
+                      <a
+                        href={SOCIAL_LINKS.github}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg border border-zinc-700 text-zinc-300 text-sm font-medium hover:bg-zinc-800/50 hover:border-zinc-600 transition-colors"
+                      >
+                        <Github className="w-4 h-4" />
+                        GitHub
+                        <ArrowUpRight className="w-3 h-3 text-zinc-500" />
+                      </a>
+                      <a
+                        href={SOCIAL_LINKS.linkedin}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg border border-zinc-700 text-zinc-300 text-sm font-medium hover:bg-zinc-800/50 hover:border-zinc-600 transition-colors"
+                      >
+                        <Linkedin className="w-4 h-4" />
+                        LinkedIn
+                        <ArrowUpRight className="w-3 h-3 text-zinc-500" />
+                      </a>
+                    </div>
                     <h1
                       className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-none text-white"
                       style={{ letterSpacing: "0.02em" }}
@@ -490,6 +511,81 @@ export default function Portfolio() {
                 </div>
               </div>
             </div>
+
+            <Reveal delay={300}>
+              <div className="mt-20 pt-12 border-t border-zinc-800">
+                <h3 className="font-anton text-3xl md:text-4xl font-black uppercase text-zinc-100 tracking-wide mb-12">
+                  Systems I Build
+                </h3>
+                <div className="grid sm:grid-cols-2 gap-x-10 gap-y-10">
+                  <div className="group">
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+                      <h4 className="font-anton text-xl md:text-2xl uppercase tracking-wide text-zinc-200 group-hover:text-white transition-colors">
+                        AI Systems
+                      </h4>
+                    </div>
+                    <p className="text-zinc-400 font-manrope leading-relaxed">
+                      <strong className="text-white">
+                        RAG, LLM applications, and agentic workflows
+                      </strong>{" "}
+                      that turn business data, documents, and tools into
+                      usable AI systems — with grounded citations,
+                      structured outputs, and streaming, real-time
+                      responses.
+                    </p>
+                  </div>
+                  <div className="group">
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="w-2 h-2 bg-teal-400 rounded-full"></span>
+                      <h4 className="font-anton text-xl md:text-2xl uppercase tracking-wide text-zinc-200 group-hover:text-white transition-colors">
+                        Computer Vision
+                      </h4>
+                    </div>
+                    <p className="text-zinc-400 font-manrope leading-relaxed">
+                      <strong className="text-white">
+                        Real-time vision systems
+                      </strong>{" "}
+                      for detection, classification, tracking, and
+                      event-driven workflows — from camera input to
+                      operational alerts.
+                    </p>
+                  </div>
+                  <div className="group">
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                      <h4 className="font-anton text-xl md:text-2xl uppercase tracking-wide text-zinc-200 group-hover:text-white transition-colors">
+                        Backend Systems
+                      </h4>
+                    </div>
+                    <p className="text-zinc-400 font-manrope leading-relaxed">
+                      <strong className="text-white">
+                        Production APIs and backend services
+                      </strong>{" "}
+                      that connect AI models, databases, external systems,
+                      and user-facing applications into reliable
+                      end-to-end products.
+                    </p>
+                  </div>
+                  <div className="group">
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="w-2 h-2 bg-cyan-500 rounded-full"></span>
+                      <h4 className="font-anton text-xl md:text-2xl uppercase tracking-wide text-zinc-200 group-hover:text-white transition-colors">
+                        Automation
+                      </h4>
+                    </div>
+                    <p className="text-zinc-400 font-manrope leading-relaxed">
+                      <strong className="text-white">
+                        AI-powered workflows
+                      </strong>{" "}
+                      that connect APIs, business systems, and AI services
+                      to turn repetitive operations into automated
+                      pipelines.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
           </div>
         </section>
 
@@ -530,7 +626,11 @@ export default function Portfolio() {
                           <img
                             src={item.icon}
                             alt={item.name}
-                            className="w-5 h-5"
+                            className={`w-5 h-5 ${
+                              item.iconBg
+                                ? `${item.iconBg} rounded-sm p-0.5`
+                                : ""
+                            }`}
                           />
                           <span className="text-sm md:text-base font-heading font-normal text-zinc-400 hover:text-white transition-colors cursor-default">
                             {item.name}
@@ -543,44 +643,6 @@ export default function Portfolio() {
               ))}
             </div>
 
-            <Reveal delay={600}>
-              <div className="mt-12 pt-8 border-t border-zinc-900">
-                <LazyEffect as={GlyphRain} density={0.2} speed={0.3} cell={14}>
-                  <div className="mb-8">
-                    <h3 className="text-3xl md:text-4xl font-heading font-black text-zinc-200 uppercase tracking-wider mb-2">
-                      Core Competencies
-                    </h3>
-                    <p className="text-zinc-500 font-manrope text-sm uppercase tracking-widest">
-                      Technical Expertise & Specializations
-                    </p>
-                  </div>
-                </LazyEffect>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-                  {Object.entries(CORE_SKILLS).map(
-                    ([category, skills], idx) => (
-                      <Reveal key={category} delay={700 + idx * 100}>
-                        <div className="group">
-                          <h4 className="text-lg md:text-xl font-heading font-bold text-zinc-300 mb-4 uppercase tracking-wide group-hover:text-white transition-colors">
-                            {category}
-                          </h4>
-                          <div className="space-y-2">
-                            {skills.map((skill, i) => (
-                              <span
-                                key={i}
-                                className="inline-block text-zinc-400 text-sm font-manrope border border-zinc-800 rounded-full px-4 py-2 hover:border-zinc-600 hover:text-zinc-300 transition-all cursor-default"
-                              >
-                                {skill}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </Reveal>
-                    )
-                  )}
-                </div>
-              </div>
-            </Reveal>
           </div>
         </section>
 
@@ -661,7 +723,18 @@ export default function Portfolio() {
                       {job.role}
                     </h3>
                     <p className="text-xl text-zinc-400 font-manrope mb-4">
-                      {job.company}
+                      {job.link ? (
+                        <a
+                          href={job.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-blue-400 transition-colors"
+                        >
+                          {job.company}
+                        </a>
+                      ) : (
+                        job.company
+                      )}
                     </p>
                     <p className="text-zinc-500 font-manrope max-w-2xl leading-relaxed">
                       {job.desc}

@@ -35,54 +35,60 @@ export const MENU_ITEMS: MenuItem[] = [
 export const EDUCATION: EducationItem[] = [
   {
     institution: "Instituto Politécnico Formosa (IPF)",
+    link: "https://www.ipf.edu.ar/",
     degree: "Higher Technical Degree in Cross-Platform Software Development",
     date: "2023 — 2025",
     desc: "Intensive technical program focused on cross-platform software development. Covered software architecture, object-oriented design, database modeling, and full-stack development through hands-on projects. Built foundation in design patterns, clean code principles, and systematic problem-solving that I now apply to AI-driven backend systems.",
   },
   {
     institution: "Instituto Politécnico Formosa (IPF)",
+    link: "https://www.ipf.edu.ar/",
     degree: "Artificial Intelligence – Models and Applications",
     date: "2024 — 2025",
-    desc: "Deep dive into modern AI engineering: Deep Learning with PyTorch (CNNs, MLPs, computer vision), Transformers and LLMs (BERT, GPT, LLaMa), RAG systems with LangChain, AI Agents with Model Context Protocol (MCP), and production deployment with Ollama. Built RAG-powered assistants, chatbots, and image classifiers. Integrated LLM APIs (Gemini, DeepSeek) and vector databases (ChromaDB, Qdrant) for semantic search and context-aware generation.",
+    desc: "Advanced training in AI and LLMs, from deep learning fundamentals through Transformers, RAG, and AI agents to production deployment of LLM APIs.",
   },
   {
     institution: "Instituto Politécnico Formosa (IPF)",
+    link: "https://www.ipf.edu.ar/",
     degree: "Python for Data Science & Machine Learning",
     date: "2024 — 2025",
-    desc: "Comprehensive data science training covering the full ML pipeline: data manipulation with NumPy/Pandas, statistical visualization with Matplotlib, classical ML algorithms (KNN, Linear Regression) with Scikit-learn, and deep learning with Keras/TensorFlow. Focused on algorithm optimization, complexity analysis, model evaluation, and end-to-end project development from data cleaning to deployment.",
+    desc: "Full data science and machine learning pipeline in Python, from data analysis and preprocessing through classical ML and deep learning to end-to-end project deployment.",
   },
   {
     institution: "Universidad de la Defensa Nacional (UNDEF)",
+    link: "https://undef.edu.ar/",
     degree: "Bachelor's Degree in Cyber Defense",
     date: "Mar 2026 — Present",
-    desc: "Bachelor's degree focused on cyber defense, cybersecurity, and information security, combining security principles, cyber operations, risk management, threat analysis, and defensive strategies for protecting digital systems and critical infrastructure. Covers secure software development, cryptography, digital forensics, risk and threat assessment, incident response, and AI/ML applications in cybersecurity contexts.",
+    desc: "Argentina's first cyber defense degree — covering secure software development, cryptography, digital forensics, risk and threat assessment, and AI/ML applications in defensive cybersecurity contexts.",
   },
 ];
 
 export const EXPERIENCE: ExperienceItem[] = [
   {
     company: "Push Software",
-    role: "Full Stack Engineer Jr.",
+    link: "https://www.pushsoftware.com.ar/",
+    role: "Full Stack Engineer",
     date: "Mar 2024 — Aug 2024",
-    desc: "Developed web applications using JavaScript/TypeScript and Node.js. Implemented clean architecture principles to improve project maintainability and scalability. Built structured and efficient RESTful APIs using Express and NestJS. Designed and managed databases using MongoDB, PostgreSQL, and MySQL.",
+    desc: "Built and maintained production web applications end-to-end with TypeScript and Node.js, applying clean architecture to keep the codebase maintainable as it grew. Designed RESTful APIs with Express and NestJS, and modeled databases across MongoDB, PostgreSQL, and MySQL.",
   },
   {
     company: "Freelancing",
     role: "AI Engineer & Backend Specialist",
     date: "2024 — Present",
-    desc: "Development of RAG systems with LangChain, autonomous AI agents using Model Context Protocol (MCP), and streaming LLM integrations (Gemini, DeepSeek, OpenAI). Built data pipelines with vector databases (Qdrant, ChromaDB, Pinecone). Proficient in Deep Learning with PyTorch (CNNs, computer vision), Transformers with Hugging Face, and classical ML with Scikit-learn.",
+    desc: "Designed and delivered AI systems for client workflows, including RAG pipelines, document intelligence, agentic workflows, real-time conversational systems, and backend services integrating LLMs with operational data.",
   },
   {
-    company: "MF Consultora",
-    role: "Solutions Architect Jr.",
+    company: "MF Legal & Consulting",
+    role: "Solutions Architect",
     date: "Mar 2026 — Jul 2026",
-    desc: "Applied engineering and technical architecture principles to design and develop scalable systems, working part-time and remote from Buenos Aires Province, Argentina.",
+    desc: "Designed and delivered a custom CRM/ERP platform with dynamic data modeling across three offices, architected end-to-end sales and prospecting workflows for insurance and legal clients, and orchestrated integrations with external systems and law firm databases for seamless case and client management.",
   },
   {
-    company: "Lumen",
-    role: "Automation Specialist Jr.",
+    company: "Lumenlab",
+    link: "https://www.lumenlab.ai/",
+    role: "Automation Specialist",
     date: "Apr 2026 — Present",
-    desc: "Automation and workflow optimization using n8n and programming, applying automation technologies and AI solutions to design scalable software processes. Part-time and remote.",
+    desc: "Building end-to-end AI automations for international clients — from rapid proof-of-concept to optimized production — with hands-on work in agentic workflows, fine-tuning, RAG, API/LLM orchestration, and inference tuning.",
   },
 ];
 
@@ -179,33 +185,6 @@ export const PROJECTS: ProjectItem[] = [
   },
   {
     id: "02",
-    title: "Hackathon Formosa 2024 - Plant Recognition",
-    category: "AI Engineering",
-    tech: ["Plant Detection API", "LangChain", "RAG", "React Native", "Expo"],
-    desc: "Mobile app for plant identification that provides safety guidance about edible and toxic parts.",
-    longDesc:
-      "The system integrated a third-party plant detection API to identify species from photos, and then used a RAG pipeline with LangChain to retrieve specific information about which parts of each plant are poisonous or edible. The architecture combined external computer vision (without training our own models) with AI engineering for practical security use cases.\n\nTechnological Stack\nIt was developed as a mobile application with React Native + Expo, using the plant API for visual recognition and RAG for intelligent retrieval of safety information. The project demonstrated practical integration of AI services in cross-platform applications, focusing on AI engineering.",
-    projectPdf: {
-      title: "Hackathon slides & notes",
-      link: SOCIAL_LINKS.github,
-      note: "Presentation slides and architecture notes used during the hackathon.",
-    },
-    evidence: [
-      {
-        title: "App screenshots",
-        images: [
-          "https://via.placeholder.com/800x450?text=Plant+Recognition+1",
-          "https://via.placeholder.com/800x450?text=Plant+Recognition+2",
-        ],
-        note: "Detection and results screen showing safety guidance and source citations.",
-        type: "image",
-      },
-    ],
-    link: SOCIAL_LINKS.github,
-    color: "from-emerald-500 to-teal-600",
-  },
-  {
-    id: "03",
     title: "Hackathon IPF 2025 - Intelligent Incident Reporting System",
     category: "Human-Centered AI",
     tech: [
@@ -241,7 +220,7 @@ export const PROJECTS: ProjectItem[] = [
     color: "from-purple-500 to-indigo-600",
   },
   {
-    id: "04",
+    id: "03",
     title: "Clinical RAG Assistant",
     category: "AI & Healthcare",
     tech: [
@@ -275,7 +254,7 @@ export const PROJECTS: ProjectItem[] = [
     color: "from-red-500 to-pink-600",
   },
   {
-    id: "05",
+    id: "04",
     title: "talkitdown - Offline Dictation & Transcription",
     category: "Privacy-First AI",
     tech: [
@@ -301,6 +280,33 @@ export const PROJECTS: ProjectItem[] = [
     link: SOCIAL_LINKS.github,
     color: "from-slate-500 to-zinc-700",
   },
+  {
+    id: "05",
+    title: "Hackathon Formosa 2024 - Plant Recognition",
+    category: "AI Engineering",
+    tech: ["Plant Detection API", "LangChain", "RAG", "React Native", "Expo"],
+    desc: "Mobile app for plant identification that provides safety guidance about edible and toxic parts.",
+    longDesc:
+      "The system integrated a third-party plant detection API to identify species from photos, and then used a RAG pipeline with LangChain to retrieve specific information about which parts of each plant are poisonous or edible. The architecture combined external computer vision (without training our own models) with AI engineering for practical security use cases.\n\nTechnological Stack\nIt was developed as a mobile application with React Native + Expo, using the plant API for visual recognition and RAG for intelligent retrieval of safety information. The project demonstrated practical integration of AI services in cross-platform applications, focusing on AI engineering.",
+    projectPdf: {
+      title: "Hackathon slides & notes",
+      link: SOCIAL_LINKS.github,
+      note: "Presentation slides and architecture notes used during the hackathon.",
+    },
+    evidence: [
+      {
+        title: "App screenshots",
+        images: [
+          "https://via.placeholder.com/800x450?text=Plant+Recognition+1",
+          "https://via.placeholder.com/800x450?text=Plant+Recognition+2",
+        ],
+        note: "Detection and results screen showing safety guidance and source citations.",
+        type: "image",
+      },
+    ],
+    link: SOCIAL_LINKS.github,
+    color: "from-emerald-500 to-teal-600",
+  },
 ];
 
 export const STACK_CATEGORIES: StackCategory[] = [
@@ -311,6 +317,8 @@ export const STACK_CATEGORIES: StackCategory[] = [
       { name: "LangGraph", icon: "https://cdn.simpleicons.org/langgraph" },
       { name: "PyTorch", icon: "https://cdn.simpleicons.org/pytorch" },
       { name: "torchvision", icon: "https://cdn.simpleicons.org/pytorch" },
+      { name: "Ultralytics", icon: "https://cdn.simpleicons.org/ultralytics" },
+      { name: "Supervision", icon: "https://cdn.simpleicons.org/roboflow" },
       { name: "Ollama", icon: "https://cdn.simpleicons.org/ollama/ffffff" },
       { name: "Hugging Face", icon: "https://cdn.simpleicons.org/huggingface" },
       { name: "Vercel AI SDK", icon: "https://cdn.simpleicons.org/vercel/ffffff" },
@@ -318,10 +326,6 @@ export const STACK_CATEGORIES: StackCategory[] = [
       { name: "Google Gemini", icon: "https://cdn.simpleicons.org/google" },
       { name: "OpenAI", icon: "/icons/openai.svg" },
       { name: "DeepSeek", icon: "/icons/deepseek.svg" },
-      {
-        name: "sentence-transformers",
-        icon: "https://cdn.simpleicons.org/huggingface",
-      },
       { name: "Scikit-learn", icon: "https://cdn.simpleicons.org/scikitlearn" },
       { name: "TensorFlow", icon: "https://cdn.simpleicons.org/tensorflow" },
       { name: "Keras", icon: "https://cdn.simpleicons.org/keras" },
@@ -411,22 +415,16 @@ export const STACK_CATEGORIES: StackCategory[] = [
       { name: "Git", icon: "https://cdn.simpleicons.org/git" },
       { name: "GitHub", icon: "https://cdn.simpleicons.org/github/ffffff" },
       { name: "Postman", icon: "https://cdn.simpleicons.org/postman" },
-      { name: "Jira", icon: "https://cdn.simpleicons.org/jira" },
-      { name: "ClickUp", icon: "https://cdn.simpleicons.org/clickup" },
       {
-        name: "Slack",
-        icon: "https://svgl.app/library/slack.svg",
+        name: "GitHub Actions",
+        icon: "https://cdn.simpleicons.org/githubactions",
+      },
+      {
+        name: "Dokploy",
+        icon: "https://api.iconify.design/logos/dokploy.svg",
+        iconBg: "bg-white",
       },
     ],
     icon: <Terminal className="w-8 h-8 text-gray-500" />,
-  },
-  {
-    name: "Payments",
-    items: [
-      { name: "Stripe", icon: "https://cdn.simpleicons.org/stripe" },
-      { name: "Mercado Pago", icon: "https://cdn.simpleicons.org/mercadopago" },
-      { name: "PayPal", icon: "https://cdn.simpleicons.org/paypal" },
-    ],
-    icon: <CreditCard className="w-8 h-8 text-yellow-500" />,
   },
 ];

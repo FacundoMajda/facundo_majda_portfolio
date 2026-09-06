@@ -1,6 +1,7 @@
 export interface StackItem {
   name: string;
   icon: string;
+  iconBg?: string;
 }
 
 export interface StackCategory {
@@ -11,6 +12,7 @@ export interface StackCategory {
 
 export interface EducationItem {
   institution: string;
+  link: string;
   degree: string;
   date: string;
   desc: string;
@@ -18,6 +20,7 @@ export interface EducationItem {
 
 export interface ExperienceItem {
   company: string;
+  link?: string;
   role: string;
   date: string;
   desc: string;

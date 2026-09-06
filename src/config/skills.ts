@@ -9,7 +9,6 @@ export const CORE_SKILLS = {
   "Machine Learning": [
     "Deep Learning with PyTorch (CNNs, MLPs)",
     "Computer Vision & Image Classification",
-    "Classical ML (KNN, Linear Regression, SVMs)",
     "Model Evaluation & Hyperparameter Tuning",
     "Transfer Learning with Transformers",
   ],
@@ -17,7 +16,6 @@ export const CORE_SKILLS = {
     "Data Preprocessing & Feature Engineering",
     "Exploratory Data Analysis (EDA)",
     "Statistical Analysis & Visualization",
-    "Algorithm Optimization & Complexity Analysis",
     "End-to-End ML Pipelines",
   ],
   "Backend Development": [
@@ -25,6 +23,5 @@ export const CORE_SKILLS = {
     "RESTful API Design & Microservices",
     "TypeORM & Database Modeling",
     "Event-Driven Architecture",
-    "SOLID Principles & Design Patterns",
   ],
 };
