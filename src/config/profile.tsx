@@ -5,7 +5,6 @@ import {
   Layout,
   Server,
   Terminal,
-  CreditCard,
   Workflow,
 } from "lucide-react";
 import {
