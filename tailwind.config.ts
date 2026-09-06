@@ -1,5 +1,6 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from "tailwindcss";
+
+const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -8,10 +9,12 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        anton: ["Anton", "sans-serif"],
-        manrope: ["Manrope", "sans-serif"],
+        anton: ["var(--font-anton)", "Impact", "sans-serif"],
+        manrope: ["var(--font-manrope)", "sans-serif"],
       },
     },
   },
   plugins: [],
 };
+
+module.exports = config;

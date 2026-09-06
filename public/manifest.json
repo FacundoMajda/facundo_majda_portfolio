@@ -1,0 +1,17 @@
+{
+  "name": "Facundo Majda — AI/ML & Automation Engineer",
+  "short_name": "Facundo Majda",
+  "description": "AI/ML & Automation Engineer. Production RAG pipelines, LLM agents, computer vision, and the backend that holds them up.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "icons": [
+    {
+      "src": "/icons/og.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

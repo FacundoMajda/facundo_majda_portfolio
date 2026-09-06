@@ -1,21 +1,18 @@
 import { ArrowUpRight, MoveUpRight } from "lucide-react";
-import { Manrope } from "next/font/google";
+import { Anton, Manrope } from "next/font/google";
+import dynamic from "next/dynamic";
+import Head from "next/head";
 import { useState } from "react";
-import { Bend } from "@/components/canvasui/Bend";
-import { Bubble } from "@/components/canvasui/Bubble";
-import { Displacement } from "@/components/canvasui/Displacement";
-import { Glass } from "@/components/canvasui/Glass";
-import { Glitch } from "@/components/canvasui/Glitch";
-import { Grid } from "@/components/canvasui/Grid";
 import { GlyphRain } from "@/components/canvasui/GlyphRain";
 import { LazyEffect } from "@/components/canvasui/LazyEffect";
 import { Liquid } from "@/components/canvasui/Liquid";
-import { ParticleReveal } from "@/components/canvasui/ParticleReveal";
-import { Peel } from "@/components/canvasui/Peel";
-import { Ripple } from "@/components/canvasui/Ripple";
-import { VHS } from "@/components/canvasui/VHS";
-import ProjectModal from "@/components/ProjectModal";
+import { BlackHoleBackground } from "@/components/vgpu/BlackHoleBackground";
+import { FlareLogo } from "@/components/vgpu/FlareLogo";
 import { ProjectItem } from "@/types";
+
+const ProjectModal = dynamic(() => import("@/components/ProjectModal"), {
+  ssr: false,
+});
 import {
   EDUCATION,
   EXPERIENCE,
@@ -25,30 +22,67 @@ import {
   STACK_CATEGORIES,
 } from "@/config/profile";
 import { CORE_SKILLS } from "@/config/skills";
+import { useQualityTier } from "@/components/adaptive/useQualityTier";
 import { Reveal } from "@/utils";
+
+const Glitch = dynamic(
+  () => import("@/components/canvasui/Glitch").then((m) => m.Glitch),
+  { ssr: false, loading: () => null },
+);
+const Bubble = dynamic(
+  () => import("@/components/canvasui/Bubble").then((m) => m.Bubble),
+  { ssr: false, loading: () => null },
+);
+const Glass = dynamic(
+  () => import("@/components/canvasui/Glass").then((m) => m.Glass),
+  { ssr: false, loading: () => null },
+);
+const Peel = dynamic(
+  () => import("@/components/canvasui/Peel").then((m) => m.Peel),
+  { ssr: false, loading: () => null },
+);
+const VHS = dynamic(
+  () => import("@/components/canvasui/VHS").then((m) => m.VHS),
+  { ssr: false, loading: () => null },
+);
+const Grid = dynamic(
+  () => import("@/components/canvasui/Grid").then((m) => m.Grid),
+  { ssr: false, loading: () => null },
+);
+const ParticleReveal = dynamic(
+  () => import("@/components/canvasui/ParticleReveal").then(
+    (m) => m.ParticleReveal,
+  ),
+  { ssr: false, loading: () => null },
+);
+const Ripple = dynamic(
+  () => import("@/components/canvasui/Ripple").then((m) => m.Ripple),
+  { ssr: false, loading: () => null },
+);
+const Bend = dynamic(
+  () => import("@/components/canvasui/Bend").then((m) => m.Bend),
+  { ssr: false, loading: () => null },
+);
+const Displacement = dynamic(
+  () => import("@/components/canvasui/Displacement").then(
+    (m) => m.Displacement,
+  ),
+  { ssr: false, loading: () => null },
+);
 
 const manrope = Manrope({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400"],
+  display: "swap",
+  variable: "--font-manrope",
 });
 
-const LiquidButton = ({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) => (
-  <a
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="group relative h-10 px-6 py-3 inline-flex justify-center items-center gap-2 text-sm md:text-base font-bold uppercase font-anton tracking-widest outline-none overflow-hidden bg-blue-600 text-white hover:bg-white hover:text-black transition-all duration-300 rounded-sm shadow-[0_0_8px_rgba(59,130,246,0.25)] hover:shadow-[0_0_12px_rgba(59,130,246,0.35)]"
-  >
-    <span className="absolute top-[200%] left-0 right-0 h-full bg-white rounded-[50%] group-hover:top-0 transition-all duration-500 scale-150 z-0"></span>
-    <span className="relative z-10 flex items-center gap-2">{children}</span>
-  </a>
-);
+const anton = Anton({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  variable: "--font-anton",
+});
 
 const SpinningBrain = () => (
   <svg
@@ -80,11 +114,123 @@ export default function Portfolio() {
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(
     null
   );
+  const { tier } = useQualityTier();
+  const isLow = tier === "low";
+
+  const seoTitle = "Facundo Majda — AI/ML & Automation Engineer";
+  const seoDescription =
+    "AI/ML & Automation Engineer. I design and ship production AI systems — RAG pipelines, LLM agents, computer vision, and the backend that holds them up.";
+  const seoUrl = "https://facundomajda.dev";
+  const ogImage = `${seoUrl}/icons/og.svg`;
+  const personJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Facundo Majda",
+    jobTitle: "AI/ML & Automation Engineer",
+    url: seoUrl,
+    email: "mailto:facundomajda13@gmail.com",
+    description: seoDescription,
+    knowsAbout: [
+      "Artificial Intelligence",
+      "Machine Learning",
+      "Large Language Models",
+      "Retrieval-Augmented Generation",
+      "Computer Vision",
+      "Automation",
+      "Backend Development",
+    ],
+    knowsLanguage: ["en", "es"],
+    sameAs: ["https://www.upwork.com/freelancers/~014f767f0225d54d8e"],
+  };
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Facundo Majda",
+    url: seoUrl,
+    inLanguage: "en",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${seoUrl}/?q={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
+  };
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "What does Facundo Majda do?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Facundo Majda is an AI/ML & Automation Engineer. He designs and ships production AI systems — RAG pipelines, LLM agents, computer vision, NLP — plus the backend and integrations that hold them up.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What technologies does Facundo Majda work with?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Backend in TypeScript and Java (NestJS, Spring Boot), frontends in React, Next.js, and Angular, ML and data in Python with PyTorch, AI orchestration with LangChain, LangGraph, Mastra, and the Vercel AI SDK, and automation on n8n, Make, and Zapier.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Is Facundo Majda available for hire?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. Facundo is available for AI, LLM, and automation projects. Hire him through Upwork via the Hire Me button on the portfolio.",
+        },
+      },
+    ],
+  };
 
   return (
     <div
-      className={`bg-[#050505] text-slate-200 min-h-screen ${manrope.className} overflow-x-hidden selection:bg-blue-500 selection:text-white`}
+      className={`bg-[#050505] text-slate-200 min-h-screen ${manrope.variable} ${anton.variable} overflow-x-hidden selection:bg-blue-500 selection:text-white`}
     >
+      <Head>
+        <title>{seoTitle}</title>
+        <meta name="description" content={seoDescription} />
+        <meta
+          name="keywords"
+          content="AI Engineer, Machine Learning, LLM, RAG, Computer Vision, Automation, Backend, NestJS, Spring Boot, PyTorch, LangChain, Portfolio"
+        />
+        <meta name="author" content="Facundo Majda" />
+        <meta name="robots" content="index, follow, max-image-preview:large" />
+        <meta name="googlebot" content="index, follow" />
+        <link rel="canonical" href={seoUrl} />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Facundo Majda" />
+        <meta property="og:title" content={seoTitle} />
+        <meta property="og:description" content={seoDescription} />
+        <meta property="og:url" content={seoUrl} />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Facundo Majda — AI/ML & Automation Engineer" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={seoTitle} />
+        <meta name="twitter:description" content={seoDescription} />
+        <meta name="twitter:image" content={ogImage} />
+        <meta name="twitter:creator" content="@facundomajda" />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      </Head>
       <div className="fixed top-0 right-0 z-50 p-6 md:p-10 mix-blend-difference">
         <LazyEffect
           as={Glitch}
@@ -217,39 +363,39 @@ export default function Portfolio() {
       <main className="bg-[#050505]">
         <section
           id="banner"
-          className="relative min-h-screen flex flex-col justify-center px-6 md:px-20 lg:px-24 overflow-hidden"
+          className="relative min-h-screen flex flex-col justify-start pt-20 md:pt-24 px-6 md:px-20 lg:px-24 overflow-hidden"
         >
           <div className="absolute inset-0 z-0 opacity-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 
           <GlyphRain
-            className="relative z-10 w-full"
-            density={0.15}
-            speed={0.25}
-            cell={16}
+            className="!absolute inset-0 z-10"
+            density={isLow ? 0.04 : 0.15}
+            speed={isLow ? 0.1 : 0.25}
+            cell={isLow ? 28 : 16}
           >
           <Liquid
-            className="w-full"
-            intensity={0.8}
-            blend={1.5}
-            densityDissipation={0.9}
-            velocityDissipation={0.9}
-            curl={0.4}
-            radius={0.15}
+            className="!absolute inset-0 z-20"
+            intensity={isLow ? 0.25 : 0.8}
+            blend={isLow ? 0.4 : 1.5}
+            densityDissipation={isLow ? 0.4 : 0.9}
+            velocityDissipation={isLow ? 0.4 : 0.9}
+            curl={isLow ? 0.1 : 0.4}
+            radius={isLow ? 0.05 : 0.15}
           >
-          <div className="container mx-auto h-full flex flex-col lg:flex-row justify-center lg:justify-between items-center lg:items-end gap-12 lg:gap-16 py-12">
+          <div className="relative z-30 container mx-auto h-full flex flex-col lg:flex-row justify-center lg:justify-between items-center lg:items-end gap-12 lg:gap-16 py-12">
             <div className="max-w-full lg:max-w-[800px] space-y-1">
               <Reveal>
                 <h1
                   className="font-anton text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-none text-white"
                   style={{ letterSpacing: "0.02em" }}
                 >
-                  <span className="text-white">SWE </span>
-                  <span className="text-blue-600">& FDE</span>
+                  <span className="text-white">AI/ML &amp; </span>
+                  <span className="text-blue-600">Automation</span>
                 </h1>
               </Reveal>
               <Reveal delay={25}>
                 <p className="text-xs sm:text-sm text-zinc-500 font-manrope tracking-wide mt-2">
-                  Software Engineer & Forward Deployed Engineer
+                  AI &amp; Automation Engineer
                 </p>
               </Reveal>
               <Reveal delay={50}>
@@ -259,13 +405,12 @@ export default function Portfolio() {
                     <span className="font-bold text-white">Facundo Majda</span>
                   </span>
                   <span className="text-base sm:text-lg md:text-xl block mt-2">
+                    I design and ship production AI systems — RAG pipelines,
+                    LLM agents, computer vision, and the{" "}
                     <span className="text-blue-500">
-                      Data & AI-Driven Apps
-                    </span>{" "}
-                    — a Deployed Software Developer across the{" "}
-                    <span className="text-purple-500">
-                      full software lifecycle, from design to deployment
+                      backend that holds them up
                     </span>
+                    .
                   </span>
                 </h2>
               </Reveal>
@@ -297,33 +442,16 @@ export default function Portfolio() {
                   </div>
                 </div>
               </Reveal>
-              <Reveal delay={200}>
-                <div className="mt-10 flex gap-4">
-                  <LiquidButton href={SOCIAL_LINKS.upwork}>
-                    HIRE ME
-                  </LiquidButton>
-                </div>
-              </Reveal>
             </div>
 
             <div className="flex md:flex-row lg:flex-col gap-8 md:gap-12 lg:gap-8 text-center lg:text-right justify-center lg:justify-end lg:self-end">
               <Reveal delay={300}>
                 <div>
-                  <h5 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl font-anton font-black bg-gradient-to-r from-blue-400 via-purple-400 to-green-400 bg-clip-text text-transparent mb-1">
+                  <h5 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl font-anton font-black text-blue-500 mb-1">
                     3+
                   </h5>
                   <p className="text-zinc-500 font-manrope text-xs md:text-sm uppercase tracking-widest">
-                    Years Exp.
-                  </p>
-                </div>
-              </Reveal>
-              <Reveal delay={400}>
-                <div>
-                  <h5 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl font-anton font-black bg-gradient-to-r from-blue-400 via-purple-400 to-green-400 bg-clip-text text-transparent mb-1">
-                    5+
-                  </h5>
-                  <p className="text-zinc-500 font-manrope text-xs md:text-sm uppercase tracking-widest">
-                    AI Projects
+                    Years Engineering
                   </p>
                 </div>
               </Reveal>
@@ -348,18 +476,23 @@ export default function Portfolio() {
             <Reveal>
               <LazyEffect as={Glass} shape="circle" size={140} zoom={1.4}>
                 <h2 className="text-3xl md:text-5xl font-manrope font-light mb-20 leading-tight text-zinc-200">
-                  A Deployed Software Developer across the{" "}
+                  An{" "}
                   <span className="text-blue-500">
+                    AI/ML &amp; Automation Engineer
+                  </span>{" "}
+                  shipping production systems across the{" "}
+                  <span className="text-purple-500">
                     full software lifecycle
                   </span>
-                  , building data-driven applications powered by{" "}
-                  <span className="text-purple-500">AI capabilities</span>.
+                  .
                 </h2>
               </LazyEffect>
             </Reveal>
 
             <Reveal>
-              <p className="pb-3 border-b border-zinc-800 text-zinc-500 font-manrope mb-10 uppercase tracking-widest text-sm"></p>
+              <p className="pb-3 border-b border-zinc-800 text-zinc-500 font-manrope mb-10 uppercase tracking-widest text-sm">
+                AI/ML · LLMs · Computer Vision · Backend · Automation
+              </p>
             </Reveal>
 
             <div className="grid md:grid-cols-12 gap-8 md:gap-12 lg:gap-16">
@@ -374,84 +507,36 @@ export default function Portfolio() {
                 <div className="text-lg text-zinc-400 font-manrope space-y-6 max-w-[600px]">
                   <Reveal delay={100}>
                     <p>
-                      Deployed Software Developer with experience across the
-                      full software lifecycle, from solution design and
-                      development to deployment and continuous improvement.
-                      Skilled in automation, workflow optimization, backend
-                      development, and API design — with{" "}
-                      <strong className="text-white">NestJS</strong>,{" "}
-                      <strong className="text-white">Spring Boot</strong>,{" "}
-                      <strong className="text-white">React</strong>,{" "}
-                      <strong className="text-white">Angular</strong>, and{" "}
-                      <strong className="text-white">n8n</strong>. Experienced
-                      in AI, machine learning, computer vision, and NLP,
-                      integrating{" "}
-                      <span className="text-blue-400 underline decoration-blue-500/50 hover:text-blue-300">
-                        RAG pipelines
-                      </span>{" "}
-                      and{" "}
-                      <span className="text-purple-400 underline decoration-purple-500/50 hover:text-purple-300">
-                        LLM agents
-                      </span>{" "}
-                      into operational applications.
+                      I design and ship production AI and automation systems —
+                      RAG pipelines, LLM agents, computer vision, NLP, and the
+                      workflows that connect them to real operations. My work
+                      spans backend services, APIs, and the frontends that make
+                      those systems usable, end to end.
                     </p>
                   </Reveal>
                   <Reveal delay={200}>
-                    <h3 className="text-xl font-bold text-white mb-2">
-                      Development Approach
-                    </h3>
-                    <p>
-                      As a fullstack developer, I focus on object-oriented
-                      programming, Test-Driven Development (TDD), and
-                      Domain-Driven Design (DDD). I also work with modern
-                      AI-augmented workflows like{" "}
-                      <strong className="text-white">
-                        Spec-Driven Development (SDD)
-                      </strong>{" "}
-                      and{" "}
-                      <strong className="text-white">
-                        Receipt-Driven Development (RDD)
-                      </strong>
-                      , integrating coding agents through harnesses and
-                      scaffolding to get the most out of the latest LLM
-                      tooling — always framed within a structured workflow.
-                    </p>
-                  </Reveal>
-                  <Reveal delay={300}>
-                    <h3 className="text-xl font-bold text-white mb-2">
-                      Independent Projects
-                    </h3>
-                    <p>
-                      I have built several independent projects involving AI
-                      integration, including chatbots, recommendation systems,
-                      and data analysis tools, proficient to deliver end-to-end
-                      solutions.
-                    </p>
-                  </Reveal>
-                  <Reveal delay={400}>
                     <LazyEffect as={Peel} side="right">
                       <h3 className="text-xl font-bold text-white mb-2">
-                        Technical Stack
+                        What I work with
                       </h3>
                       <p className="text-zinc-300">
+                        Backend in{" "}
+                        <strong className="text-white">TypeScript and Java</strong>{" "}
+                        (NestJS, Spring Boot). Frontends in{" "}
                         <strong className="text-white">
-                          NestJS, Spring Boot & Java
+                          React, Next.js, and Angular
                         </strong>{" "}
-                        for backend development,{" "}
+                        when the product needs it. ML and data in{" "}
+                        <strong className="text-white">Python with PyTorch</strong>
+                        . AI orchestration with{" "}
                         <strong className="text-white">
-                          React, Next.js & Angular
-                        </strong>{" "}
-                        for frontend,{" "}
-                        <strong className="text-white">Python/PyTorch</strong>{" "}
-                        for machine learning,{" "}
+                          LangChain, LangGraph, Mastra, and the Vercel AI SDK
+                        </strong>
+                        . Automation on{" "}
                         <strong className="text-white">
-                          LangChain, LangGraph, Mastra & Vercel AI SDK
-                        </strong>{" "}
-                        for AI integration, and{" "}
-                        <strong className="text-white">
-                          n8n, Make & Zapier
-                        </strong>{" "}
-                        for automation.
+                          n8n, Make, and Zapier
+                        </strong>
+                        .
                       </p>
                     </LazyEffect>
                   </Reveal>
@@ -491,6 +576,7 @@ export default function Portfolio() {
                     {cat.items.map((item, itemIdx) => (
                       <Reveal key={itemIdx} delay={idx * 100 + itemIdx * 50}>
                         <div className="flex items-center gap-2">
+                          {/* eslint-disable-next-line @next/next/no-img-element -- SVG icon, next/image adds no value for inline-sized SVGs */}
                           <img
                             src={item.icon}
                             alt={item.name}
@@ -704,14 +790,20 @@ export default function Portfolio() {
 
         <footer
           id="contact"
-          className="py-32 px-6 md:px-20 text-center bg-[#0a0a0a] text-white border-t border-zinc-900"
+          className="relative py-32 px-6 md:px-20 text-center bg-[#0a0a0a] text-white border-t border-zinc-900 overflow-hidden"
         >
+          <BlackHoleBackground />
+          <div
+            className="relative z-10"
+            style={{ textShadow: "0 2px 20px rgba(0,0,0,0.85)" }}
+          >
           <Reveal>
-            <LazyEffect as={GlyphRain} density={0.3} speed={0.4}>
-              <p className="text-xl font-manrope text-zinc-500 mb-8 tracking-wide">
-                Ready to build intelligent systems?
-              </p>
-            </LazyEffect>
+            <div className="mb-8 flex justify-center">
+              <FlareLogo />
+            </div>
+            <p className="text-xl font-manrope text-zinc-500 mb-8 tracking-wide">
+              Always ready to build!
+            </p>
             <LazyEffect as={Ripple} trigger="click" amplitude={1.2}>
               <a
                 href={SOCIAL_LINKS.email}
@@ -756,6 +848,7 @@ export default function Portfolio() {
               </p>
             </LazyEffect>
           </Reveal>
+          </div>
         </footer>
       </main>
     </div>
