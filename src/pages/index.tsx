@@ -325,7 +325,7 @@ export default function Portfolio() {
               curl={0.4}
               radius={0.15}
             >
-              <div className="relative z-30 container mx-auto h-full flex flex-col lg:flex-row justify-center lg:justify-between items-center lg:items-end gap-12 lg:gap-16 pb-12">
+              <div className="relative z-30 container mx-auto h-full flex flex-col lg:flex-row justify-start lg:justify-between items-center lg:items-end gap-12 lg:gap-16 pb-12">
                 <div className="max-w-full lg:max-w-[800px] space-y-1">
                   <Reveal>
                     <h1
@@ -391,7 +391,7 @@ export default function Portfolio() {
                   <Reveal delay={300}>
                     <div>
                       <h5 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl font-heading font-black text-blue-500 mb-1">
-                        3+
+                        OVER 3+
                       </h5>
                       <p className="text-zinc-500 font-manrope text-xs md:text-sm uppercase tracking-widest">
                         Years Engineering
