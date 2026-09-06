@@ -325,9 +325,9 @@ export default function Portfolio() {
               radius={0.15}
             >
               <div className="relative z-30 container mx-auto h-full flex flex-col lg:flex-row justify-start lg:justify-between items-center lg:items-end gap-12 lg:gap-16 pb-12">
-                <div className="max-w-full lg:max-w-[800px] space-y-1">
+                <div className="w-full lg:max-w-[55%] space-y-1">
                   <Reveal>
-                    <div className="flex items-center gap-2 mb-4">
+                    <div className="flex flex-wrap items-center gap-2 mb-4">
                       <a
                         href={SOCIAL_LINKS.github}
                         target="_blank"
@@ -350,8 +350,11 @@ export default function Portfolio() {
                       </a>
                     </div>
                     <h1
-                      className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-none text-white"
-                      style={{ letterSpacing: "0.02em" }}
+                      className="font-heading font-black leading-none text-white"
+                      style={{
+                        letterSpacing: "0.02em",
+                        fontSize: "clamp(2rem, 8vw, 6rem)",
+                      }}
                     >
                       <span className="text-white">AI/ML &amp; </span>
                       <span className="text-blue-600">Automation</span>
