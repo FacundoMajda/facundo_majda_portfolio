@@ -305,7 +305,7 @@ export default function Portfolio() {
       <main>
         <section
           id="banner"
-          className="relative min-h-screen flex flex-col justify-start pt-20 md:pt-24 px-6 md:px-20 lg:px-24 overflow-hidden"
+          className="relative min-h-screen flex flex-col justify-start px-6 md:px-20 lg:px-24 overflow-hidden"
         >
           <div className="absolute inset-0 z-0 opacity-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 
@@ -324,7 +324,7 @@ export default function Portfolio() {
               curl={0.4}
               radius={0.15}
             >
-              <div className="relative z-30 container mx-auto h-full flex flex-col lg:flex-row justify-start lg:justify-between items-center lg:items-end gap-12 lg:gap-16 pb-12">
+              <div className="relative z-30 container mx-auto h-full flex flex-col lg:flex-row justify-start lg:justify-between items-center lg:items-end gap-12 lg:gap-16 pt-20 md:pt-24 pb-12">
                 <div className="w-full lg:max-w-[55%] space-y-1">
                   <Reveal>
                     <div className="flex flex-wrap items-center gap-2 mb-4">
