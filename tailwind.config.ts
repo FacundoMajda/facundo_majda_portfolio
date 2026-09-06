@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        anton: ["var(--font-anton)", "Impact", "sans-serif"],
+        heading: ["var(--font-space-grotesk)", "sans-serif"],
         manrope: ["var(--font-manrope)", "sans-serif"],
       },
     },

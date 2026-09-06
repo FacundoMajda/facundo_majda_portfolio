@@ -574,7 +574,7 @@ export function Ripple({ children, className, style, ...options }: RippleProps) 
               position: "relative",
               width: "100%",
               height: "100%",
-              overflow: "auto",
+              overflow: "hidden",
             }}
           >
             {children}
@@ -588,7 +588,7 @@ export function Ripple({ children, className, style, ...options }: RippleProps) 
             position: "relative",
             width: "100%",
             height: "100%",
-            overflow: "auto",
+            overflow: "hidden",
           }}
         >
           {children}

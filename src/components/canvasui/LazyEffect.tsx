@@ -26,16 +26,35 @@ export function LazyEffect({
 }: LazyEffectProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(false);
+  const renderCount = useRef(0);
+  renderCount.current += 1;
+  // eslint-disable-next-line no-console -- debug instrumentation
+  console.log(
+    `[clg] LazyEffect render #${renderCount.current} active=${active} rootMargin=${rootMargin}`,
+  );
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // eslint-disable-next-line no-console -- debug instrumentation
+    console.log("[clg] LazyEffect mount, creating observer");
     const observer = new IntersectionObserver(
-      ([entry]) => setActive(entry.isIntersecting),
-      { rootMargin }
+      ([entry]) => {
+        // eslint-disable-next-line no-console -- debug instrumentation
+        console.log(
+          "[clg] LazyEffect intersection isIntersecting=",
+          entry.isIntersecting,
+        );
+        setActive(entry.isIntersecting);
+      },
+      { rootMargin },
     );
     observer.observe(el);
-    return () => observer.disconnect();
+    return () => {
+      // eslint-disable-next-line no-console -- debug instrumentation
+      console.log("[clg] LazyEffect cleanup");
+      observer.disconnect();
+    };
   }, [rootMargin]);
 
   return (

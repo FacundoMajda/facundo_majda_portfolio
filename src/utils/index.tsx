@@ -19,7 +19,8 @@ export const useOnScreen = (options: IntersectionObserverInit) => {
       observer.unobserve(node);
       observer.disconnect();
     };
-  }, [options]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- options intentionally captured on mount only; changing them would re-fire the observer and re-trigger setState, causing an infinite render loop in callers (e.g. <Reveal>) that pass a fresh options object each render.
+  }, []);
 
   return { ref, isVisible };
 };
