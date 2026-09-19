@@ -10,7 +10,6 @@ import { Grid } from "@/components/canvasui/Grid";
 import { GlyphRain } from "@/components/canvasui/GlyphRain";
 import { LazyEffect } from "@/components/canvasui/LazyEffect";
 import { Liquid } from "@/components/canvasui/Liquid";
-import { ParticleReveal } from "@/components/canvasui/ParticleReveal";
 import { Peel } from "@/components/canvasui/Peel";
 import { Ripple } from "@/components/canvasui/Ripple";
 import { VHS } from "@/components/canvasui/VHS";
@@ -22,7 +21,6 @@ import {
   EDUCATION,
   EXPERIENCE,
   MENU_ITEMS,
-  PROJECTS,
   SOCIAL_LINKS,
   STACK_CATEGORIES,
 } from "@/config/profile";
@@ -742,71 +740,6 @@ export default function Portfolio() {
                     <p className="text-zinc-500 font-manrope max-w-2xl leading-relaxed">
                       {job.desc}
                     </p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="projects" className="py-32 px-6 md:px-20 bg-[#050505]">
-          <div className="container mx-auto">
-            <Reveal>
-              <LazyEffect as={ParticleReveal} background="#050505" radius={220}>
-                <h2 className="text-3xl font-heading font-black uppercase mb-16 text-zinc-300">
-                  Featured Projects
-                </h2>
-              </LazyEffect>
-            </Reveal>
-
-            <div className="flex flex-col">
-              {PROJECTS.map((project, index) => (
-                <Reveal key={index} delay={index * 100} className="w-full">
-                  <div className="group block text-left w-full py-12 border-t border-zinc-800 last:border-b relative overflow-hidden transition-all hover:bg-zinc-900/30">
-                    <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-12 relative z-10">
-                      <span className="font-heading text-zinc-700 text-2xl">
-                        0{index + 1}
-                      </span>
-
-                      <div className="flex-1">
-                        <p className="text-xs font-bold text-blue-500 mb-2 uppercase tracking-widest">
-                          {project.category}
-                        </p>
-                        <h4 className="font-heading text-4xl md:text-6xl font-black uppercase text-zinc-300 group-hover:text-white transition-colors duration-300">
-                          {project.title}
-                        </h4>
-                      </div>
-
-                      <div className="md:text-right md:pr-8">
-                        <div className="flex flex-wrap md:justify-end gap-3 mb-4">
-                          {project.tech.map((t, i) => (
-                            <span
-                              key={i}
-                              className="text-zinc-500 text-xs font-manrope border border-zinc-800 rounded-full px-3 py-1"
-                            >
-                              {t}
-                            </span>
-                          ))}
-                        </div>
-                        <p className="text-zinc-300 font-manrope text-sm mt-2 mb-6 leading-relaxed text-left">
-                          {project.desc}
-                        </p>
-                        <div className="flex items-center gap-2 text-zinc-500 group-hover:text-blue-400 transition-colors text-sm font-manrope uppercase tracking-wider">
-                          <div className="flex items-center gap-4">
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setSelectedProject(project);
-                              }}
-                              className="flex items-center gap-2 text-blue-400 hover:underline"
-                            >
-                              View Case Study{" "}
-                              <ArrowUpRight className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </Reveal>
               ))}

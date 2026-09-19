@@ -28,7 +28,6 @@ export const MENU_ITEMS: MenuItem[] = [
   { name: "Expertise", href: "#stack", color: "bg-emerald-500" },
   { name: "Education", href: "#education", color: "bg-yellow-500" },
   { name: "Experience", href: "#experience", color: "bg-pink-500" },
-  { name: "Projects", href: "#projects", color: "bg-indigo-500" },
 ];
 
 export const EDUCATION: EducationItem[] = [
