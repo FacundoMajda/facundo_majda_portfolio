@@ -16,14 +16,16 @@ import { VHS } from "@/components/canvasui/VHS";
 import { BlackHoleBackground } from "@/components/vgpu/BlackHoleBackground";
 import { FlareLogo } from "@/components/vgpu/FlareLogo";
 import ProjectModal from "@/components/ProjectModal";
-import { ProjectItem } from "@/types";
+import type { ProjectItem } from "@/types";
+import { db } from "@/db";
 import {
-  EDUCATION,
-  EXPERIENCE,
-  MENU_ITEMS,
-  SOCIAL_LINKS,
-  STACK_CATEGORIES,
-} from "@/config/profile";
+  profile,
+  socialLink,
+  techTag,
+  experience,
+  education,
+} from "@/db/schema";
+import { asc, desc, isNotNull, sql } from "drizzle-orm";
 import { manrope, spaceGrotesk } from "@/styles/fonts";
 import { Reveal } from "@/utils";
 
@@ -52,15 +54,180 @@ const SpinningBrain = () => (
   </svg>
 );
 
-export default function Portfolio() {
+const MONTH_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+function fmtMonth(date: Date) {
+  return `${MONTH_SHORT[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
+}
+
+function fmtYear(date: Date) {
+  return String(date.getUTCFullYear());
+}
+
+function fmtRange(start: string, end: string | null, isCurrent: boolean) {
+  const startDate = new Date(start);
+  const endDate = end ? new Date(end) : null;
+  const startMonth = fmtMonth(startDate);
+  const startYear = fmtYear(startDate);
+  if (!endDate) {
+    if (isCurrent) return `${startMonth} — Present`;
+    return `${startMonth} —`;
+  }
+  const endMonth = fmtMonth(endDate);
+  const endYear = fmtYear(endDate);
+  if (startMonth === endMonth && startYear === endYear) return startMonth;
+  if (startYear === endYear) return `${startMonth} — ${endMonth} ${endYear}`;
+  return `${startMonth} ${startYear} — ${endMonth} ${endYear}`;
+}
+
+const MENU_ITEMS: { name: string; href: string; color: string }[] = [
+  { name: "Home", href: "#banner", color: "bg-blue-500" },
+  { name: "About Me", href: "#about-me", color: "bg-purple-500" },
+  { name: "Expertise", href: "#stack", color: "bg-emerald-500" },
+  { name: "Education", href: "#education", color: "bg-yellow-500" },
+  { name: "Experience", href: "#experience", color: "bg-pink-500" },
+];
+
+type SocialLinkRow = { platform: string; url: string };
+type TechTagRow = {
+  name: string;
+  category: string;
+  iconUrl: string | null;
+  featured: boolean;
+  order: number;
+};
+type ExperienceRow = {
+  company: string;
+  link: string | null;
+  role: string;
+  startDate: string;
+  endDate: string | null;
+  description: string;
+  isCurrent: boolean;
+  order: number;
+};
+type EducationRow = {
+  institution: string;
+  link: string | null;
+  degree: string;
+  startDate: string;
+  endDate: string | null;
+  description: string;
+  order: number;
+};
+type ProfileRow = {
+  heroTitle: string;
+  heroTagline: string;
+  aboutText: string;
+  statusLine: string;
+  yearsExp: number;
+  contactEmail: string;
+  seoTitle: string;
+  seoDescription: string;
+  seoUrl: string;
+};
+
+export async function getServerSideProps() {
+  const profileRows = await db
+    .select({
+      heroTitle: profile.heroTitle,
+      heroTagline: profile.heroTagline,
+      aboutText: profile.aboutText,
+      statusLine: profile.statusLine,
+      yearsExp: profile.yearsExp,
+      contactEmail: profile.contactEmail,
+      seoTitle: profile.seoTitle,
+      seoDescription: profile.seoDescription,
+      seoUrl: profile.seoUrl,
+    })
+    .from(profile)
+    .limit(1);
+  const profileRow = profileRows[0] as ProfileRow | undefined;
+
+  const socialRows = await db
+    .select()
+    .from(socialLink)
+    .orderBy(asc(socialLink.order));
+
+  const techRows = await db
+    .select()
+    .from(techTag)
+    .where(isNotNull(techTag.iconUrl))
+    .orderBy(asc(techTag.category), asc(techTag.order));
+
+  const expRows = await db
+    .select()
+    .from(experience)
+    .orderBy(
+      desc(sql`coalesce(${experience.endDate}, ${experience.startDate})`),
+      asc(experience.order),
+    );
+
+  const eduRows = await db.select().from(education).orderBy(asc(education.order));
+
+  return {
+    props: {
+      profile: profileRow ?? null,
+      socials: socialRows as SocialLinkRow[],
+      techs: techRows as TechTagRow[],
+      experiences: expRows.map((r) => ({ ...r, startDate: r.startDate.toISOString(), endDate: r.endDate ? r.endDate.toISOString() : null })) as unknown as ExperienceRow[],
+      educations: eduRows.map((r) => ({ ...r, startDate: r.startDate.toISOString(), endDate: r.endDate ? r.endDate.toISOString() : null })) as unknown as EducationRow[],
+    },
+  };
+}
+
+export default function Portfolio({
+  profile,
+  socials,
+  techs,
+  experiences,
+  educations,
+}: {
+  profile: ProfileRow | null;
+  socials: SocialLinkRow[];
+  techs: TechTagRow[];
+  experiences: ExperienceRow[];
+  educations: EducationRow[];
+}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(
-    null
+  const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
+
+  const SOCIAL = Object.fromEntries(socials.map((s) => [s.platform, s.url]));
+
+  const STACK_CATEGORIES = techs.reduce<{ name: string; items: { name: string; icon: string }[] }[]>(
+    (acc, t) => {
+      const last = acc[acc.length - 1];
+      if (!last || last.name !== t.category) {
+        acc.push({ name: t.category, items: [{ name: t.name, icon: t.iconUrl ?? "" }] });
+      } else {
+        last.items.push({ name: t.name, icon: t.iconUrl ?? "" });
+      }
+      return acc;
+    },
+    [],
   );
-  const seoTitle = "Facundo Majda — AI/ML & Automation Engineer";
+
+  const EDUCATION = educations.map((e) => ({
+    institution: e.institution,
+    link: e.link,
+    degree: e.degree,
+    date: e.endDate ? fmtRange(e.startDate, e.endDate, false) : fmtRange(e.startDate, null, true),
+    desc: e.description,
+  }));
+
+  const EXPERIENCE = experiences.map((j) => ({
+    company: j.company,
+    link: j.link,
+    role: j.role,
+    date: fmtRange(j.startDate, j.endDate, j.isCurrent),
+    desc: j.description,
+  }));
+
+  const seoTitle = profile?.seoTitle ?? "Facundo Majda — AI/ML & Automation Engineer";
   const seoDescription =
+    profile?.seoDescription ??
     "AI/ML & Automation Engineer. I design and ship production AI systems — RAG pipelines, LLM agents, computer vision, and the backend that holds them up.";
-  const seoUrl = "https://facundomajda.dev";
+  const seoUrl = profile?.seoUrl ?? "https://facundomajda.dev";
   const ogImage = `${seoUrl}/icons/og.svg`;
   const personJsonLd = {
     "@context": "https://schema.org",
@@ -68,7 +235,7 @@ export default function Portfolio() {
     name: "Facundo Majda",
     jobTitle: "AI/ML & Automation Engineer",
     url: seoUrl,
-    email: "mailto:facundomajda13@gmail.com",
+    email: profile?.contactEmail ? `mailto:${profile.contactEmail}` : undefined,
     description: seoDescription,
     knowsAbout: [
       "Artificial Intelligence",
@@ -80,7 +247,7 @@ export default function Portfolio() {
       "Backend Development",
     ],
     knowsLanguage: ["en", "es"],
-    sameAs: ["https://www.upwork.com/freelancers/~014f767f0225d54d8e"],
+    sameAs: [SOCIAL.upwork].filter(Boolean),
   };
   const websiteJsonLd = {
     "@context": "https://schema.org",
@@ -256,36 +423,20 @@ export default function Portfolio() {
                 SOCIAL
               </p>
               <ul className="space-y-2 font-manrope text-xl text-zinc-300">
-                <li>
-                  <a
-                    href={SOCIAL_LINKS.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-blue-400 hover:underline transition-colors"
-                  >
-                    Github
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={SOCIAL_LINKS.linkedin}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-blue-400 hover:underline transition-colors"
-                  >
-                    LinkedIn
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={SOCIAL_LINKS.upwork}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-green-400 hover:underline transition-colors"
-                  >
-                    Upwork
-                  </a>
-                </li>
+                {socials
+                  .filter((s) => s.platform !== "email")
+                  .map((s) => (
+                    <li key={s.platform}>
+                      <a
+                        href={s.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="hover:text-blue-400 hover:underline transition-colors capitalize"
+                      >
+                        {s.platform}
+                      </a>
+                    </li>
+                  ))}
               </ul>
             </div>
           </LazyEffect>
@@ -294,7 +445,7 @@ export default function Portfolio() {
               CONTACT
             </p>
             <p className="font-manrope text-lg text-zinc-300">
-              Available for remote engineering roles and selected projects
+              {profile?.statusLine ?? "Available for remote engineering roles and selected projects"}
             </p>
           </div>
         </div>
@@ -326,26 +477,30 @@ export default function Portfolio() {
                 <div className="w-full lg:max-w-[55%] space-y-1">
                   <Reveal>
                     <div className="flex flex-wrap items-center gap-2 mb-4">
-                      <a
-                        href={SOCIAL_LINKS.github}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg border border-zinc-700 text-zinc-300 text-sm font-medium hover:bg-zinc-800/50 hover:border-zinc-600 transition-colors"
-                      >
-                        <Github className="w-4 h-4" />
-                        GitHub
-                        <ArrowUpRight className="w-3 h-3 text-zinc-500" />
-                      </a>
-                      <a
-                        href={SOCIAL_LINKS.linkedin}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg border border-zinc-700 text-zinc-300 text-sm font-medium hover:bg-zinc-800/50 hover:border-zinc-600 transition-colors"
-                      >
-                        <Linkedin className="w-4 h-4" />
-                        LinkedIn
-                        <ArrowUpRight className="w-3 h-3 text-zinc-500" />
-                      </a>
+                      {SOCIAL.github && (
+                        <a
+                          href={SOCIAL.github}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg border border-zinc-700 text-zinc-300 text-sm font-medium hover:bg-zinc-800/50 hover:border-zinc-600 transition-colors"
+                        >
+                          <Github className="w-4 h-4" />
+                          GitHub
+                          <ArrowUpRight className="w-3 h-3 text-zinc-500" />
+                        </a>
+                      )}
+                      {SOCIAL.linkedin && (
+                        <a
+                          href={SOCIAL.linkedin}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg border border-zinc-700 text-zinc-300 text-sm font-medium hover:bg-zinc-800/50 hover:border-zinc-600 transition-colors"
+                        >
+                          <Linkedin className="w-4 h-4" />
+                          LinkedIn
+                          <ArrowUpRight className="w-3 h-3 text-zinc-500" />
+                        </a>
+                      )}
                     </div>
                     <h1
                       className="font-heading font-black leading-none text-white"
@@ -370,10 +525,9 @@ export default function Portfolio() {
                         <span className="font-bold text-white">Facundo Majda</span>
                       </span>
                       <span className="text-base sm:text-lg md:text-xl block mt-2">
-                        I design and ship production AI systems — RAG pipelines,
-                        LLM agents, computer vision, and the{" "}
+                        {profile?.heroTitle ?? "I design and ship production AI systems"} —{" "}
                         <span className="text-blue-500">
-                          backend that holds them up
+                          RAG pipelines, LLM agents, and the backend that holds them up
                         </span>
                         .
                       </span>
@@ -390,20 +544,8 @@ export default function Portfolio() {
                       }}
                     >
                       <div className="marquee whitespace-nowrap text-xs sm:text-sm md:text-base text-zinc-300 font-manrope">
-                        <span className="font-bold text-white">
-                          SWE | Data & AI-Driven Apps | FDE
-                        </span>{" "}
-                        | Full-Stack + Automation | LangChain · LangGraph ·
-                        Mastra · AI SDK · MCP | Python · TypeScript · Java · Rust
-                        | NestJS · Spring Boot · FastAPI · Flask | React ·
-                        Next.js · Angular | n8n · Make · Zapier{" "}
-                        <span className="font-bold text-white">
-                          SWE | Data & AI-Driven Apps | FDE
-                        </span>{" "}
-                        | Full-Stack + Automation | LangChain · LangGraph ·
-                        Mastra · AI SDK · MCP | Python · TypeScript · Java · Rust
-                        | NestJS · Spring Boot · FastAPI · Flask | React ·
-                        Next.js · Angular | n8n · Make · Zapier
+                        {profile?.heroTagline ?? "SWE | Data & AI-Driven Apps | FDE | Full-Stack + Automation"}{" "}
+                        {profile?.heroTagline ?? "SWE | Data & AI-Driven Apps | FDE | Full-Stack + Automation"}
                       </div>
                     </div>
                   </Reveal>
@@ -413,7 +555,7 @@ export default function Portfolio() {
                   <Reveal delay={300}>
                     <div>
                       <h5 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl font-heading font-black text-blue-500 mb-1">
-                        OVER 3+
+                        OVER {profile?.yearsExp ?? 3}+
                       </h5>
                       <p className="text-zinc-500 font-manrope text-xs md:text-sm uppercase tracking-widest">
                         Years Engineering
@@ -472,11 +614,8 @@ export default function Portfolio() {
                 <div className="text-lg text-zinc-400 font-manrope space-y-6 max-w-[600px]">
                   <Reveal delay={100}>
                     <p>
-                      I design and ship production AI and automation systems —
-                      RAG pipelines, LLM agents, computer vision, NLP, and the
-                      workflows that connect them to real operations. My work
-                      spans backend services, APIs, and the frontends that
-                      make those systems usable, end to end.
+                      {profile?.aboutText ??
+                        "I design and ship production AI and automation systems — RAG pipelines, LLM agents, computer vision, NLP, and the workflows that connect them to real operations. My work spans backend services, APIs, and the frontends that make those systems usable, end to end."}
                     </p>
                   </Reveal>
                   <Reveal delay={200}>
@@ -606,7 +745,7 @@ export default function Portfolio() {
             <div className="space-y-12 md:space-y-16">
               {STACK_CATEGORIES.map((cat, idx) => (
                 <div
-                  key={idx}
+                  key={cat.name}
                   className="grid lg:grid-cols-12 gap-y-6 md:gap-y-8 border-b border-zinc-900 pb-10 md:pb-12 last:border-0"
                 >
                   <div className="lg:col-span-5">
@@ -619,7 +758,7 @@ export default function Portfolio() {
                   <div className="lg:col-span-7 flex flex-wrap gap-x-6 gap-y-3">
                     {cat.items.map((item, itemIdx) => (
                       <Reveal
-                        key={itemIdx}
+                        key={item.name}
                         delay={idx * 100 + itemIdx * 50}
                       >
                         <div className="flex items-center gap-2">
@@ -627,11 +766,7 @@ export default function Portfolio() {
                           <img
                             src={item.icon}
                             alt={item.name}
-                            className={`w-5 h-5 ${
-                              item.iconBg
-                                ? `${item.iconBg} rounded-sm p-0.5`
-                                : ""
-                            }`}
+                            className="w-5 h-5"
                           />
                           <span className="text-sm md:text-base font-heading font-normal text-zinc-400 hover:text-white transition-colors cursor-default">
                             {item.name}
@@ -676,14 +811,18 @@ export default function Portfolio() {
                       {edu.degree}
                     </h3>
                     <p className="text-xl text-zinc-400 font-manrope mb-4">
-                      <a
-                        href="https://www.ipf.edu.ar/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-blue-400 transition-colors"
-                      >
-                        {edu.institution}
-                      </a>
+                      {edu.link ? (
+                        <a
+                          href={edu.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-blue-400 transition-colors"
+                        >
+                          {edu.institution}
+                        </a>
+                      ) : (
+                        edu.institution
+                      )}
                     </p>
                     <p className="text-zinc-500 font-manrope max-w-2xl leading-relaxed">
                       {edu.desc}
@@ -765,7 +904,7 @@ export default function Portfolio() {
               </p>
               <LazyEffect as={Ripple} trigger="click" amplitude={1.2}>
                 <a
-                  href={SOCIAL_LINKS.email}
+                  href={SOCIAL.email ?? `mailto:${profile?.contactEmail ?? ""}`}
                   className="inline-block py-4 font-heading text-[8vw] md:text-7xl font-black hover:text-blue-500 transition-colors leading-tight text-zinc-100"
                 >
                   LETS TALK
@@ -774,30 +913,19 @@ export default function Portfolio() {
 
               <LazyEffect as={Bend} zone={24}>
                 <div className="flex flex-wrap justify-center gap-8 mt-16 font-manrope text-lg text-zinc-500">
-                  <a
-                    href={SOCIAL_LINKS.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-white hover:underline transition-colors"
-                  >
-                    GitHub
-                  </a>
-                  <a
-                    href={SOCIAL_LINKS.linkedin}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-white hover:underline transition-colors"
-                  >
-                    LinkedIn
-                  </a>
-                  <a
-                    href={SOCIAL_LINKS.upwork}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-white hover:underline transition-colors"
-                  >
-                    Upwork
-                  </a>
+                  {socials
+                    .filter((s) => s.platform !== "email")
+                    .map((s) => (
+                      <a
+                        key={s.platform}
+                        href={s.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="hover:text-white hover:underline transition-colors capitalize"
+                      >
+                        {s.platform}
+                      </a>
+                    ))}
                 </div>
               </LazyEffect>
 

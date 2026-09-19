@@ -1,12 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export",
+  // Static export removed: now using SSR with Node.js server
+  // (required for /api routes, Better Auth, and proxy.ts).
+  // Deploy to Vercel, Railway, Fly.io, or any Node.js host.
   reactStrictMode: true,
   compress: true,
   poweredByHeader: false,
   images: {
-    unoptimized: true,
     formats: ["image/avif", "image/webp"],
   },
   webpack(config, { dev }) {
@@ -29,8 +30,6 @@ const nextConfig: NextConfig = {
     }
     return config;
   },
-  // Note: with `output: "export"`, `headers()` is ignored. Configure caching at the
-  // hosting edge (Vercel, Cloudflare, Netlify) for `/_next/static/*` and `/icons/*`.
 };
 
 export default nextConfig;

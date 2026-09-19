@@ -42,4 +42,8 @@ session.log
 *.tsbuildinfo
 next-env.d.ts
 
-.vercel
+# IDE / agent state
+.atl/
+
+# Local admin credentials (if ever used as fallback)
+/.admin-credentials.local.txt
