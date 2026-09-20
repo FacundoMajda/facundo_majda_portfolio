@@ -2,12 +2,12 @@ import { db } from "@/db";
 import { techTag } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { auth } from "@/lib/auth";
+import { getAdminSession, isAdminEmail } from "@/lib/admin-session";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const cookieHeader = req.headers.cookie;
-const session = await auth.getSession({ fetchOptions: { headers: new Headers({ cookie: cookieHeader ?? "" }) } });
-  if (!session) {
+const sessionUser = await getAdminSession(cookieHeader);
+  if (!isAdminEmail(sessionUser?.email)) {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }

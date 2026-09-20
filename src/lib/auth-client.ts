@@ -5,13 +5,13 @@
 
 const NEON_AUTH_BASE_URL = process.env.NEXT_PUBLIC_NEON_AUTH_BASE_URL ?? "";
 
-type MagicLinkResult = { error: { message: string } | null };
+type SignInResult = { error: { message: string } | null };
 
-async function postMagicLink(email: string, callbackURL: string): Promise<MagicLinkResult> {
-  const res = await fetch(`${NEON_AUTH_BASE_URL}/sign-in/magic-link`, {
+async function postSignInEmail(email: string, password: string): Promise<SignInResult> {
+  const res = await fetch(`${NEON_AUTH_BASE_URL}/sign-in/email`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, callbackURL }),
+    body: JSON.stringify({ email, password }),
     credentials: "include",
   });
   if (res.ok) return { error: null };
@@ -24,7 +24,7 @@ async function postMagicLink(email: string, callbackURL: string): Promise<MagicL
   const message =
     payload && typeof payload === "object" && "message" in payload && typeof (payload as { message: unknown }).message === "string"
       ? (payload as { message: string }).message
-      : `Failed to send link (HTTP ${res.status})`;
+      : `Sign-in failed (HTTP ${res.status})`;
   return { error: { message } };
 }
 
@@ -36,6 +36,6 @@ async function postSignOut(): Promise<void> {
 }
 
 export const authClient = {
-  signIn: { magicLink: postMagicLink },
+  signIn: { email: postSignInEmail },
   signOut: postSignOut,
 };
