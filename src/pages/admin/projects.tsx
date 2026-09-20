@@ -11,6 +11,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Plus, Briefcase, Star, Eye, EyeOff } from "lucide-react";
 import { db } from "@/db";
 import { project, techTag } from "@/db/schema";
@@ -396,24 +405,14 @@ function EditDialog({
   onClose: () => void;
 }) {
   return (
-    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-neutral-950 border border-neutral-800 rounded-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-neutral-950 border-b border-neutral-800 px-6 py-4 flex items-center justify-between z-10">
-          <h2 className="text-lg font-semibold text-white">
-            {editing ? `Edit · ${editing.title}` : "New project"}
-          </h2>
-          <button
-            type="button"
-            onClick={onClose}
-            className="text-neutral-400 hover:text-white"
-            aria-label="Close"
-          >
-            ×
-          </button>
-        </div>
+    <Dialog open onOpenChange={(open) => { if (!open) onClose(); }}>
+      <DialogContent className="max-w-4xl">
+        <DialogHeader>
+          <DialogTitle>{editing ? `Edit · ${editing.title}` : "New project"}</DialogTitle>
+        </DialogHeader>
         <div className="px-6 py-5 grid grid-cols-3 gap-4">
           <div className="col-span-2">
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Title</label>
+            <Label>Title</Label>
             <Input
               value={draft.title}
               onChange={(e) => {
@@ -427,7 +426,7 @@ function EditDialog({
             />
           </div>
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Slug</label>
+            <Label>Slug</Label>
             <Input
               value={draft.slug}
               onChange={(e) => setDraft({ ...draft, slug: e.target.value })}
@@ -435,7 +434,7 @@ function EditDialog({
             />
           </div>
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Category</label>
+            <Label>Category</Label>
             <Input
               value={draft.category ?? ""}
               onChange={(e) => setDraft({ ...draft, category: e.target.value })}
@@ -443,7 +442,7 @@ function EditDialog({
             />
           </div>
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Color gradient</label>
+            <Label>Color gradient</Label>
             <Input
               value={draft.color ?? ""}
               onChange={(e) => setDraft({ ...draft, color: e.target.value })}
@@ -452,7 +451,7 @@ function EditDialog({
             />
           </div>
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Order</label>
+            <Label>Order</Label>
             <Input
               type="number"
               value={draft.order}
@@ -460,9 +459,7 @@ function EditDialog({
             />
           </div>
           <div className="col-span-3">
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">
-              Tech stack ({draft.tech.length})
-            </label>
+            <Label>Tech stack ({draft.tech.length})</Label>
             <div className="flex flex-wrap gap-2 p-3 bg-neutral-900 border border-neutral-800 rounded-md min-h-[3rem]">
               {draft.tech.map((t) => (
                 <button
@@ -495,39 +492,38 @@ function EditDialog({
             </div>
           </div>
           <div className="col-span-3">
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Short description</label>
-            <textarea
+            <Label>Short description</Label>
+            <Textarea
               rows={2}
               value={draft.shortDesc}
               onChange={(e) => setDraft({ ...draft, shortDesc: e.target.value })}
-              className="w-full px-3 py-2 bg-neutral-900 border border-neutral-800 rounded-md text-white text-sm"
             />
           </div>
           <div className="col-span-3">
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Long description (Markdown)</label>
-            <textarea
+            <Label>Long description (Markdown)</Label>
+            <Textarea
               rows={6}
               value={draft.longDesc}
               onChange={(e) => setDraft({ ...draft, longDesc: e.target.value })}
-              className="w-full px-3 py-2 bg-neutral-900 border border-neutral-800 rounded-md text-white font-mono text-sm"
+              className="font-mono"
             />
           </div>
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Repo URL</label>
+            <Label>Repo URL</Label>
             <Input
               value={draft.repoUrl ?? ""}
               onChange={(e) => setDraft({ ...draft, repoUrl: e.target.value })}
             />
           </div>
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Case study URL</label>
+            <Label>Case study URL</Label>
             <Input
               value={draft.caseStudyUrl ?? ""}
               onChange={(e) => setDraft({ ...draft, caseStudyUrl: e.target.value })}
             />
           </div>
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Status</label>
+            <Label>Status</Label>
             <div className="flex items-center gap-3 h-9">
               <label className="flex items-center gap-2 text-sm text-neutral-300">
                 <input
@@ -545,7 +541,7 @@ function EditDialog({
             </div>
           </div>
           <div className="col-span-3">
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Flags</label>
+            <Label>Flags</Label>
             <div className="flex items-center gap-4 h-9">
               <label className="flex items-center gap-2 text-sm text-neutral-300">
                 <Checkbox
@@ -564,30 +560,28 @@ function EditDialog({
             </div>
           </div>
           <div className="col-span-3">
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">
-              Images ({draft.images.length})
-            </label>
+            <Label>Images ({draft.images.length})</Label>
             <ImagesEditor
               value={draft.images}
               onChange={(images) => setDraft({ ...draft, images })}
             />
           </div>
           <div className="col-span-3">
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Metrics (key → value)</label>
+            <Label>Metrics (key → value)</Label>
             <MetricsEditor
               value={draft.metrics ?? {}}
               onChange={(m) => setDraft({ ...draft, metrics: Object.keys(m).length === 0 ? null : m })}
             />
           </div>
         </div>
-        <div className="sticky bottom-0 bg-neutral-950 border-t border-neutral-800 px-6 py-4 flex justify-end gap-2">
+        <DialogFooter>
           <Button variant="ghost" onClick={onClose}>
             Cancel
           </Button>
           <Button onClick={onSave}>{editing ? "Save changes" : "Create project"}</Button>
-        </div>
-      </div>
-    </div>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
 

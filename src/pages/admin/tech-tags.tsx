@@ -11,6 +11,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
+import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import { Plus, Star, StarOff } from "lucide-react";
 import { db } from "@/db";
 import { techTag } from "@/db/schema";
@@ -216,31 +231,31 @@ function EditDialog({
   onClose: () => void;
 }) {
   return (
-    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-neutral-950 border border-neutral-800 rounded-xl w-full max-w-md">
-        <div className="border-b border-neutral-800 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-white">{editing ? "Edit tag" : "New tag"}</h2>
-          <button type="button" onClick={onClose} className="text-neutral-400 hover:text-white text-2xl leading-none">×</button>
-        </div>
+    <Dialog open onOpenChange={(open) => { if (!open) onClose(); }}>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle>{editing ? "Edit tag" : "New tag"}</DialogTitle>
+        </DialogHeader>
         <div className="px-6 py-5 space-y-4">
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Name</label>
+            <Label>Name</Label>
             <Input value={draft.name} onChange={(e) => setDraft({ ...draft, name: e.target.value })} />
           </div>
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Category</label>
-            <select
-              value={draft.category}
-              onChange={(e) => setDraft({ ...draft, category: e.target.value })}
-              className="w-full h-9 px-3 bg-neutral-900 border border-neutral-800 rounded-md text-white text-sm"
-            >
-              {CATEGORIES.map((c) => (
-                <option key={c} value={c}>{c}</option>
-              ))}
-            </select>
+            <Label>Category</Label>
+            <Select value={draft.category} onValueChange={(v) => setDraft({ ...draft, category: v })}>
+              <SelectTrigger aria-label="Category">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {CATEGORIES.map((c) => (
+                  <SelectItem key={c} value={c}>{c}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Icon URL</label>
+            <Label>Icon URL</Label>
             <div className="flex gap-2 items-center">
               {draft.iconUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -261,7 +276,7 @@ function EditDialog({
             </div>
           </div>
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Order</label>
+            <Label>Order</Label>
             <Input type="number" value={draft.order} onChange={(e) => setDraft({ ...draft, order: Number(e.target.value) })} />
           </div>
           <label className="flex items-center gap-2 text-sm text-neutral-300">
@@ -269,11 +284,11 @@ function EditDialog({
             Featured (shown on portfolio)
           </label>
         </div>
-        <div className="border-t border-neutral-800 px-6 py-4 flex justify-end gap-2">
+        <DialogFooter>
           <Button variant="ghost" onClick={onClose}>Cancel</Button>
           <Button onClick={onSave}>{editing ? "Save changes" : "Create tag"}</Button>
-        </div>
-      </div>
-    </div>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

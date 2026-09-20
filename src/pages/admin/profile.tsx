@@ -20,7 +20,21 @@ type ProfileRow = {
 };
 
 export async function getServerSideProps() {
-  const rows = await db.select().from(profile).where(eq(profile.id, "singleton")).limit(1);
+  const rows = await db
+    .select({
+      heroTitle: profile.heroTitle,
+      heroTagline: profile.heroTagline,
+      aboutText: profile.aboutText,
+      statusLine: profile.statusLine,
+      yearsExp: profile.yearsExp,
+      contactEmail: profile.contactEmail,
+      seoTitle: profile.seoTitle,
+      seoDescription: profile.seoDescription,
+      seoUrl: profile.seoUrl,
+    })
+    .from(profile)
+    .where(eq(profile.id, "singleton"))
+    .limit(1);
   const row: ProfileRow =
     rows.length > 0
       ? (rows[0] as ProfileRow)
