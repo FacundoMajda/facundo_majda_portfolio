@@ -16,10 +16,7 @@ export default function AdminLogin() {
     setError(null);
     setLoading(true);
     try {
-      const { error: err } = await authClient.signIn.magicLink({
-        email,
-        callbackURL: "/admin",
-      });
+      const { error: err } = await authClient.signIn.magicLink(email, "/admin");
       if (err) {
         setError(err.message ?? "Failed to send link");
         return;

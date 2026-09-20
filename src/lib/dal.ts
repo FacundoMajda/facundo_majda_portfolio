@@ -104,11 +104,11 @@ export const getWritingEntries = unstable_cache(
 
 export async function revalidateAll() {
   const { revalidateTag } = await import("next/cache");
-  revalidateTag("profile");
-  revalidateTag("social-links");
-  revalidateTag("tech-tags");
-  revalidateTag("experience");
-  revalidateTag("education");
-  revalidateTag("projects");
-  revalidateTag("writing");
+  revalidateTag("profile", "max");
+  revalidateTag("social-links", "max");
+  revalidateTag("tech-tags", "max");
+  revalidateTag("experience", "max");
+  revalidateTag("education", "max");
+  revalidateTag("projects", "max");
+  revalidateTag("writing", "max");
 }

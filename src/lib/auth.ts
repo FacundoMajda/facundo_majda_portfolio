@@ -1,8 +1,18 @@
-import { createAuthServer } from "@neondatabase/auth/server";
+import { createNeonAuth } from "@neondatabase/auth/next/server";
 
-export const auth = createAuthServer({
-  baseUrl: process.env.NEON_AUTH_BASE_URL ?? "https://ep-bitter-cake-acpaue5w.neonauth.sa-east-1.aws.neon.tech/neondb/auth",
+const baseUrl = process.env.NEON_AUTH_BASE_URL;
+if (!baseUrl) {
+  throw new Error("NEON_AUTH_BASE_URL is not set");
+}
+
+const cookieSecret = process.env.NEON_AUTH_COOKIE_SECRET;
+if (!cookieSecret) {
+  throw new Error("NEON_AUTH_COOKIE_SECRET is not set");
+}
+
+export const auth = createNeonAuth({
+  baseUrl,
   cookies: {
-    secret: process.env.NEON_AUTH_COOKIE_SECRET ?? "fallback-dev-secret-change-in-prod-min-32-chars",
+    secret: cookieSecret,
   },
 });
