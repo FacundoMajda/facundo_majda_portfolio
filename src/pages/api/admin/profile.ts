@@ -2,6 +2,7 @@ import { db } from "@/db";
 import { profile } from "@/db/schema";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getAdminSession, isAdminEmail } from "@/lib/admin-session";
+import { revalidateAll } from "@/lib/dal";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
@@ -47,6 +48,7 @@ const sessionUser = await getAdminSession(cookieHeader);
       target: profile.id,
       set: { ...data, id: undefined },
     });
+    await revalidateAll();
     res.status(200).json({ ok: true });
   } catch (e) {
     res.status(500).json({ error: e instanceof Error ? e.message : "Unknown error" });

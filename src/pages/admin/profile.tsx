@@ -4,7 +4,6 @@ import { AdminLayout } from "@/components/admin/AdminLayout";
 import { db } from "@/db";
 import { profile } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { revalidateAll } from "@/lib/dal";
 import { CheckCircle2, Save } from "lucide-react";
 
 type ProfileRow = {
@@ -84,7 +83,6 @@ export default function ProfileEditor({ initial }: { initial: ProfileRow }) {
         setError(data.message ?? data.error ?? "Save failed");
         return;
       }
-      await revalidateAll();
       setSaved(true);
       setIsNew(false);
     } catch (e) {

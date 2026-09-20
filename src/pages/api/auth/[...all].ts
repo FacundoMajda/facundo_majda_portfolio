@@ -58,7 +58,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const hasBody = req.method !== "GET" && req.method !== "HEAD";
-  const body = hasBody
+  const rawBody = hasBody
     ? await new Promise<Buffer>((resolve, reject) => {
         const chunks: Buffer[] = [];
         req.on("data", (chunk) => chunks.push(chunk));
@@ -66,6 +66,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         req.on("error", reject);
       })
     : undefined;
+  // Neon's auth API (Fastify) rejects anything but Content-Type:
+  // application/json, and separately rejects application/json with an
+  // empty body — a no-payload POST like sign-out sends neither a body nor
+  // a matching content-type by default. This proxy only ever talks to
+  // that one JSON API, so normalize both unconditionally.
+  const body = hasBody && rawBody && rawBody.length > 0 ? rawBody : hasBody ? Buffer.from("{}") : undefined;
+  if (hasBody) {
+    headers.set("content-type", "application/json");
+  }
 
   let upstream: Response;
   try {
