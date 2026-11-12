@@ -11,6 +11,12 @@ const config: Config = {
       fontFamily: {
         heading: ["var(--font-space-grotesk)", "sans-serif"],
         manrope: ["var(--font-manrope)", "sans-serif"],
+        mono: [
+          "var(--font-geist-mono)",
+          "ui-monospace",
+          "SFMono-Regular",
+          "monospace",
+        ],
       },
     },
   },

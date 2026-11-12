@@ -1,20 +1,13 @@
 import { ArrowUpRight, Github, Linkedin, MoveUpRight } from "lucide-react";
 import Head from "next/head";
 import { useState } from "react";
-import { Bend } from "@/components/canvasui/Bend";
-import { Bubble } from "@/components/canvasui/Bubble";
-import { Displacement } from "@/components/canvasui/Displacement";
-import { Glass } from "@/components/canvasui/Glass";
+import ContactForm from "@/components/blocx/ContactForm";
 import { Glitch } from "@/components/canvasui/Glitch";
 import { Grid } from "@/components/canvasui/Grid";
 import { GlyphRain } from "@/components/canvasui/GlyphRain";
 import { LazyEffect } from "@/components/canvasui/LazyEffect";
 import { Liquid } from "@/components/canvasui/Liquid";
-import { Peel } from "@/components/canvasui/Peel";
-import { Ripple } from "@/components/canvasui/Ripple";
 import { VHS } from "@/components/canvasui/VHS";
-import { BlackHoleBackground } from "@/components/vgpu/BlackHoleBackground";
-import { FlareLogo } from "@/components/vgpu/FlareLogo";
 import ProjectModal from "@/components/ProjectModal";
 import type { ProjectItem } from "@/types";
 import { db } from "@/db";
@@ -26,7 +19,7 @@ import {
   education,
 } from "@/db/schema";
 import { asc, desc, isNotNull, sql } from "drizzle-orm";
-import { manrope, spaceGrotesk } from "@/styles/fonts";
+import { geistMono, manrope, spaceGrotesk } from "@/styles/fonts";
 import { Reveal } from "@/utils";
 
 const SpinningBrain = () => (
@@ -57,7 +50,7 @@ const SpinningBrain = () => (
 const MONTH_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 function fmtMonth(date: Date) {
-  return `${MONTH_SHORT[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
+  return MONTH_SHORT[date.getUTCMonth()];
 }
 
 function fmtYear(date: Date) {
@@ -70,12 +63,14 @@ function fmtRange(start: string, end: string | null, isCurrent: boolean) {
   const startMonth = fmtMonth(startDate);
   const startYear = fmtYear(startDate);
   if (!endDate) {
-    if (isCurrent) return `${startMonth} — Present`;
-    return `${startMonth} —`;
+    if (isCurrent) return `${startMonth} ${startYear} — Present`;
+    return `${startMonth} ${startYear} —`;
   }
   const endMonth = fmtMonth(endDate);
   const endYear = fmtYear(endDate);
-  if (startMonth === endMonth && startYear === endYear) return startMonth;
+  if (startMonth === endMonth && startYear === endYear) {
+    return `${startMonth} ${startYear}`;
+  }
   if (startYear === endYear) return `${startMonth} — ${endMonth} ${endYear}`;
   return `${startMonth} ${startYear} — ${endMonth} ${endYear}`;
 }
@@ -294,7 +289,7 @@ export default function Portfolio({
 
   return (
     <div
-      className={`bg-[#050505] text-slate-200 min-h-screen ${manrope.className} ${spaceGrotesk.variable} overflow-x-hidden selection:bg-blue-500 selection:text-white`}
+      className={`bg-[#050505] text-slate-200 min-h-screen ${manrope.className} ${spaceGrotesk.variable} ${geistMono.variable} overflow-x-hidden selection:bg-blue-500 selection:text-white`}
     >
       <Head>
         <title>{seoTitle}</title>
@@ -374,18 +369,24 @@ export default function Portfolio({
         onClick={() => setIsMenuOpen(false)}
       />
       <div
-        className={`fixed top-0 right-0 h-screen w-[500px] max-w-[calc(100vw-3rem)] bg-[#0f0f0f] border-l border-zinc-800 z-40 transform transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] flex flex-col justify-center py-10 px-8 md:px-16 ${
+        className={`fixed top-0 right-0 h-screen w-[520px] max-w-[calc(100vw-3rem)] bg-[#0a0a0a] border-l border-dashed border-zinc-800 z-40 transform transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] flex flex-col justify-center py-10 px-8 md:px-14 ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <div className="flex flex-col gap-10">
           <div>
-            <p className="text-zinc-500 mb-6 font-manrope text-sm tracking-widest">
-              MENU
-            </p>
-            <ul className="space-y-4">
+            <div className="mb-5 flex items-baseline justify-between border-b border-dashed border-zinc-800 pb-3">
+              <p className="t-label text-zinc-500">[ MENU ]</p>
+              <span className="t-meta text-zinc-600">
+                {String(MENU_ITEMS.length).padStart(2, "0")}
+              </span>
+            </div>
+            <ul>
               {MENU_ITEMS.map((item, idx) => (
-                <li key={idx}>
+                <li
+                  key={idx}
+                  className="border-b border-zinc-900 last:border-0"
+                >
                   <a
                     href={item.href}
                     onClick={(e) => {
@@ -399,58 +400,56 @@ export default function Portfolio({
                         });
                       }
                     }}
-                    className="group text-4xl font-heading flex items-center gap-4 hover:pl-2 transition-all cursor-pointer"
+                    className="group flex items-baseline gap-4 py-3 cursor-pointer"
                   >
-                    <span
-                      className={`size-3 rounded-full flex items-center justify-center ${item.color} group-hover:scale-[250%] transition-transform duration-300`}
-                    >
-                      <MoveUpRight
-                        size={12}
-                        className="text-black scale-0 group-hover:scale-100 transition-transform duration-300"
-                      />
+                    <span className="t-meta w-7 shrink-0 text-zinc-600 transition-colors group-hover:text-blue-500">
+                      {String(idx + 1).padStart(2, "0")}
                     </span>
-                    <span className="text-zinc-100 group-hover:text-white transition-colors">
+                    <span className="t-title text-2xl md:text-3xl text-zinc-300 transition-all group-hover:translate-x-1 group-hover:text-white">
                       {item.name}
                     </span>
+                    <MoveUpRight
+                      size={14}
+                      className="ml-auto shrink-0 text-zinc-700 opacity-0 transition-all group-hover:opacity-100 group-hover:text-blue-500"
+                    />
                   </a>
                 </li>
               ))}
             </ul>
           </div>
-          <LazyEffect as={Bubble} rootMargin="0px">
-            <div>
-              <p className="text-zinc-500 mb-6 font-manrope text-sm tracking-widest">
-                SOCIAL
-              </p>
-              <ul className="space-y-2 font-manrope text-xl text-zinc-300">
-                {socials
-                  .filter((s) => s.platform !== "email")
-                  .map((s) => (
-                    <li key={s.platform}>
-                      <a
-                        href={s.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="hover:text-blue-400 hover:underline transition-colors capitalize"
-                      >
-                        {s.platform}
-                      </a>
-                    </li>
-                  ))}
-              </ul>
-            </div>
-          </LazyEffect>
+
           <div>
-            <p className="text-zinc-500 mb-4 font-manrope text-sm tracking-widest">
-              CONTACT
-            </p>
-            <p className="font-manrope text-lg text-zinc-300">
-              {profile?.statusLine ?? "Available for remote engineering roles and selected projects"}
+            <div className="mb-4 border-b border-dashed border-zinc-800 pb-3">
+              <p className="t-label text-zinc-500">[ SOCIAL ]</p>
+            </div>
+            <div className="flex flex-wrap gap-x-5 gap-y-2">
+              {socials
+                .filter((s) => s.platform !== "email")
+                .map((s) => (
+                  <a
+                    key={s.platform}
+                    href={s.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="t-label text-zinc-400 transition-colors hover:text-blue-500"
+                  >
+                    [{s.platform}]
+                  </a>
+                ))}
+            </div>
+          </div>
+
+          <div>
+            <div className="mb-4 border-b border-dashed border-zinc-800 pb-3">
+              <p className="t-label text-zinc-500">[ STATUS ]</p>
+            </div>
+            <p className="t-body max-w-[42ch] text-zinc-400">
+              {profile?.statusLine ??
+                "Available for remote engineering roles and selected projects"}
             </p>
           </div>
         </div>
       </div>
-
       <main>
         <section
           id="banner"
@@ -503,7 +502,7 @@ export default function Portfolio({
                       )}
                     </div>
                     <h1
-                      className="font-heading font-black leading-none text-white"
+                      className="t-display text-white"
                       style={{
                         letterSpacing: "0.02em",
                         fontSize: "clamp(2rem, 8vw, 6rem)",
@@ -514,17 +513,17 @@ export default function Portfolio({
                     </h1>
                   </Reveal>
                   <Reveal delay={25}>
-                    <p className="text-xs sm:text-sm text-zinc-500 font-manrope tracking-wide mt-2">
-                      AI &amp; Automation Engineer
+                    <p className="t-label mt-2 text-zinc-500">
+                      [ AI/ML &amp; AUTOMATION ENGINEER ]
                     </p>
                   </Reveal>
                   <Reveal delay={50}>
-                    <h2 className="font-manrope font-light text-zinc-300 mt-4">
-                      <span className="text-xl sm:text-2xl md:text-3xl block">
+                    <h2 className="mt-4">
+                      <span className="t-title block text-xl text-zinc-400 md:text-2xl">
                         Hi, I&apos;m{" "}
-                        <span className="font-bold text-white">Facundo Majda</span>
+                        <span className="text-white">Facundo Majda</span>
                       </span>
-                      <span className="text-base sm:text-lg md:text-xl block mt-2">
+                      <span className="t-body mt-2 block max-w-[58ch] text-zinc-400">
                         {profile?.heroTitle ?? "I design and ship production AI systems"} —{" "}
                         <span className="text-blue-500">
                           RAG pipelines, LLM agents, and the backend that holds them up
@@ -543,7 +542,7 @@ export default function Portfolio({
                           "linear-gradient(to right, transparent, black 5%, black 95%, transparent)",
                       }}
                     >
-                      <div className="marquee whitespace-nowrap text-xs sm:text-sm md:text-base text-zinc-300 font-manrope">
+                      <div className="marquee t-meta whitespace-nowrap uppercase text-zinc-500">
                         {profile?.heroTagline ?? "SWE | Data & AI-Driven Apps | FDE | Full-Stack + Automation"}{" "}
                         {profile?.heroTagline ?? "SWE | Data & AI-Driven Apps | FDE | Full-Stack + Automation"}
                       </div>
@@ -554,10 +553,10 @@ export default function Portfolio({
                 <div className="flex md:flex-row lg:flex-col gap-8 md:gap-12 lg:gap-8 text-center lg:text-right justify-center lg:justify-end lg:self-end">
                   <Reveal delay={300}>
                     <div>
-                      <h5 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl font-heading font-black text-blue-500 mb-1">
+                      <h5 className="font-mono text-4xl sm:text-5xl md:text-6xl lg:text-5xl tabular-nums text-blue-500 mb-1">
                         OVER {profile?.yearsExp ?? 3}+
                       </h5>
-                      <p className="text-zinc-500 font-manrope text-xs md:text-sm uppercase tracking-widest">
+                      <p className="t-label text-zinc-500">
                         Years Engineering
                       </p>
                     </div>
@@ -580,24 +579,31 @@ export default function Portfolio({
           className="py-32 px-6 md:px-20 bg-[#0a0a0a] border-t border-zinc-900"
         >
           <div className="container mx-auto">
+            <div className="mb-10 flex items-baseline justify-between gap-6 border-b border-dashed border-zinc-800 pb-4">
+              <p className="t-label text-zinc-500">
+                [ ABOUT ]
+              </p>
+              <span className="font-mono text-xs tabular-nums text-zinc-600">
+                {profile?.yearsExp ?? 3}+ years
+              </span>
+            </div>
+
             <Reveal>
-              <LazyEffect as={Glass} shape="circle" size={140} zoom={1.4}>
-                <h2 className="text-3xl md:text-5xl font-manrope font-light mb-20 leading-tight text-zinc-200">
-                  An{" "}
-                  <span className="text-blue-500">
-                    AI/ML &amp; Automation Engineer
-                  </span>{" "}
-                  shipping production systems across the{" "}
-                  <span className="text-purple-500">
-                    full software lifecycle
-                  </span>
-                  .
-                </h2>
-              </LazyEffect>
+              <h2 className="t-display mb-16 max-w-[26ch] text-balance text-[clamp(1.75rem,4vw,3.5rem)] text-zinc-100">
+                An{" "}
+                <span className="text-blue-500">
+                  AI/ML &amp; Automation Engineer
+                </span>{" "}
+                shipping production systems across the{" "}
+                <span className="text-blue-500">
+                  full software lifecycle
+                </span>
+                .
+              </h2>
             </Reveal>
 
             <Reveal>
-              <p className="pb-3 border-b border-zinc-800 text-zinc-500 font-manrope mb-10 uppercase tracking-widest text-sm">
+              <p className="t-label pb-3 border-b border-dashed border-zinc-800 text-zinc-500 mb-10">
                 AI/ML · LLMs · Computer Vision · Backend · Automation
               </p>
             </Reveal>
@@ -605,48 +611,26 @@ export default function Portfolio({
             <div className="grid md:grid-cols-12 gap-8 md:gap-12 lg:gap-16">
               <div className="md:col-span-5">
                 <Reveal>
-                  <p className="text-5xl md:text-7xl font-heading font-black text-white leading-none">
-                    About me
-                  </p>
+                  <p className="t-label text-zinc-500">[ PROFILE ]</p>
                 </Reveal>
               </div>
               <div className="md:col-span-7">
-                <div className="text-lg text-zinc-400 font-manrope space-y-6 max-w-[600px]">
+                <div className="t-body max-w-[62ch] space-y-8 text-lg text-zinc-300">
                   <Reveal delay={100}>
                     <p>
-                      {profile?.aboutText ??
-                        "I design and ship production AI and automation systems — RAG pipelines, LLM agents, computer vision, NLP, and the workflows that connect them to real operations. My work spans backend services, APIs, and the frontends that make those systems usable, end to end."}
+                      I build software, work with data, and explore what AI can
+                      make possible. From full-stack applications and backend
+                      systems to machine learning, computer vision, and
+                      automation, I enjoy working across different areas of
+                      technology and figuring out how to make things work
+                      together.
                     </p>
                   </Reveal>
                   <Reveal delay={200}>
-                    <LazyEffect as={Peel} side="right">
-                      <h3 className="text-xl font-bold text-white mb-2">
-                        What I work with
-                      </h3>
-                      <p className="text-zinc-300">
-                        Backend in{" "}
-                        <strong className="text-white">
-                          TypeScript and Java
-                        </strong>{" "}
-                        (NestJS, Spring Boot). Frontends in{" "}
-                        <strong className="text-white">
-                          React, Next.js, and Angular
-                        </strong>{" "}
-                        when the product needs it. ML and data in{" "}
-                        <strong className="text-white">
-                          Python with PyTorch
-                        </strong>
-                        . AI orchestration with{" "}
-                        <strong className="text-white">
-                          LangChain, LangGraph, Mastra, and the Vercel AI SDK
-                        </strong>
-                        . Automation on{" "}
-                        <strong className="text-white">
-                          n8n, Make, and Zapier
-                        </strong>
-                        .
-                      </p>
-                    </LazyEffect>
+                    <p className="text-zinc-400">
+                      I like getting my hands dirty, learning by building, and
+                      taking ideas all the way to production.
+                    </p>
                   </Reveal>
                 </div>
               </div>
@@ -654,74 +638,45 @@ export default function Portfolio({
 
             <Reveal delay={300}>
               <div className="mt-20 pt-12 border-t border-zinc-800">
-                <h3 className="font-anton text-3xl md:text-4xl font-black uppercase text-zinc-100 tracking-wide mb-12">
+                <h3 className="font-mono text-2xl md:text-3xl uppercase tracking-[0.2em] text-zinc-100 mb-12">
                   Systems I Build
                 </h3>
-                <div className="grid sm:grid-cols-2 gap-x-10 gap-y-10">
+                <div className="systems-grid grid sm:grid-cols-2 gap-x-10 gap-y-10">
                   <div className="group">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
-                      <h4 className="font-anton text-xl md:text-2xl uppercase tracking-wide text-zinc-200 group-hover:text-white transition-colors">
+                      <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                      <h4 className="font-mono text-lg uppercase tracking-[0.14em] text-zinc-300 group-hover:text-white transition-colors">
                         AI Systems
                       </h4>
                     </div>
-                    <p className="text-zinc-400 font-manrope leading-relaxed">
-                      <strong className="text-white">
-                        RAG, LLM applications, and agentic workflows
-                      </strong>{" "}
-                      that turn business data, documents, and tools into
-                      usable AI systems — with grounded citations,
-                      structured outputs, and streaming, real-time
-                      responses.
-                    </p>
-                  </div>
-                  <div className="group">
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="w-2 h-2 bg-teal-400 rounded-full"></span>
-                      <h4 className="font-anton text-xl md:text-2xl uppercase tracking-wide text-zinc-200 group-hover:text-white transition-colors">
-                        Computer Vision
-                      </h4>
-                    </div>
-                    <p className="text-zinc-400 font-manrope leading-relaxed">
-                      <strong className="text-white">
-                        Real-time vision systems
-                      </strong>{" "}
-                      for detection, classification, tracking, and
-                      event-driven workflows — from camera input to
-                      operational alerts.
-                    </p>
+                    <p className="t-body text-zinc-400">I build with LLMs, RAG, and AI agents to make information more useful, connect models with real-world tools, and create applications that actually do something beyond generating text.</p>
                   </div>
                   <div className="group">
                     <div className="flex items-center gap-3 mb-2">
                       <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                      <h4 className="font-anton text-xl md:text-2xl uppercase tracking-wide text-zinc-200 group-hover:text-white transition-colors">
-                        Backend Systems
+                      <h4 className="font-mono text-lg uppercase tracking-[0.14em] text-zinc-300 group-hover:text-white transition-colors">
+                        Computer Vision
                       </h4>
                     </div>
-                    <p className="text-zinc-400 font-manrope leading-relaxed">
-                      <strong className="text-white">
-                        Production APIs and backend services
-                      </strong>{" "}
-                      that connect AI models, databases, external systems,
-                      and user-facing applications into reliable
-                      end-to-end products.
-                    </p>
+                    <p className="t-body text-zinc-400">Making cameras smarter. Detection, tracking, classification, and real-time systems that turn what a camera sees into something useful.</p>
                   </div>
                   <div className="group">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="w-2 h-2 bg-cyan-500 rounded-full"></span>
-                      <h4 className="font-anton text-xl md:text-2xl uppercase tracking-wide text-zinc-200 group-hover:text-white transition-colors">
+                      <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                      <h4 className="font-mono text-lg uppercase tracking-[0.14em] text-zinc-300 group-hover:text-white transition-colors">
+                        Backend Systems
+                      </h4>
+                    </div>
+                    <p className="t-body text-zinc-400">The stuff that makes everything work. APIs, databases, services, integrations, and all the logic behind the applications people use.</p>
+                  </div>
+                  <div className="group">
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                      <h4 className="font-mono text-lg uppercase tracking-[0.14em] text-zinc-300 group-hover:text-white transition-colors">
                         Automation
                       </h4>
                     </div>
-                    <p className="text-zinc-400 font-manrope leading-relaxed">
-                      <strong className="text-white">
-                        AI-powered workflows
-                      </strong>{" "}
-                      that connect APIs, business systems, and AI services
-                      to turn repetitive operations into automated
-                      pipelines.
-                    </p>
+                    <p className="t-body text-zinc-400">Making systems talk to each other and getting repetitive work out of the way. APIs, workflows, AI, and a bit of creative problem-solving.</p>
                   </div>
                 </div>
               </div>
@@ -733,11 +688,16 @@ export default function Portfolio({
           <div className="container mx-auto">
             <Reveal>
               <LazyEffect as={GlyphRain} density={0.2} speed={0.3} cell={14}>
-                <div className="flex items-center gap-4 mb-20">
-                  <SpinningBrain />
-                  <h2 className="font-heading text-4xl font-black uppercase text-zinc-100 tracking-wide">
-                    My Expertise
-                  </h2>
+                <div className="mb-20 flex items-end justify-between gap-6 border-b border-dashed border-zinc-800 pb-4">
+                  <div className="flex items-center gap-4">
+                    <SpinningBrain />
+                    <h2 className="t-title text-2xl md:text-3xl text-zinc-100">
+                      [ EXPERTISE ]
+                    </h2>
+                  </div>
+                  <span className="font-mono text-xs tabular-nums text-zinc-600">
+                    {String(techs.length).padStart(2, "0")} tools
+                  </span>
                 </div>
               </LazyEffect>
             </Reveal>
@@ -746,11 +706,11 @@ export default function Portfolio({
               {STACK_CATEGORIES.map((cat, idx) => (
                 <div
                   key={cat.name}
-                  className="grid lg:grid-cols-12 gap-y-6 md:gap-y-8 border-b border-zinc-900 pb-10 md:pb-12 last:border-0"
+                  className="grid lg:grid-cols-12 gap-y-6 md:gap-y-8 border-b border-dashed border-zinc-800 pb-10 md:pb-12 last:border-0"
                 >
                   <div className="lg:col-span-5">
                     <Reveal delay={idx * 100}>
-                      <h3 className="text-3xl md:text-4xl font-heading font-black text-zinc-700 uppercase tracking-wider">
+                      <h3 className="font-mono text-xl md:text-2xl uppercase tracking-[0.2em] text-zinc-600">
                         {cat.name}
                       </h3>
                     </Reveal>
@@ -768,7 +728,7 @@ export default function Portfolio({
                             alt={item.name}
                             className="w-5 h-5"
                           />
-                          <span className="text-sm md:text-base font-heading font-normal text-zinc-400 hover:text-white transition-colors cursor-default">
+                          <span className="font-mono text-sm md:text-base text-zinc-400 hover:text-white transition-colors cursor-default">
                             {item.name}
                           </span>
                         </div>
@@ -786,16 +746,21 @@ export default function Portfolio({
           <div className="container mx-auto">
             <Reveal>
               <LazyEffect as={VHS} wave={0.4} grain={0.15} jitter={0.3}>
-                <div className="flex items-center gap-4 mb-16">
-                  <div className="w-2 h-2 bg-green-500 animate-pulse"></div>
-                  <h2 className="font-heading text-2xl font-black uppercase text-zinc-500 tracking-widest">
-                    Education
-                  </h2>
+                <div className="mb-16 flex items-end justify-between gap-6 border-b border-dashed border-zinc-800 pb-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-2 h-2 bg-green-500 animate-pulse"></div>
+                    <h2 className="t-title text-2xl md:text-3xl text-zinc-100">
+                      [ EDUCATION ]
+                    </h2>
+                  </div>
+                  <span className="font-mono text-xs tabular-nums text-zinc-600">
+                    {String(EDUCATION.length).padStart(2, "0")} records
+                  </span>
                 </div>
               </LazyEffect>
             </Reveal>
 
-            <div className="space-y-12 border-l border-zinc-800 ml-3 md:ml-0">
+            <div className="space-y-12 border-l border-dashed border-zinc-800 ml-3 md:ml-0">
               {EDUCATION.map((edu, idx) => (
                 <Reveal
                   key={idx}
@@ -804,10 +769,10 @@ export default function Portfolio({
                 >
                   <span className="absolute left-[-5px] top-2 w-2.5 h-2.5 bg-green-600 rounded-full ring-4 ring-black"></span>
                   <div className="group">
-                    <p className="text-sm font-bold text-green-500 font-manrope mb-1 tracking-widest uppercase">
+                    <p className="t-meta text-green-500 mb-1">
                       {edu.date}
                     </p>
-                    <h3 className="text-3xl md:text-4xl font-heading font-black text-white mb-2">
+                    <h3 className="t-title text-xl md:text-2xl text-white mb-2">
                       {edu.degree}
                     </h3>
                     <p className="text-xl text-zinc-400 font-manrope mb-4">
@@ -838,16 +803,21 @@ export default function Portfolio({
           <div className="container mx-auto">
             <Reveal>
               <LazyEffect as={Grid} tileSize={32}>
-                <div className="flex items-center gap-4 mb-16">
-                  <div className="w-2 h-2 bg-blue-500 animate-pulse"></div>
-                  <h2 className="font-heading text-2xl font-black uppercase text-zinc-500 tracking-widest">
-                    Experience Timeline
-                  </h2>
+                <div className="mb-16 flex items-end justify-between gap-6 border-b border-dashed border-zinc-800 pb-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-2 h-2 bg-blue-500 animate-pulse"></div>
+                    <h2 className="t-title text-2xl md:text-3xl text-zinc-100">
+                      [ EXPERIENCE ]
+                    </h2>
+                  </div>
+                  <span className="font-mono text-xs tabular-nums text-zinc-600">
+                    {String(EXPERIENCE.length).padStart(2, "0")} roles
+                  </span>
                 </div>
               </LazyEffect>
             </Reveal>
 
-            <div className="space-y-12 border-l border-zinc-800 ml-3 md:ml-0">
+            <div className="space-y-12 border-l border-dashed border-zinc-800 ml-3 md:ml-0">
               {EXPERIENCE.map((job, idx) => (
                 <Reveal
                   key={idx}
@@ -856,10 +826,10 @@ export default function Portfolio({
                 >
                   <span className="absolute left-[-5px] top-2 w-2.5 h-2.5 bg-blue-600 rounded-full ring-4 ring-black"></span>
                   <div className="group">
-                    <p className="text-sm font-bold text-blue-500 font-manrope mb-1 tracking-widest uppercase">
+                    <p className="t-meta text-blue-500 mb-1">
                       {job.date}
                     </p>
-                    <h3 className="text-3xl md:text-4xl font-heading font-black text-white mb-2">
+                    <h3 className="t-title text-xl md:text-2xl text-white mb-2">
                       {job.role}
                     </h3>
                     <p className="text-xl text-zinc-400 font-manrope mb-4">
@@ -886,59 +856,11 @@ export default function Portfolio({
           </div>
         </section>
 
-        <footer
-          id="contact"
-          className="relative py-32 px-6 md:px-20 text-center bg-[#0a0a0a] text-white border-t border-zinc-900 overflow-hidden"
-        >
-          <BlackHoleBackground />
-          <div
-            className="relative z-10"
-            style={{ textShadow: "0 2px 20px rgba(0,0,0,0.85)" }}
-          >
-            <Reveal>
-              <div className="mb-8 flex justify-center">
-                <FlareLogo />
-              </div>
-              <p className="text-xl font-manrope text-zinc-500 mb-8 tracking-wide">
-                Always ready to build!
-              </p>
-              <LazyEffect as={Ripple} trigger="click" amplitude={1.2}>
-                <a
-                  href={SOCIAL.email ?? `mailto:${profile?.contactEmail ?? ""}`}
-                  className="inline-block py-4 font-heading text-[8vw] md:text-7xl font-black hover:text-blue-500 transition-colors leading-tight text-zinc-100"
-                >
-                  LETS TALK
-                </a>
-              </LazyEffect>
-
-              <LazyEffect as={Bend} zone={24}>
-                <div className="flex flex-wrap justify-center gap-8 mt-16 font-manrope text-lg text-zinc-500">
-                  {socials
-                    .filter((s) => s.platform !== "email")
-                    .map((s) => (
-                      <a
-                        key={s.platform}
-                        href={s.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="hover:text-white hover:underline transition-colors capitalize"
-                      >
-                        {s.platform}
-                      </a>
-                    ))}
-                </div>
-              </LazyEffect>
-
-              <LazyEffect as={Displacement} grid={16} shift={0.6} grain={0.1}>
-                <p className="mt-24 text-zinc-800 text-xs font-manrope uppercase tracking-widest">
-                  © {new Date().getFullYear()} Facundo Majda. Formosa,
-                  Argentina.
-                </p>
-              </LazyEffect>
-            </Reveal>
-          </div>
-        </footer>
       </main>
+
+      <div id="contact">
+        <ContactForm />
+      </div>
     </div>
   );
 }

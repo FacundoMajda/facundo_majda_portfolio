@@ -26,3 +26,75 @@ h3,
     transform: translateX(-50%);
   }
 }
+
+/* The systems grid borrows the Contact Form's tile language: same ink, same
+   hairline, so the two sections read as one system. */
+.systems-grid > div {
+  border: 1px solid #27272a;
+  background-color: #0f0f0f;
+  padding: 1.5rem;
+  transition: border-color 0.3s ease;
+}
+.systems-grid > div:hover {
+  border-color: #3f3f46;
+}
+/*
+ * Type scale — one family per role, so nothing drifts.
+ *   display : the name, and only the name
+ *   title   : section and entry headings
+ *   label   : section markers, in brackets
+ *   meta    : dates, counts, tabular figures
+ *   body    : prose
+ */
+@layer components {
+  .t-display {
+    font-family: var(--font-space-grotesk), sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+  }
+  .t-title {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    line-height: 1.15;
+  }
+  .t-label {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-weight: 500;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    line-height: 1.2;
+  }
+  .t-meta {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.12em;
+    line-height: 1.3;
+  }
+  .t-body {
+    font-family: var(--font-manrope), sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+}
+/* Each system tile is numbered, so the grid reads as an index, not a pile. */
+.systems-grid {
+  counter-reset: system;
+}
+.systems-grid > div {
+  counter-increment: system;
+}
+.systems-grid > div::before {
+  content: "0" counter(system);
+  display: block;
+  margin-bottom: 0.85rem;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: #52525b;
+}
