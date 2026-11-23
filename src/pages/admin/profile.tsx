@@ -118,10 +118,10 @@ export default function ProfileEditor({ initial }: { initial: ProfileRow }) {
         <form onSubmit={save} className="max-w-2xl space-y-5">
           <div className="flex items-center justify-between mb-2">
             <div>
-              <h2 className="text-lg font-medium text-white">
+              <h2 className="text-lg font-medium text-foreground">
                 {isNew ? "Create profile" : "Edit profile"}
               </h2>
-              <p className="text-sm text-neutral-400">
+              <p className="text-sm text-muted-foreground">
                 Singleton row. Changes apply across the whole portfolio.
               </p>
             </div>
@@ -134,10 +134,10 @@ export default function ProfileEditor({ initial }: { initial: ProfileRow }) {
 
           {fields.map((f) => (
             <div key={f.key}>
-              <label className="block text-sm text-neutral-300 mb-1.5">
+              <label className="block text-sm text-foreground mb-1.5">
                 {f.label}
                 {f.hint && (
-                  <span className="block text-xs text-neutral-500 mt-0.5">{f.hint}</span>
+                  <span className="block text-xs text-muted-foreground mt-0.5">{f.hint}</span>
                 )}
               </label>
               {f.type === "textarea" ? (
@@ -145,7 +145,7 @@ export default function ProfileEditor({ initial }: { initial: ProfileRow }) {
                   rows={f.key === "aboutText" ? 6 : 3}
                   value={form[f.key] as string}
                   onChange={(e) => update(f.key, e.target.value as ProfileRow[typeof f.key])}
-                  className="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-md text-white placeholder-neutral-600 focus:outline-none focus:border-emerald-500 font-mono text-sm"
+                  className="w-full px-3 py-2 bg-background border border-border rounded-md text-foreground placeholder-neutral-600 focus:outline-none focus:border-emerald-500 font-mono text-sm"
                 />
               ) : (
                 <input
@@ -157,7 +157,7 @@ export default function ProfileEditor({ initial }: { initial: ProfileRow }) {
                       (f.type === "number" ? Number(e.target.value) : e.target.value) as ProfileRow[typeof f.key],
                     )
                   }
-                  className="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-md text-white placeholder-neutral-600 focus:outline-none focus:border-emerald-500"
+                  className="w-full px-3 py-2 bg-background border border-border rounded-md text-foreground placeholder-neutral-600 focus:outline-none focus:border-emerald-500"
                 />
               )}
             </div>
@@ -172,7 +172,7 @@ export default function ProfileEditor({ initial }: { initial: ProfileRow }) {
           <button
             type="submit"
             disabled={saving}
-            className="px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:bg-neutral-700 text-neutral-950 font-medium rounded-md flex items-center gap-2"
+            className="px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:bg-muted text-neutral-950 font-medium rounded-md flex items-center gap-2"
           >
             <Save className="w-4 h-4" />
             {saving ? "Saving…" : "Save profile"}

@@ -22,7 +22,7 @@ export function DataTableColumnHeader<TData, TValue>({
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
   if (!column.getCanSort()) {
-    return <div className={cn("text-xs font-medium uppercase tracking-wider text-neutral-400", className)}>{title}</div>;
+    return <div className={cn("text-xs font-medium uppercase tracking-wider text-muted-foreground", className)}>{title}</div>;
   }
 
   return (
@@ -32,7 +32,7 @@ export function DataTableColumnHeader<TData, TValue>({
           <Button
             variant="ghost"
             size="sm"
-            className="-ml-2 h-8 text-xs font-medium uppercase tracking-wider text-neutral-400 hover:text-white data-[state=open]:bg-neutral-800"
+            className="-ml-2 h-8 text-xs font-medium uppercase tracking-wider text-muted-foreground hover:text-foreground data-[state=open]:bg-secondary"
           >
             <span>{title}</span>
             {column.getIsSorted() === "desc" ? (
@@ -46,18 +46,18 @@ export function DataTableColumnHeader<TData, TValue>({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
           <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-            <ArrowUp className="mr-2 h-3.5 w-3.5 text-neutral-500" />
+            <ArrowUp className="mr-2 h-3.5 w-3.5 text-muted-foreground" />
             Asc
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-            <ArrowDown className="mr-2 h-3.5 w-3.5 text-neutral-500" />
+            <ArrowDown className="mr-2 h-3.5 w-3.5 text-muted-foreground" />
             Desc
           </DropdownMenuItem>
           {column.getCanHide() && (
             <>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
-                <EyeOff className="mr-2 h-3.5 w-3.5 text-neutral-500" />
+                <EyeOff className="mr-2 h-3.5 w-3.5 text-muted-foreground" />
                 Hide
               </DropdownMenuItem>
             </>

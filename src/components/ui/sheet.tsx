@@ -35,7 +35,7 @@ const SheetContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed z-50 bg-neutral-950 border-neutral-800 shadow-2xl transition-transform",
+        "fixed z-50 bg-background border-border shadow-2xl transition-transform",
         side === "right" && "inset-y-0 right-0 h-full w-3/4 sm:max-w-xl border-l",
         side === "left" && "inset-y-0 left-0 h-full w-3/4 sm:max-w-xl border-r",
         side === "top" && "inset-x-0 top-0 w-full border-b",
@@ -45,7 +45,7 @@ const SheetContent = React.forwardRef<
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm text-neutral-400 hover:text-white focus:outline-none">
+      <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm text-muted-foreground hover:text-foreground focus:outline-none">
         <X className="h-4 w-4" />
         <span className="sr-only">Close</span>
       </DialogPrimitive.Close>
@@ -55,16 +55,16 @@ const SheetContent = React.forwardRef<
 SheetContent.displayName = DialogPrimitive.Content.displayName;
 
 function SheetHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("flex flex-col space-y-1 px-6 py-4 border-b border-neutral-800", className)} {...props} />;
+  return <div className={cn("flex flex-col space-y-1 px-6 py-4 border-b border-border", className)} {...props} />;
 }
 function SheetFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("flex items-center justify-end gap-2 px-6 py-4 border-t border-neutral-800", className)} {...props} />;
+  return <div className={cn("flex items-center justify-end gap-2 px-6 py-4 border-t border-border", className)} {...props} />;
 }
 function SheetTitle({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
-  return <DialogPrimitive.Title className={cn("text-base font-semibold text-white", className)} {...props} />;
+  return <DialogPrimitive.Title className={cn("text-base font-semibold text-foreground", className)} {...props} />;
 }
 function SheetDescription({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) {
-  return <DialogPrimitive.Description className={cn("text-sm text-neutral-400", className)} {...props} />;
+  return <DialogPrimitive.Description className={cn("text-sm text-muted-foreground", className)} {...props} />;
 }
 
 export { Sheet, SheetTrigger, SheetClose, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription };

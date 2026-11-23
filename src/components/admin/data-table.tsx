@@ -88,7 +88,7 @@ export function DataTable<TData, TValue>({
         <div className="flex items-center justify-between gap-3">
           {searchKey && (
             <div className="relative max-w-sm flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
                 placeholder={searchPlaceholder}
                 value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
@@ -101,7 +101,7 @@ export function DataTable<TData, TValue>({
         </div>
       )}
 
-      <div className="rounded-lg border border-neutral-800 overflow-hidden">
+      <div className="rounded-lg border border-border overflow-hidden">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -134,7 +134,7 @@ export function DataTable<TData, TValue>({
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-32 text-center text-neutral-500">
+                <TableCell colSpan={columns.length} className="h-32 text-center text-muted-foreground">
                   {emptyState ?? "No results."}
                 </TableCell>
               </TableRow>
@@ -154,7 +154,7 @@ function DataTablePagination<TData>({ table }: { table: import("@tanstack/react-
   const total = table.getFilteredRowModel().rows.length;
 
   return (
-    <div className="flex items-center justify-between text-sm text-neutral-400">
+    <div className="flex items-center justify-between text-sm text-muted-foreground">
       <div className="flex-1">
         {table.getFilteredSelectedRowModel().rows.length > 0 ? (
           <span>
@@ -171,7 +171,7 @@ function DataTablePagination<TData>({ table }: { table: import("@tanstack/react-
           <select
             value={pageSize}
             onChange={(e) => table.setPageSize(Number(e.target.value))}
-            className="h-8 w-16 rounded-md border border-neutral-800 bg-neutral-950 text-white text-sm px-2"
+            className="h-8 w-16 rounded-md border border-border bg-background text-foreground text-sm px-2"
           >
             {[10, 20, 50, 100].map((n) => (
               <option key={n} value={n}>
@@ -240,7 +240,7 @@ function DataTableViewOptions<TData>({ table }: { table: import("@tanstack/react
           <SlidersHorizontal className="h-4 w-4" />
           View
           {hiddenCount > 0 && (
-            <span className="ml-1 rounded bg-neutral-800 px-1.5 text-xs">{hiddenCount} hidden</span>
+            <span className="ml-1 rounded bg-secondary px-1.5 text-xs">{hiddenCount} hidden</span>
           )}
         </Button>
       </DropdownMenuTrigger>

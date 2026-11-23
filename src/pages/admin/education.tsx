@@ -111,13 +111,13 @@ export default function EducationAdmin({ items: initial }: { items: Item[] }) {
         header: ({ column }) => <DataTableColumnHeader column={column} title="Degree" />,
         cell: ({ row }) => (
           <div>
-            <div className="text-white font-medium">{row.original.degree}</div>
+            <div className="text-foreground font-medium">{row.original.degree}</div>
             {row.original.link ? (
               <a href={row.original.link} target="_blank" className="text-xs text-emerald-400 hover:underline">
                 {row.original.institution} ↗
               </a>
             ) : (
-              <div className="text-xs text-neutral-500">{row.original.institution}</div>
+              <div className="text-xs text-muted-foreground">{row.original.institution}</div>
             )}
           </div>
         ),
@@ -125,7 +125,7 @@ export default function EducationAdmin({ items: initial }: { items: Item[] }) {
       {
         accessorKey: "institution",
         header: ({ column }) => <DataTableColumnHeader column={column} title="Institution" />,
-        cell: ({ row }) => <span className="text-neutral-300">{row.original.institution}</span>,
+        cell: ({ row }) => <span className="text-foreground">{row.original.institution}</span>,
         enableHiding: false,
       },
       {
@@ -133,7 +133,7 @@ export default function EducationAdmin({ items: initial }: { items: Item[] }) {
         header: "Period",
         accessorFn: (r) => `${r.startDate} → ${r.endDate ?? "Present"}`,
         cell: ({ row }) => (
-          <span className="text-neutral-400 font-mono text-xs">
+          <span className="text-muted-foreground font-mono text-xs">
             {row.original.startDate.slice(0, 10)} → {row.original.endDate ? row.original.endDate.slice(0, 10) : "Present"}
           </span>
         ),
@@ -142,7 +142,7 @@ export default function EducationAdmin({ items: initial }: { items: Item[] }) {
         accessorKey: "description",
         header: "Description",
         cell: ({ row }) => (
-          <span className="text-xs text-neutral-500 line-clamp-2 max-w-[400px] block">
+          <span className="text-xs text-muted-foreground line-clamp-2 max-w-[400px] block">
             {row.original.description}
           </span>
         ),
@@ -151,7 +151,7 @@ export default function EducationAdmin({ items: initial }: { items: Item[] }) {
       {
         accessorKey: "order",
         header: ({ column }) => <DataTableColumnHeader column={column} title="#" />,
-        cell: ({ row }) => <span className="text-neutral-500 font-mono text-xs">{row.original.order}</span>,
+        cell: ({ row }) => <span className="text-muted-foreground font-mono text-xs">{row.original.order}</span>,
       },
       {
         id: "actions",
@@ -171,7 +171,7 @@ export default function EducationAdmin({ items: initial }: { items: Item[] }) {
       </Head>
       <AdminLayout title="Education">
         <div className="flex justify-between items-center mb-4">
-          <p className="text-sm text-neutral-400">
+          <p className="text-sm text-muted-foreground">
             {items.length} entr{items.length === 1 ? "y" : "ies"} · ordered by sequence field
           </p>
           <Button onClick={() => { setCreating(true); setEditing(null); setDraft(empty); }}>
@@ -213,47 +213,47 @@ function EditDialog({
 }) {
   return (
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-neutral-950 border border-neutral-800 rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-neutral-950 border-b border-neutral-800 px-6 py-4 flex items-center justify-between z-10">
-          <h2 className="text-lg font-semibold text-white">{editing ? "Edit education" : "New education"}</h2>
-          <button type="button" onClick={onClose} className="text-neutral-400 hover:text-white text-2xl leading-none">×</button>
+      <div className="bg-background border border-border rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-background border-b border-border px-6 py-4 flex items-center justify-between z-10">
+          <h2 className="text-lg font-semibold text-foreground">{editing ? "Edit education" : "New education"}</h2>
+          <button type="button" onClick={onClose} className="text-muted-foreground hover:text-foreground text-2xl leading-none">×</button>
         </div>
         <div className="px-6 py-5 grid grid-cols-2 gap-4">
           <div className="col-span-2">
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Degree</label>
+            <label className="block text-xs font-medium uppercase tracking-wider text-muted-foreground mb-1.5">Degree</label>
             <Input value={draft.degree} onChange={(e) => setDraft({ ...draft, degree: e.target.value })} />
           </div>
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Institution</label>
+            <label className="block text-xs font-medium uppercase tracking-wider text-muted-foreground mb-1.5">Institution</label>
             <Input value={draft.institution} onChange={(e) => setDraft({ ...draft, institution: e.target.value })} />
           </div>
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">URL</label>
+            <label className="block text-xs font-medium uppercase tracking-wider text-muted-foreground mb-1.5">URL</label>
             <Input value={draft.link ?? ""} onChange={(e) => setDraft({ ...draft, link: e.target.value })} placeholder="https://..." />
           </div>
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Start date</label>
+            <label className="block text-xs font-medium uppercase tracking-wider text-muted-foreground mb-1.5">Start date</label>
             <Input type="date" value={draft.startDate} onChange={(e) => setDraft({ ...draft, startDate: e.target.value })} />
           </div>
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">End date</label>
+            <label className="block text-xs font-medium uppercase tracking-wider text-muted-foreground mb-1.5">End date</label>
             <Input type="date" value={draft.endDate ?? ""} onChange={(e) => setDraft({ ...draft, endDate: e.target.value || null })} />
           </div>
           <div className="col-span-2">
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Description</label>
+            <label className="block text-xs font-medium uppercase tracking-wider text-muted-foreground mb-1.5">Description</label>
             <textarea
               rows={3}
               value={draft.description}
               onChange={(e) => setDraft({ ...draft, description: e.target.value })}
-              className="w-full px-3 py-2 bg-neutral-900 border border-neutral-800 rounded-md text-white text-sm"
+              className="w-full px-3 py-2 bg-card border border-border rounded-md text-foreground text-sm"
             />
           </div>
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Order</label>
+            <label className="block text-xs font-medium uppercase tracking-wider text-muted-foreground mb-1.5">Order</label>
             <Input type="number" value={draft.order} onChange={(e) => setDraft({ ...draft, order: Number(e.target.value) })} />
           </div>
         </div>
-        <div className="sticky bottom-0 bg-neutral-950 border-t border-neutral-800 px-6 py-4 flex justify-end gap-2">
+        <div className="sticky bottom-0 bg-background border-t border-border px-6 py-4 flex justify-end gap-2">
           <Button variant="ghost" onClick={onClose}>Cancel</Button>
           <Button onClick={onSave}>{editing ? "Save changes" : "Create entry"}</Button>
         </div>

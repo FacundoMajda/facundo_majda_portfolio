@@ -217,16 +217,16 @@ export default function ProjectsAdmin({
             <div className="flex items-center gap-3 min-w-[260px]">
               {p.images[0] ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={p.images[0]} alt="" className="w-10 h-10 rounded object-cover shrink-0 bg-neutral-900" />
+                <img src={p.images[0]} alt="" className="w-10 h-10 rounded object-cover shrink-0 bg-card" />
               ) : (
                 <div className={`w-1 h-10 rounded-full bg-gradient-to-b ${p.color ?? "from-blue-600 to-purple-600"} shrink-0`} />
               )}
               <div className="min-w-0">
-                <div className="font-medium text-white truncate flex items-center gap-2">
+                <div className="font-medium text-foreground truncate flex items-center gap-2">
                   {p.title}
                   {p.featured && <Star className="w-3 h-3 fill-yellow-400 text-yellow-400 shrink-0" />}
                 </div>
-                <div className="text-xs text-neutral-500 truncate">{p.slug}</div>
+                <div className="text-xs text-muted-foreground truncate">{p.slug}</div>
               </div>
             </div>
           );
@@ -238,11 +238,11 @@ export default function ProjectsAdmin({
         cell: ({ row }) => {
           const cat = row.original.category;
           return cat ? (
-            <Badge variant="secondary" className="bg-neutral-800 text-neutral-300 font-normal">
+            <Badge variant="secondary" className="bg-secondary text-foreground font-normal">
               {cat}
             </Badge>
           ) : (
-            <span className="text-neutral-600">—</span>
+            <span className="text-muted-foreground/70">—</span>
           );
         },
         filterFn: (row, _id, value) => (row.original.category ?? "") === value,
@@ -253,12 +253,12 @@ export default function ProjectsAdmin({
         cell: ({ row }) => (
           <div className="flex flex-wrap gap-1 max-w-[280px]">
             {row.original.tech.slice(0, 4).map((t) => (
-              <span key={t} className="px-1.5 py-0.5 bg-neutral-800 text-neutral-400 text-xs rounded font-mono">
+              <span key={t} className="px-1.5 py-0.5 bg-secondary text-muted-foreground text-xs rounded font-mono">
                 {t}
               </span>
             ))}
             {row.original.tech.length > 4 && (
-              <span className="text-xs text-neutral-500">+{row.original.tech.length - 4}</span>
+              <span className="text-xs text-muted-foreground">+{row.original.tech.length - 4}</span>
             )}
           </div>
         ),
@@ -281,7 +281,7 @@ export default function ProjectsAdmin({
                   <Eye className="w-3 h-3 mr-1" /> Live
                 </Badge>
               ) : (
-                <Badge className="bg-neutral-800 text-neutral-500 border-neutral-700 font-normal">
+                <Badge className="bg-secondary text-muted-foreground border-border font-normal">
                   <EyeOff className="w-3 h-3 mr-1" /> Draft
                 </Badge>
               )}
@@ -293,7 +293,7 @@ export default function ProjectsAdmin({
       {
         accessorKey: "order",
         header: ({ column }) => <DataTableColumnHeader column={column} title="Order" />,
-        cell: ({ row }) => <span className="text-neutral-400 font-mono text-sm">{row.original.order}</span>,
+        cell: ({ row }) => <span className="text-muted-foreground font-mono text-sm">{row.original.order}</span>,
       },
       {
         id: "actions",
@@ -337,7 +337,7 @@ export default function ProjectsAdmin({
       </Head>
       <AdminLayout title="Projects">
         <div className="flex justify-between items-center mb-4">
-          <p className="text-sm text-neutral-400">
+          <p className="text-sm text-muted-foreground">
             {items.length} project{items.length === 1 ? "" : "s"} · {items.filter((p) => p.publishedAt).length} live · {items.filter((p) => p.featured).length} featured
           </p>
           <Button
@@ -460,7 +460,7 @@ function EditDialog({
           </div>
           <div className="col-span-3">
             <Label>Tech stack ({draft.tech.length})</Label>
-            <div className="flex flex-wrap gap-2 p-3 bg-neutral-900 border border-neutral-800 rounded-md min-h-[3rem]">
+            <div className="flex flex-wrap gap-2 p-3 bg-card border border-border rounded-md min-h-[3rem]">
               {draft.tech.map((t) => (
                 <button
                   key={t}
@@ -473,7 +473,7 @@ function EditDialog({
                 </button>
               ))}
               {draft.tech.length === 0 && (
-                <span className="text-xs text-neutral-600">Click tags below to add</span>
+                <span className="text-xs text-muted-foreground/70">Click tags below to add</span>
               )}
             </div>
             <div className="mt-2 max-h-32 overflow-y-auto flex flex-wrap gap-1.5">
@@ -484,7 +484,7 @@ function EditDialog({
                     key={t.name}
                     type="button"
                     onClick={() => toggleTech(t.name)}
-                    className="px-2 py-0.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-300 text-xs rounded"
+                    className="px-2 py-0.5 bg-secondary hover:bg-muted text-foreground text-xs rounded"
                   >
                     + {t.name}
                   </button>
@@ -525,7 +525,7 @@ function EditDialog({
           <div>
             <Label>Status</Label>
             <div className="flex items-center gap-3 h-9">
-              <label className="flex items-center gap-2 text-sm text-neutral-300">
+              <label className="flex items-center gap-2 text-sm text-foreground">
                 <input
                   type="checkbox"
                   checked={draft.publishedAt !== null}
@@ -543,14 +543,14 @@ function EditDialog({
           <div className="col-span-3">
             <Label>Flags</Label>
             <div className="flex items-center gap-4 h-9">
-              <label className="flex items-center gap-2 text-sm text-neutral-300">
+              <label className="flex items-center gap-2 text-sm text-foreground">
                 <Checkbox
                   checked={draft.featured}
                   onCheckedChange={(c) => setDraft({ ...draft, featured: !!c })}
                 />
                 Featured
               </label>
-              <label className="flex items-center gap-2 text-sm text-neutral-300">
+              <label className="flex items-center gap-2 text-sm text-foreground">
                 <Checkbox
                   checked={draft.isClientWork}
                   onCheckedChange={(c) => setDraft({ ...draft, isClientWork: !!c })}
@@ -607,12 +607,12 @@ function ImagesEditor({
             <img
               src={url}
               alt=""
-              className="w-10 h-10 rounded object-cover shrink-0 bg-neutral-900 border border-neutral-800"
+              className="w-10 h-10 rounded object-cover shrink-0 bg-card border border-border"
               onError={(e) => { e.currentTarget.style.visibility = "hidden"; }}
               onLoad={(e) => { e.currentTarget.style.visibility = "visible"; }}
             />
           ) : (
-            <div className="w-10 h-10 rounded shrink-0 bg-neutral-900 border border-neutral-800" />
+            <div className="w-10 h-10 rounded shrink-0 bg-card border border-border" />
           )}
           <Input
             value={url}
@@ -620,7 +620,7 @@ function ImagesEditor({
             placeholder="https://.../screenshot.png"
             className="flex-1"
           />
-          <Button variant="ghost" size="icon" onClick={() => remove(i)} className="text-neutral-500 hover:text-red-400">
+          <Button variant="ghost" size="icon" onClick={() => remove(i)} className="text-muted-foreground hover:text-red-400">
             ×
           </Button>
         </div>
@@ -674,7 +674,7 @@ function MetricsEditor({
             placeholder="value"
             className="flex-1"
           />
-          <Button variant="ghost" size="icon" onClick={() => remove(i)} className="text-neutral-500 hover:text-red-400">
+          <Button variant="ghost" size="icon" onClick={() => remove(i)} className="text-muted-foreground hover:text-red-400">
             ×
           </Button>
         </div>

@@ -134,7 +134,7 @@ export default function TechTagsAdmin({ tags: initial }: { tags: Tag[] }) {
               // eslint-disable-next-line @next/next/no-img-element
               <img src={row.original.iconUrl} alt="" className="w-5 h-5 shrink-0" />
             )}
-            <span className="text-white font-medium">{row.original.name}</span>
+            <span className="text-foreground font-medium">{row.original.name}</span>
           </div>
         ),
       },
@@ -152,13 +152,13 @@ export default function TechTagsAdmin({ tags: initial }: { tags: Tag[] }) {
           row.original.featured ? (
             <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
           ) : (
-            <StarOff className="w-4 h-4 text-neutral-600" />
+            <StarOff className="w-4 h-4 text-muted-foreground/70" />
           ),
       },
       {
         accessorKey: "order",
         header: ({ column }) => <DataTableColumnHeader column={column} title="#" />,
-        cell: ({ row }) => <span className="text-neutral-500 font-mono text-xs">{row.original.order}</span>,
+        cell: ({ row }) => <span className="text-muted-foreground font-mono text-xs">{row.original.order}</span>,
       },
       {
         id: "actions",
@@ -190,7 +190,7 @@ export default function TechTagsAdmin({ tags: initial }: { tags: Tag[] }) {
       </Head>
       <AdminLayout title="Tech Tags">
         <div className="flex justify-between items-center mb-4">
-          <p className="text-sm text-neutral-400">
+          <p className="text-sm text-muted-foreground">
             {items.length} tag{items.length === 1 ? "" : "s"} · {items.filter((t) => t.featured).length} featured
           </p>
           <Button onClick={() => { setCreating(true); setEditing(null); setDraft(empty); }}>
@@ -262,10 +262,10 @@ function EditDialog({
                 <img
                   src={draft.iconUrl}
                   alt=""
-                  className="w-9 h-9 rounded shrink-0 bg-neutral-900 border border-neutral-800 p-1"
+                  className="w-9 h-9 rounded shrink-0 bg-card border border-border p-1"
                 />
               ) : (
-                <div className="w-9 h-9 rounded shrink-0 bg-neutral-900 border border-neutral-800" />
+                <div className="w-9 h-9 rounded shrink-0 bg-card border border-border" />
               )}
               <Input
                 value={draft.iconUrl ?? ""}
@@ -279,7 +279,7 @@ function EditDialog({
             <Label>Order</Label>
             <Input type="number" value={draft.order} onChange={(e) => setDraft({ ...draft, order: Number(e.target.value) })} />
           </div>
-          <label className="flex items-center gap-2 text-sm text-neutral-300">
+          <label className="flex items-center gap-2 text-sm text-foreground">
             <Checkbox checked={draft.featured} onCheckedChange={(c) => setDraft({ ...draft, featured: !!c })} />
             Featured (shown on portfolio)
           </label>

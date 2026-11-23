@@ -67,26 +67,26 @@ export default function AdminDashboard({
       </Head>
       <AdminLayout title="Dashboard">
         <section className="mb-8">
-          <h2 className="text-sm uppercase tracking-wide text-neutral-500 mb-3">Content at a glance</h2>
+          <h2 className="text-sm uppercase tracking-wide text-muted-foreground mb-3">Content at a glance</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
             {counts.map((c) => (
               <Link
                 key={c.label}
                 href={c.href}
-                className="block bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 rounded-lg p-4 transition"
+                className="block bg-card hover:bg-secondary border border-border rounded-lg p-4 transition"
               >
-                <div className="text-2xl font-semibold text-white">{c.value}</div>
-                <div className="text-xs text-neutral-400 mt-1">{c.label}</div>
+                <div className="text-2xl font-semibold text-foreground">{c.value}</div>
+                <div className="text-xs text-muted-foreground mt-1">{c.label}</div>
               </Link>
             ))}
           </div>
         </section>
 
         <section>
-          <h2 className="text-sm uppercase tracking-wide text-neutral-500 mb-3">Recent projects</h2>
-          <div className="bg-neutral-900 border border-neutral-800 rounded-lg divide-y divide-neutral-800">
+          <h2 className="text-sm uppercase tracking-wide text-muted-foreground mb-3">Recent projects</h2>
+          <div className="bg-card border border-border rounded-lg divide-y divide-border">
             {recent.length === 0 ? (
-              <div className="px-4 py-6 text-sm text-neutral-500 text-center">
+              <div className="px-4 py-6 text-sm text-muted-foreground text-center">
                 No projects yet. Run the seed script or create one from the Projects page.
               </div>
             ) : (
@@ -94,10 +94,10 @@ export default function AdminDashboard({
                 <Link
                   key={i}
                   href={r.href}
-                  className="flex items-center justify-between px-4 py-3 hover:bg-neutral-800 transition"
+                  className="flex items-center justify-between px-4 py-3 hover:bg-secondary transition"
                 >
-                  <span className="text-sm text-white truncate">{r.title}</span>
-                  <span className="text-xs text-neutral-500 ml-3 shrink-0">{r.meta}</span>
+                  <span className="text-sm text-foreground truncate">{r.title}</span>
+                  <span className="text-xs text-muted-foreground ml-3 shrink-0">{r.meta}</span>
                 </Link>
               ))
             )}
@@ -105,16 +105,16 @@ export default function AdminDashboard({
         </section>
 
         <section className="mt-8">
-          <h2 className="text-sm uppercase tracking-wide text-neutral-500 mb-3">Next steps</h2>
-          <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-4 text-sm text-neutral-300 space-y-2">
+          <h2 className="text-sm uppercase tracking-wide text-muted-foreground mb-3">Next steps</h2>
+          <div className="bg-card border border-border rounded-lg p-4 text-sm text-foreground space-y-2">
             <p>
-              <strong className="text-white">First time here?</strong> Populate the database from your
+              <strong className="text-foreground">First time here?</strong> Populate the database from your
               current <code className="text-emerald-400">src/config/profile.tsx</code> by running:
             </p>
-            <pre className="bg-neutral-950 border border-neutral-800 rounded-md px-3 py-2 text-xs text-emerald-300 overflow-x-auto">
+            <pre className="bg-background border border-border rounded-md px-3 py-2 text-xs text-emerald-300 overflow-x-auto">
               npm run db:seed
             </pre>
-            <p className="text-neutral-400">
+            <p className="text-muted-foreground">
               Then refresh this page to see the counts populate.
             </p>
           </div>

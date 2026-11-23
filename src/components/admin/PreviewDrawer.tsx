@@ -13,12 +13,12 @@ export function PreviewDrawer() {
       <SheetContent side="right" className="!w-full sm:!max-w-3xl p-0">
         <SheetTitle className="sr-only">Portfolio preview</SheetTitle>
         <div className="h-full flex flex-col">
-          <div className="flex items-center justify-between px-4 py-2.5 border-b border-neutral-800 bg-neutral-950">
+          <div className="flex items-center justify-between px-4 py-2.5 border-b border-border bg-background">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-sm text-neutral-300">Live preview</span>
-              <span className="text-xs text-neutral-600">/</span>
-              <span className="text-xs text-neutral-500 font-mono">facundomajdaportfolio.vercel.app</span>
+              <span className="text-sm text-foreground">Live preview</span>
+              <span className="text-xs text-muted-foreground/70">/</span>
+              <span className="text-xs text-muted-foreground font-mono">facundomajdaportfolio.vercel.app</span>
             </div>
             <div className="flex items-center gap-1">
               <Button

@@ -110,7 +110,7 @@ export default function WritingAdmin({ entries: initial }: { entries: Entry[] })
         header: ({ column }) => <DataTableColumnHeader column={column} title="Title" />,
         cell: ({ row }) => (
           <div className="min-w-[260px]">
-            <div className="text-white font-medium">{row.original.title}</div>
+            <div className="text-foreground font-medium">{row.original.title}</div>
             <a
               href={row.original.url}
               target="_blank"
@@ -132,19 +132,19 @@ export default function WritingAdmin({ entries: initial }: { entries: Entry[] })
         accessorKey: "language",
         header: ({ column }) => <DataTableColumnHeader column={column} title="Lang" />,
         cell: ({ row }) => (
-          <span className="font-mono text-xs uppercase text-neutral-400">{row.original.language}</span>
+          <span className="font-mono text-xs uppercase text-muted-foreground">{row.original.language}</span>
         ),
       },
       {
         accessorKey: "publishedAt",
         header: ({ column }) => <DataTableColumnHeader column={column} title="Published" />,
-        cell: ({ row }) => <span className="text-neutral-400 font-mono text-xs">{row.original.publishedAt}</span>,
+        cell: ({ row }) => <span className="text-muted-foreground font-mono text-xs">{row.original.publishedAt}</span>,
       },
       {
         accessorKey: "summary",
         header: "Summary",
         cell: ({ row }) => (
-          <span className="text-xs text-neutral-500 line-clamp-2 max-w-[400px] block">{row.original.summary}</span>
+          <span className="text-xs text-muted-foreground line-clamp-2 max-w-[400px] block">{row.original.summary}</span>
         ),
         enableSorting: false,
       },
@@ -166,7 +166,7 @@ export default function WritingAdmin({ entries: initial }: { entries: Entry[] })
       </Head>
       <AdminLayout title="Writing">
         <div className="flex justify-between items-center mb-4">
-          <p className="text-sm text-neutral-400">
+          <p className="text-sm text-muted-foreground">
             {items.length} entr{items.length === 1 ? "y" : "ies"} · sorted by publication date
           </p>
           <Button onClick={() => { setCreating(true); setEditing(null); setDraft(empty); }}>
@@ -208,33 +208,33 @@ function EditDialog({
 }) {
   return (
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-neutral-950 border border-neutral-800 rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-neutral-950 border-b border-neutral-800 px-6 py-4 flex items-center justify-between z-10">
-          <h2 className="text-lg font-semibold text-white">{editing ? "Edit writing" : "New writing entry"}</h2>
-          <button type="button" onClick={onClose} className="text-neutral-400 hover:text-white text-2xl leading-none">×</button>
+      <div className="bg-background border border-border rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-background border-b border-border px-6 py-4 flex items-center justify-between z-10">
+          <h2 className="text-lg font-semibold text-foreground">{editing ? "Edit writing" : "New writing entry"}</h2>
+          <button type="button" onClick={onClose} className="text-muted-foreground hover:text-foreground text-2xl leading-none">×</button>
         </div>
         <div className="px-6 py-5 space-y-4">
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Title</label>
+            <label className="block text-xs font-medium uppercase tracking-wider text-muted-foreground mb-1.5">Title</label>
             <Input value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Slug</label>
+              <label className="block text-xs font-medium uppercase tracking-wider text-muted-foreground mb-1.5">Slug</label>
               <Input value={draft.slug} onChange={(e) => setDraft({ ...draft, slug: e.target.value })} className="font-mono" />
             </div>
             <div>
-              <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Published</label>
+              <label className="block text-xs font-medium uppercase tracking-wider text-muted-foreground mb-1.5">Published</label>
               <Input type="date" value={draft.publishedAt} onChange={(e) => setDraft({ ...draft, publishedAt: e.target.value })} />
             </div>
           </div>
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">URL</label>
+            <label className="block text-xs font-medium uppercase tracking-wider text-muted-foreground mb-1.5">URL</label>
             <Input value={draft.url} onChange={(e) => setDraft({ ...draft, url: e.target.value })} placeholder="https://..." />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Platform</label>
+              <label className="block text-xs font-medium uppercase tracking-wider text-muted-foreground mb-1.5">Platform</label>
               <Input value={draft.platform} onChange={(e) => setDraft({ ...draft, platform: e.target.value })} list="platforms" />
               <datalist id="platforms">
                 <option value="dev.to" />
@@ -245,11 +245,11 @@ function EditDialog({
               </datalist>
             </div>
             <div>
-              <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Language</label>
+              <label className="block text-xs font-medium uppercase tracking-wider text-muted-foreground mb-1.5">Language</label>
               <select
                 value={draft.language}
                 onChange={(e) => setDraft({ ...draft, language: e.target.value })}
-                className="w-full h-9 px-3 bg-neutral-900 border border-neutral-800 rounded-md text-white text-sm"
+                className="w-full h-9 px-3 bg-card border border-border rounded-md text-foreground text-sm"
               >
                 <option value="es">es</option>
                 <option value="en">en</option>
@@ -257,16 +257,16 @@ function EditDialog({
             </div>
           </div>
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Summary</label>
+            <label className="block text-xs font-medium uppercase tracking-wider text-muted-foreground mb-1.5">Summary</label>
             <textarea
               rows={2}
               value={draft.summary}
               onChange={(e) => setDraft({ ...draft, summary: e.target.value })}
-              className="w-full px-3 py-2 bg-neutral-900 border border-neutral-800 rounded-md text-white text-sm"
+              className="w-full px-3 py-2 bg-card border border-border rounded-md text-foreground text-sm"
             />
           </div>
         </div>
-        <div className="sticky bottom-0 bg-neutral-950 border-t border-neutral-800 px-6 py-4 flex justify-end gap-2">
+        <div className="sticky bottom-0 bg-background border-t border-border px-6 py-4 flex justify-end gap-2">
           <Button variant="ghost" onClick={onClose}>Cancel</Button>
           <Button onClick={onSave}>{editing ? "Save changes" : "Create entry"}</Button>
         </div>

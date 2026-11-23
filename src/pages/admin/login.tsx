@@ -70,8 +70,8 @@ export default function AdminLogin() {
 
   if (status === "checking") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-neutral-950">
-        <Loader2 className="w-6 h-6 text-neutral-600 animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Loader2 className="w-6 h-6 text-muted-foreground/70 animate-spin" />
       </div>
     );
   }
@@ -81,24 +81,24 @@ export default function AdminLogin() {
       <Head>
         <title>Admin · Facundo Majda</title>
       </Head>
-      <div className="min-h-screen flex items-center justify-center bg-neutral-950 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-background px-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <ShieldCheck className="w-10 h-10 mx-auto text-emerald-400 mb-3" />
-            <h1 className="text-2xl font-semibold text-white">Portfolio Admin</h1>
-            <p className="text-neutral-400 text-sm mt-1">
+            <h1 className="text-2xl font-semibold text-foreground">Portfolio Admin</h1>
+            <p className="text-muted-foreground text-sm mt-1">
               Neon Auth handles credentials — never stored in this app.
             </p>
           </div>
 
-          <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 shadow-2xl">
+          <div className="bg-card border border-border rounded-xl p-6 shadow-2xl">
             <form onSubmit={submit} className="space-y-4" noValidate>
               <div>
-                <label htmlFor="email" className="block text-sm text-neutral-300 mb-1.5">
+                <label htmlFor="email" className="block text-sm text-foreground mb-1.5">
                   Email
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <input
                     id="email"
                     type="email"
@@ -111,16 +111,16 @@ export default function AdminLogin() {
                     placeholder="you@example.com"
                     aria-invalid={error?.kind === "invalid_credentials"}
                     aria-describedby={error ? "login-error" : undefined}
-                    className="w-full pl-10 pr-3 py-2 bg-neutral-950 border border-neutral-800 rounded-md text-white placeholder-neutral-600 focus:outline-none focus:border-emerald-500 disabled:opacity-50"
+                    className="w-full pl-10 pr-3 py-2 bg-background border border-border rounded-md text-foreground placeholder-neutral-600 focus:outline-none focus:border-emerald-500 disabled:opacity-50"
                   />
                 </div>
               </div>
               <div>
-                <label htmlFor="password" className="block text-sm text-neutral-300 mb-1.5">
+                <label htmlFor="password" className="block text-sm text-foreground mb-1.5">
                   Password
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <input
                     id="password"
                     type="password"
@@ -132,7 +132,7 @@ export default function AdminLogin() {
                     placeholder="••••••••"
                     aria-invalid={error?.kind === "invalid_credentials"}
                     aria-describedby={error ? "login-error" : undefined}
-                    className="w-full pl-10 pr-3 py-2 bg-neutral-950 border border-neutral-800 rounded-md text-white placeholder-neutral-600 focus:outline-none focus:border-emerald-500 disabled:opacity-50"
+                    className="w-full pl-10 pr-3 py-2 bg-background border border-border rounded-md text-foreground placeholder-neutral-600 focus:outline-none focus:border-emerald-500 disabled:opacity-50"
                   />
                 </div>
               </div>
@@ -152,7 +152,7 @@ export default function AdminLogin() {
                 type="submit"
                 disabled={status === "loading"}
                 aria-busy={status === "loading"}
-                className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:bg-neutral-700 disabled:cursor-not-allowed text-neutral-950 font-medium rounded-md flex items-center justify-center gap-2 transition"
+                className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:bg-muted disabled:cursor-not-allowed text-neutral-950 font-medium rounded-md flex items-center justify-center gap-2 transition"
               >
                 {status === "loading" ? (
                   <>

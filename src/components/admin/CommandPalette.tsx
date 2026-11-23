@@ -79,7 +79,7 @@ export function CommandPalette() {
 
   return (
     <Sheet open={paletteOpen} onOpenChange={setPaletteOpen}>
-      <SheetContent side="top" className="!top-[10vh] !h-auto !w-full !max-w-2xl !mx-auto rounded-xl border-neutral-800">
+      <SheetContent side="top" className="!top-[10vh] !h-auto !w-full !max-w-2xl !mx-auto rounded-xl border-border">
         <SheetTitle className="sr-only">Command palette</SheetTitle>
         <Command>
           <CommandInput
@@ -98,10 +98,10 @@ export function CommandPalette() {
                     value={`${a.label} ${a.group} ${a.keywords?.join(" ") ?? ""}`}
                     onSelect={() => a.perform()}
                   >
-                    <a.icon className="mr-2 h-4 w-4 text-neutral-500" />
+                    <a.icon className="mr-2 h-4 w-4 text-muted-foreground" />
                     <span>{a.label}</span>
                     {a.shortcut && (
-                      <span className="ml-auto text-xs text-neutral-500 font-mono">{a.shortcut}</span>
+                      <span className="ml-auto text-xs text-muted-foreground font-mono">{a.shortcut}</span>
                     )}
                   </CommandItem>
                 ))}

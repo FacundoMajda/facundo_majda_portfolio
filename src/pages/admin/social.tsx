@@ -89,7 +89,7 @@ export default function SocialAdmin({ links: initial }: { links: Link[] }) {
         accessorKey: "url",
         header: ({ column }) => <DataTableColumnHeader column={column} title="URL" />,
         cell: ({ row }) => (
-          <a href={row.original.url} target="_blank" rel="noreferrer" className="text-sm text-neutral-300 hover:text-emerald-400 truncate block max-w-[500px]">
+          <a href={row.original.url} target="_blank" rel="noreferrer" className="text-sm text-foreground hover:text-emerald-400 truncate block max-w-[500px]">
             {row.original.url}
           </a>
         ),
@@ -97,7 +97,7 @@ export default function SocialAdmin({ links: initial }: { links: Link[] }) {
       {
         accessorKey: "order",
         header: ({ column }) => <DataTableColumnHeader column={column} title="Order" />,
-        cell: ({ row }) => <span className="text-neutral-500 font-mono text-xs">{row.original.order}</span>,
+        cell: ({ row }) => <span className="text-muted-foreground font-mono text-xs">{row.original.order}</span>,
       },
       {
         id: "actions",
@@ -117,7 +117,7 @@ export default function SocialAdmin({ links: initial }: { links: Link[] }) {
       </Head>
       <AdminLayout title="Social Links">
         <div className="flex justify-between items-center mb-4">
-          <p className="text-sm text-neutral-400">
+          <p className="text-sm text-muted-foreground">
             {items.length} link{items.length === 1 ? "" : "s"} · header + footer social icons
           </p>
           <Button onClick={() => { setCreating(true); setEditing(null); setDraft(empty); }}>
@@ -159,29 +159,29 @@ function EditDialog({
 }) {
   return (
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-neutral-950 border border-neutral-800 rounded-xl w-full max-w-md">
-        <div className="border-b border-neutral-800 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-white">{editing ? "Edit link" : "New link"}</h2>
-          <button type="button" onClick={onClose} className="text-neutral-400 hover:text-white text-2xl leading-none">×</button>
+      <div className="bg-background border border-border rounded-xl w-full max-w-md">
+        <div className="border-b border-border px-6 py-4 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-foreground">{editing ? "Edit link" : "New link"}</h2>
+          <button type="button" onClick={onClose} className="text-muted-foreground hover:text-foreground text-2xl leading-none">×</button>
         </div>
         <div className="px-6 py-5 space-y-4">
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Platform</label>
+            <label className="block text-xs font-medium uppercase tracking-wider text-muted-foreground mb-1.5">Platform</label>
             <Input value={draft.platform} onChange={(e) => setDraft({ ...draft, platform: e.target.value })} list="social-presets" />
             <datalist id="social-presets">
               {PRESETS.map((p) => <option key={p} value={p} />)}
             </datalist>
           </div>
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">URL</label>
+            <label className="block text-xs font-medium uppercase tracking-wider text-muted-foreground mb-1.5">URL</label>
             <Input value={draft.url} onChange={(e) => setDraft({ ...draft, url: e.target.value })} placeholder="https://..." />
           </div>
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-neutral-400 mb-1.5">Order</label>
+            <label className="block text-xs font-medium uppercase tracking-wider text-muted-foreground mb-1.5">Order</label>
             <Input type="number" value={draft.order} onChange={(e) => setDraft({ ...draft, order: Number(e.target.value) })} />
           </div>
         </div>
-        <div className="border-t border-neutral-800 px-6 py-4 flex justify-end gap-2">
+        <div className="border-t border-border px-6 py-4 flex justify-end gap-2">
           <Button variant="ghost" onClick={onClose}>Cancel</Button>
           <Button onClick={onSave}>{editing ? "Save changes" : "Add link"}</Button>
         </div>
