@@ -10,6 +10,17 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
+  async redirects() {
+    return [
+      {
+        // The apex is canonical; send the www duplicate there (301).
+        source: "/:path*",
+        has: [{ type: "host", value: "www.faqmajda.xyz" }],
+        destination: "https://faqmajda.xyz/:path*",
+        permanent: true,
+      },
+    ];
+  },
   webpack(config, { dev }) {
     config.module.rules.push({
       test: /\.wgsl$/,

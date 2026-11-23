@@ -451,7 +451,7 @@ export default function Portfolio({
                     key={s.platform}
                     href={s.url}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="me noreferrer"
                     className="t-label text-muted-foreground transition-colors hover:text-primary"
                   >
                     [{s.platform}]
