@@ -8,6 +8,7 @@ export default function handler(_req: NextApiRequest, res: NextApiResponse) {
   const lastmod = new Date().toISOString().slice(0, 10);
   const entries = [
     { loc: `${SITE_URL}/`, lang: "en" },
+    { loc: `${SITE_URL}/es`, lang: "es-AR" },
     ...SERVICE_PAGES.map((page) => ({
       loc: `${SITE_URL}${page.path}`,
       lang: "es-AR",

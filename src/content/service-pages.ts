@@ -3,7 +3,7 @@
 export type ServicePageLink = { path: string; label: string };
 
 export const SERVICE_PAGES: ServicePageLink[] = [
-  { path: "/es", label: "Desarrollador de software" },
+  { path: "/es/servicios", label: "Desarrollador de software" },
   {
     path: "/es/desarrollador-software-formosa",
     label: "Desarrollador de software en Formosa",

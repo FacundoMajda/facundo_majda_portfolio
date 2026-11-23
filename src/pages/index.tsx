@@ -25,6 +25,7 @@ import { Reveal } from "@/utils";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { SITE_URL } from "@/config/site";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
+import { useCopy } from "@/i18n/useCopy";
 
 // Icons come from CDNs: brand icons carry their own colour, but monochrome ones
 // are pure white/black and would vanish against one of the two themes. Invert the
@@ -213,6 +214,7 @@ export default function Portfolio({
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
 
   const SOCIAL = Object.fromEntries(socials.map((s) => [s.platform, s.url]));
+  const c = useCopy();
 
   const STACK_CATEGORIES = techs.reduce<{ name: string; items: { name: string; icon: string }[] }[]>(
     (acc, t) => {
@@ -282,7 +284,7 @@ export default function Portfolio({
           "Large Language Models",
           "Retrieval-Augmented Generation",
           "LLM Agents",
-          "Computer Vision",
+          "{c.sys2Title}",
           "Natural Language Processing",
           "Automation",
           "Backend Architecture",
@@ -315,7 +317,7 @@ export default function Portfolio({
         <meta name="description" content={seoDescription} />
         <meta
           name="keywords"
-          content="AI Engineer, Machine Learning, LLM, RAG, Computer Vision, Automation, Backend, NestJS, Spring Boot, PyTorch, LangChain, Portfolio"
+          content="AI Engineer, Machine Learning, LLM, RAG, {c.sys2Title}, Automation, Backend, NestJS, Spring Boot, PyTorch, LangChain, Portfolio"
         />
         <meta name="author" content="Facundo Majda" />
         <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -369,7 +371,7 @@ export default function Portfolio({
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="group w-12 h-12 relative flex items-center justify-center"
-            aria-label="Toggle menu"
+            aria-label={c.toggleMenu}
           >
             <span
               className={`absolute w-8 h-0.5 bg-white transition-transform duration-300 ${
@@ -401,7 +403,7 @@ export default function Portfolio({
         <div className="flex flex-col gap-10">
           <div>
             <div className="mb-5 flex items-baseline justify-between border-b border-dashed border-border pb-3">
-              <p className="t-label text-muted-foreground">[ MENU ]</p>
+              <p className="t-label text-muted-foreground">{c.menuLabel}</p>
               <span className="t-meta text-muted-foreground/70">
                 {String(MENU_ITEMS.length).padStart(2, "0")}
               </span>
@@ -431,7 +433,7 @@ export default function Portfolio({
                       {String(idx + 1).padStart(2, "0")}
                     </span>
                     <span className="t-title text-2xl md:text-3xl text-foreground transition-all group-hover:translate-x-1 group-hover:text-foreground">
-                      {item.name}
+                      {c.menuItems[item.name] ?? item.name}
                     </span>
                     <MoveUpRight
                       size={14}
@@ -445,7 +447,7 @@ export default function Portfolio({
 
           <div>
             <div className="mb-4 border-b border-dashed border-border pb-3">
-              <p className="t-label text-muted-foreground">[ SOCIAL ]</p>
+              <p className="t-label text-muted-foreground">{c.socialLabel}</p>
             </div>
             <div className="flex flex-wrap gap-x-5 gap-y-2">
               {socials
@@ -466,7 +468,7 @@ export default function Portfolio({
 
           <div>
             <div className="mb-4 border-b border-dashed border-border pb-3">
-              <p className="t-label text-muted-foreground">[ STATUS ]</p>
+              <p className="t-label text-muted-foreground">{c.statusLabel}</p>
             </div>
             <p className="t-body max-w-[42ch] text-muted-foreground">
               {profile?.statusLine ??
@@ -476,10 +478,10 @@ export default function Portfolio({
 
           <div>
             <div className="mb-4 border-b border-dashed border-border pb-3">
-              <p className="t-label text-muted-foreground">[ SERVICIOS ]</p>
+              <p className="t-label text-muted-foreground">{c.servicesLabel}</p>
             </div>
             <a
-              href="/es"
+              href="/es/servicios"
               className="t-label text-muted-foreground transition-colors hover:text-primary"
             >
               Todos los servicios (español)
@@ -500,14 +502,14 @@ export default function Portfolio({
 
           <div>
             <div className="mb-4 border-b border-dashed border-border pb-3">
-              <p className="t-label text-muted-foreground">[ LANGUAGE ]</p>
+              <p className="t-label text-muted-foreground">{c.languageLabel}</p>
             </div>
             <LanguageSwitcher />
           </div>
 
           <div>
             <div className="mb-4 border-b border-dashed border-border pb-3">
-              <p className="t-label text-muted-foreground">[ THEME ]</p>
+              <p className="t-label text-muted-foreground">{c.themeLabel}</p>
             </div>
             <ThemeToggle />
           </div>
@@ -577,19 +579,19 @@ export default function Portfolio({
                   </Reveal>
                   <Reveal delay={25}>
                     <p className="t-label mt-2 text-muted-foreground md:text-[0.975rem]">
-                      [ AI/ML &amp; AUTOMATION ENGINEER ]
+                      {c.heroLabel}
                     </p>
                   </Reveal>
                   <Reveal delay={50}>
                     <h2 className="mt-4">
                       <span className="t-title block text-xl text-muted-foreground md:text-[1.95rem]">
-                        Hi, I&apos;m{" "}
+                        {c.heroHi}{" "}
                         <span className="text-foreground">Facundo Majda</span>
                       </span>
                       <span className="t-body mt-2 block max-w-[58ch] text-muted-foreground md:text-[1.3rem]">
-                        {profile?.heroTitle ?? "I design and ship production AI systems"} —{" "}
+                        {profile?.heroTitle ?? c.heroFallback} —{" "}
                         <span className="text-primary">
-                          RAG pipelines, LLM agents, and the backend that holds them up
+                          {c.heroSub}
                         </span>
                         .
                       </span>
@@ -617,10 +619,10 @@ export default function Portfolio({
                   <Reveal delay={300}>
                     <div>
                       <h5 className="font-mono text-4xl sm:text-5xl md:text-[4.875rem] lg:text-[3.9rem] tabular-nums text-primary mb-1">
-                        OVER {profile?.yearsExp ?? 3}+
+                        {c.overLabel} {profile?.yearsExp ?? 3}+
                       </h5>
                       <p className="t-label text-muted-foreground">
-                        Years Engineering
+                        {c.yearsEngineering}
                       </p>
                     </div>
                   </Reveal>
@@ -644,22 +646,22 @@ export default function Portfolio({
           <div className="w-full">
             <div className="mb-10 flex items-baseline justify-between gap-6 border-b border-dashed border-border pb-4">
               <p className="t-label text-muted-foreground">
-                [ ABOUT ]
+                {c.aboutLabel}
               </p>
               <span className="font-mono text-xs tabular-nums text-muted-foreground/70">
-                {profile?.yearsExp ?? 3}+ years
+                {profile?.yearsExp ?? 3}+ {c.years}
               </span>
             </div>
 
             <Reveal>
               <h2 className="t-display mb-16 max-w-[26ch] text-balance text-[clamp(1.75rem,4vw,3.5rem)] text-foreground">
-                An{" "}
+                {c.aboutHead1}{" "}
                 <span className="text-primary">
                   AI/ML &amp; Automation Engineer
                 </span>{" "}
-                shipping production systems across the{" "}
+                {c.aboutHead3}{" "}
                 <span className="text-primary">
-                  full software lifecycle
+                  {c.aboutHead4}
                 </span>
                 .
               </h2>
@@ -667,32 +669,26 @@ export default function Portfolio({
 
             <Reveal>
               <p className="t-label pb-3 border-b border-dashed border-border text-muted-foreground mb-10">
-                AI/ML · LLMs · Computer Vision · Backend · Automation
+                AI/ML · LLMs · {c.sys2Title} · Backend · Automation
               </p>
             </Reveal>
 
             <div className="grid md:grid-cols-12 gap-8 md:gap-12 lg:gap-16">
               <div className="md:col-span-5">
                 <Reveal>
-                  <p className="t-label text-muted-foreground">[ PROFILE ]</p>
+                  <p className="t-label text-muted-foreground">{c.profileLabel}</p>
                 </Reveal>
               </div>
               <div className="md:col-span-7">
                 <div className="t-body max-w-[62ch] space-y-8 text-lg text-foreground">
                   <Reveal delay={100}>
                     <p>
-                      I build software, work with data, and explore what AI can
-                      make possible. From full-stack applications and backend
-                      systems to machine learning, computer vision, and
-                      automation, I enjoy working across different areas of
-                      technology and figuring out how to make things work
-                      together.
+                      {c.aboutP1}
                     </p>
                   </Reveal>
                   <Reveal delay={200}>
                     <p className="text-muted-foreground">
-                      I like getting my hands dirty, learning by building, and
-                      taking ideas all the way to production.
+                      {c.aboutP2}
                     </p>
                   </Reveal>
                 </div>
@@ -702,44 +698,44 @@ export default function Portfolio({
             <Reveal delay={300}>
               <div className="mt-20 pt-12 border-t border-border">
                 <h3 className="font-mono text-2xl md:text-3xl uppercase tracking-[0.2em] text-foreground mb-12">
-                  Systems I Build
+                  {c.systemsTitle}
                 </h3>
                 <div className="systems-grid grid sm:grid-cols-2 gap-x-10 gap-y-10">
                   <div className="group">
                     <div className="flex items-center gap-3 mb-2">
                       <span className="w-2 h-2 bg-primary rounded-full"></span>
                       <h4 className="font-mono text-lg uppercase tracking-[0.14em] text-foreground group-hover:text-foreground transition-colors">
-                        AI Systems
+                        {c.sys1Title}
                       </h4>
                     </div>
-                    <p className="t-body text-muted-foreground">I build with LLMs, RAG, and AI agents to make information more useful, connect models with real-world tools, and create applications that actually do something beyond generating text.</p>
+                    <p className="t-body text-muted-foreground">{c.sys1Body}</p>
                   </div>
                   <div className="group">
                     <div className="flex items-center gap-3 mb-2">
                       <span className="w-2 h-2 bg-primary rounded-full"></span>
                       <h4 className="font-mono text-lg uppercase tracking-[0.14em] text-foreground group-hover:text-foreground transition-colors">
-                        Computer Vision
+                        {c.sys2Title}
                       </h4>
                     </div>
-                    <p className="t-body text-muted-foreground">Making cameras smarter. Detection, tracking, classification, and real-time systems that turn what a camera sees into something useful.</p>
+                    <p className="t-body text-muted-foreground">{c.sys2Body}</p>
                   </div>
                   <div className="group">
                     <div className="flex items-center gap-3 mb-2">
                       <span className="w-2 h-2 bg-primary rounded-full"></span>
                       <h4 className="font-mono text-lg uppercase tracking-[0.14em] text-foreground group-hover:text-foreground transition-colors">
-                        Backend Systems
+                        {c.sys3Title}
                       </h4>
                     </div>
-                    <p className="t-body text-muted-foreground">The stuff that makes everything work. APIs, databases, services, integrations, and all the logic behind the applications people use.</p>
+                    <p className="t-body text-muted-foreground">{c.sys3Body}</p>
                   </div>
                   <div className="group">
                     <div className="flex items-center gap-3 mb-2">
                       <span className="w-2 h-2 bg-primary rounded-full"></span>
                       <h4 className="font-mono text-lg uppercase tracking-[0.14em] text-foreground group-hover:text-foreground transition-colors">
-                        Automation
+                        {c.sys4Title}
                       </h4>
                     </div>
-                    <p className="t-body text-muted-foreground">Making systems talk to each other and getting repetitive work out of the way. APIs, workflows, AI, and a bit of creative problem-solving.</p>
+                    <p className="t-body text-muted-foreground">{c.sys4Body}</p>
                   </div>
                 </div>
               </div>
@@ -755,11 +751,11 @@ export default function Portfolio({
                   <div className="flex items-center gap-4">
                     <SpinningBrain />
                     <h2 className="t-title text-2xl md:text-3xl text-foreground">
-                      [ EXPERTISE ]
+                      {c.expertiseLabel}
                     </h2>
                   </div>
                   <span className="font-mono text-xs tabular-nums text-muted-foreground/70">
-                    {String(techs.length).padStart(2, "0")} tools
+                    {String(techs.length).padStart(2, "0")} {c.tools}
                   </span>
                 </div>
               </LazyEffect>
@@ -813,11 +809,11 @@ export default function Portfolio({
                   <div className="flex items-center gap-4">
                     <div className="w-2 h-2 bg-green-500 animate-pulse"></div>
                     <h2 className="t-title text-2xl md:text-3xl text-foreground">
-                      [ EDUCATION ]
+                      {c.educationLabel}
                     </h2>
                   </div>
                   <span className="font-mono text-xs tabular-nums text-muted-foreground/70">
-                    {String(EDUCATION.length).padStart(2, "0")} records
+                    {String(EDUCATION.length).padStart(2, "0")} {c.records}
                   </span>
                 </div>
               </LazyEffect>
@@ -870,11 +866,11 @@ export default function Portfolio({
                   <div className="flex items-center gap-4">
                     <div className="w-2 h-2 bg-primary animate-pulse"></div>
                     <h2 className="t-title text-2xl md:text-3xl text-foreground">
-                      [ EXPERIENCE ]
+                      {c.experienceLabel}
                     </h2>
                   </div>
                   <span className="font-mono text-xs tabular-nums text-muted-foreground/70">
-                    {String(EXPERIENCE.length).padStart(2, "0")} roles
+                    {String(EXPERIENCE.length).padStart(2, "0")} {c.roles}
                   </span>
                 </div>
               </LazyEffect>
