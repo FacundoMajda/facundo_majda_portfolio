@@ -1,5 +1,6 @@
 import { ArrowUpRight, Github, Linkedin, MoveUpRight } from "lucide-react";
 import Head from "next/head";
+import type { GetServerSidePropsContext } from "next";
 import { useState } from "react";
 import ContactForm from "@/components/blocx/ContactForm";
 import { Glitch } from "@/components/canvasui/Glitch";
@@ -137,7 +138,15 @@ type ProfileRow = {
   seoUrl: string;
 };
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ res }: GetServerSidePropsContext) {
+  // The landing is DB-driven but changes rarely. Let the Vercel edge cache it
+  // and revalidate in the background, so repeat visits skip the SSR round-trip
+  // (Vercel's default for pages with getServerSideProps is no-store).
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=3600, stale-while-revalidate=86400",
+  );
+
   const profileRows = await db
     .select({
       heroTitle: profile.heroTitle,
