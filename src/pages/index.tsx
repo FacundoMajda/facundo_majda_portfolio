@@ -396,11 +396,11 @@ export default function Portfolio({
         onClick={() => setIsMenuOpen(false)}
       />
       <div
-        className={`fixed top-0 right-0 h-screen w-[520px] max-w-[calc(100vw-3rem)] bg-card border-l border-dashed border-border z-40 transform transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] flex flex-col justify-center py-10 px-8 md:px-14 ${
+        className={`fixed top-0 right-0 h-screen w-[520px] max-w-[calc(100vw-3rem)] bg-card border-l border-dashed border-border z-40 transform transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] flex flex-col justify-start overflow-y-auto py-10 px-8 md:px-14 ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-8">
           <div>
             <div className="mb-5 flex items-baseline justify-between border-b border-dashed border-border pb-3">
               <p className="t-label text-muted-foreground">{c.menuLabel}</p>
@@ -482,13 +482,13 @@ export default function Portfolio({
             </div>
             <a
               href="/es/servicios"
-              className="t-label text-muted-foreground transition-colors hover:text-primary"
+              className="t-label block text-muted-foreground transition-colors hover:text-primary"
             >
               Todos los servicios (español)
             </a>
             <a
               href="/es/desarrollador-software-formosa"
-              className="t-label text-muted-foreground transition-colors hover:text-primary"
+              className="t-label mt-2 block text-muted-foreground transition-colors hover:text-primary"
             >
               Desarrollador de software en Formosa
             </a>

@@ -1,23 +1,23 @@
-"use client";
-
 import { useTheme, type Theme } from "./theme-provider";
-
-const OPTIONS: { value: Theme; label: string }[] = [
-  { value: "system", label: "System" },
-  { value: "light", label: "Light" },
-  { value: "dark", label: "Dark" },
-];
+import { useCopy } from "@/i18n/useCopy";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
+  const c = useCopy();
+
+  const options: { value: Theme; label: string }[] = [
+    { value: "system", label: c.themeSystem },
+    { value: "light", label: c.themeLight },
+    { value: "dark", label: c.themeDark },
+  ];
 
   return (
     <div
       role="group"
-      aria-label="Color theme"
+      aria-label={c.themeLabel}
       className="inline-flex gap-1 border border-border bg-background p-1"
     >
-      {OPTIONS.map((option) => {
+      {options.map((option) => {
         const active = theme === option.value;
         return (
           <button

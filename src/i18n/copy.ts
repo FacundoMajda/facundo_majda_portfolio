@@ -9,6 +9,9 @@ export type Copy = {
   servicesLabel: string;
   languageLabel: string;
   themeLabel: string;
+  themeSystem: string;
+  themeLight: string;
+  themeDark: string;
   menuItems: Record<string, string>;
 
   heroLabel: string;
@@ -53,7 +56,12 @@ export const COPY: Record<"en" | "es", Copy> = {
     servicesLabel: "[ SERVICES ]",
     languageLabel: "[ LANGUAGE ]",
     themeLabel: "[ THEME ]",
+    themeSystem: "System",
+    themeLight: "Light",
+    themeDark: "Dark",
     menuItems: {
+      Home: "Home",
+      "About Me": "About Me",
       About: "About",
       Expertise: "Expertise",
       Experience: "Experience",
@@ -109,7 +117,12 @@ export const COPY: Record<"en" | "es", Copy> = {
     servicesLabel: "[ SERVICIOS ]",
     languageLabel: "[ IDIOMA ]",
     themeLabel: "[ TEMA ]",
+    themeSystem: "Sistema",
+    themeLight: "Claro",
+    themeDark: "Oscuro",
     menuItems: {
+      Home: "Inicio",
+      "About Me": "Sobre mí",
       About: "Sobre mí",
       Expertise: "Especialidades",
       Experience: "Experiencia",
