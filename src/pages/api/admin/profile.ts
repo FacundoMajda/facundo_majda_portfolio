@@ -3,8 +3,9 @@ import { profile } from "@/db/schema";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getAdminSession, isAdminEmail } from "@/lib/admin-session";
 import { revalidateAll } from "@/lib/dal";
+import { withIndexNow } from "@/lib/with-indexnow";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
     res.status(405).json({ error: "Method not allowed" });
     return;
@@ -55,3 +56,5 @@ const sessionUser = await getAdminSession(cookieHeader);
   }
 }
 
+
+export default withIndexNow(handler);

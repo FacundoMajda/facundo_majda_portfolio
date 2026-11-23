@@ -3,8 +3,9 @@ import { techTag } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getAdminSession, isAdminEmail } from "@/lib/admin-session";
+import { withIndexNow } from "@/lib/with-indexnow";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const cookieHeader = req.headers.cookie;
 const sessionUser = await getAdminSession(cookieHeader);
   if (!isAdminEmail(sessionUser?.email)) {
@@ -55,3 +56,5 @@ const sessionUser = await getAdminSession(cookieHeader);
   }
 }
 
+
+export default withIndexNow(handler);
