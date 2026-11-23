@@ -26,7 +26,7 @@ const PROFILE = {
   seoTitle: "Facundo Majda — AI/ML & Automation Engineer",
   seoDescription:
     "AI/ML & Automation Engineer. I design and ship production AI systems — RAG pipelines, LLM agents, computer vision, and the backend that holds them up.",
-  seoUrl: "https://facundomajda.dev",
+  seoUrl: "https://faqmajda.xyz",
 };
 
 const SOCIAL_LINKS = [

@@ -1,0 +1,48 @@
+# Facundo Majda — full profile
+
+> AI/ML & Automation Engineer. I design and ship production AI systems — RAG pipelines, LLM agents, computer vision, NLP — plus the backend, APIs and frontends that hold them up.
+
+Canonical website: https://faqmajda.xyz
+Name: Facundo Majda
+Job title: AI/ML & Automation Engineer
+Years of experience: 3+
+Availability: available for remote engineering roles and selected projects
+Email: facundomajda13@gmail.com
+GitHub: https://github.com/FacundoMajda
+LinkedIn: https://www.linkedin.com/in/facundo-majda/
+Upwork: https://www.upwork.com/freelancers/~014f767f0225d54d8e
+
+## About
+
+I design and ship production AI and automation systems — RAG pipelines, LLM agents, computer vision, NLP, and the workflows that connect them to real operations. My work spans backend services, APIs, and the frontends that make those systems usable, end to end.
+
+I care about taking AI from demo to production: retrieval that actually grounds answers, agents that are observable and bounded, and the backend and integrations that keep them reliable.
+
+## Technologies
+
+- AI & Machine Learning: LangChain, LangGraph, PyTorch, Transformers, Hugging Face, Vercel AI SDK, Mastra, Scikit-learn, TensorFlow, Keras, MLflow, vLLM, ONNX, Weights & Biases, Ollama, RunPod, CoreWeave
+- Backend & Architecture: NestJS, Node.js, Python, FastAPI, Flask, Java, Spring Boot, Express
+- Mobile & Frontend: React, Next.js, TypeScript, Tailwind CSS, Angular, React Native, Expo
+- Databases: PostgreSQL, Redis, Supabase, MongoDB, MySQL, Qdrant, ChromaDB, Pinecone
+- Data Science & Analysis: NumPy, Pandas, Matplotlib, Jupyter, Streamlit
+- DevOps & Observability: Docker, Git, GitHub Actions, Prometheus, OpenTelemetry, Grafana, Dokploy
+- Automation: n8n, Make, Zapier
+
+## Experience
+
+- Automation Specialist at Lumenlab (current)
+- AI Engineer & Backend Specialist, freelancing (current)
+- Solutions Architect at MF Legal & Consulting
+- Full Stack Engineer at Push Software
+
+## Projects
+
+- Syllabi — Intelligent Tutoring System (AI & EdTech)
+- Hackathon IPF 2025 — Intelligent Incident Reporting System (Human-Centered AI)
+- Clinical RAG Assistant (AI & Healthcare)
+- talkitdown — Offline Dictation & Transcription (Privacy-First AI)
+- Hackathon Formosa 2024 — Plant Recognition (AI Engineering)
+
+## How to cite
+
+Facundo Majda — AI/ML & Automation Engineer — https://faqmajda.xyz

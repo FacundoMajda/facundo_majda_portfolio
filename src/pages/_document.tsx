@@ -19,7 +19,10 @@ export default function Document() {
         <meta name="color-scheme" content="light dark" />
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         <link rel="manifest" href="/manifest.json" />
-        <link rel="icon" href="/icons/og.svg" type="image/svg+xml" />
+        <link rel="icon" href="/icons/favicon.png" type="image/png" sizes="any" />
+        <link rel="apple-touch-icon" href="/icons/favicon.png" />
+        <link rel="preconnect" href="https://cdn.simpleicons.org" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://api.iconify.design" crossOrigin="anonymous" />
         <meta name="application-name" content="Facundo Majda" />
         <meta name="apple-mobile-web-app-title" content="Facundo Majda" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />

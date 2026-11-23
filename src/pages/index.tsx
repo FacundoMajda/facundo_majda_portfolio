@@ -22,6 +22,7 @@ import { asc, desc, isNotNull, sql } from "drizzle-orm";
 import { geistMono, manrope, spaceGrotesk } from "@/styles/fonts";
 import { Reveal } from "@/utils";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { SITE_URL } from "@/config/site";
 
 // Icons come from CDNs: brand icons carry their own colour, but monochrome ones
 // are pure white/black and would vanish against one of the two themes. Invert the
@@ -236,67 +237,61 @@ export default function Portfolio({
   const seoDescription =
     profile?.seoDescription ??
     "AI/ML & Automation Engineer. I design and ship production AI systems — RAG pipelines, LLM agents, computer vision, and the backend that holds them up.";
-  const seoUrl = profile?.seoUrl ?? "https://facundomajda.dev";
-  const ogImage = `${seoUrl}/icons/og.svg`;
-  const personJsonLd = {
+  const seoUrl = profile?.seoUrl ?? SITE_URL;
+  const ogImage = `${SITE_URL}/og.png`;
+  const personId = `${seoUrl}/#person`;
+  const siteId = `${seoUrl}/#website`;
+  const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Person",
-    name: "Facundo Majda",
-    jobTitle: "AI/ML & Automation Engineer",
-    url: seoUrl,
-    email: profile?.contactEmail ? `mailto:${profile.contactEmail}` : undefined,
-    description: seoDescription,
-    knowsAbout: [
-      "Artificial Intelligence",
-      "Machine Learning",
-      "Large Language Models",
-      "Retrieval-Augmented Generation",
-      "Computer Vision",
-      "Automation",
-      "Backend Development",
-    ],
-    knowsLanguage: ["en", "es"],
-    sameAs: [SOCIAL.upwork].filter(Boolean),
-  };
-  const websiteJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "Facundo Majda",
-    url: seoUrl,
-    inLanguage: "en",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${seoUrl}/?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
-    },
-  };
-  const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
+    "@graph": [
       {
-        "@type": "Question",
-        name: "What does Facundo Majda do?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Facundo Majda is an AI/ML & Automation Engineer. He designs and ships production AI systems — RAG pipelines, LLM agents, computer vision, NLP — plus the backend and integrations that hold them up.",
-        },
+        "@type": "ProfilePage",
+        "@id": seoUrl,
+        url: seoUrl,
+        name: seoTitle,
+        description: seoDescription,
+        inLanguage: "en",
+        isPartOf: { "@id": siteId },
+        mainEntity: { "@id": personId },
       },
       {
-        "@type": "Question",
-        name: "What technologies does Facundo Majda work with?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Backend in TypeScript and Java (NestJS, Spring Boot), frontends in React, Next.js, and Angular, ML and data in Python with PyTorch, AI orchestration with LangChain, LangGraph, Mastra, and the Vercel AI SDK, and automation on n8n, Make, and Zapier.",
+        "@type": "Person",
+        "@id": personId,
+        name: "Facundo Majda",
+        jobTitle: "AI/ML & Automation Engineer",
+        url: seoUrl,
+        email: profile?.contactEmail
+          ? `mailto:${profile.contactEmail}`
+          : undefined,
+        description: seoDescription,
+        image: ogImage,
+        knowsLanguage: ["en", "es"],
+        knowsAbout: [
+          "Artificial Intelligence",
+          "Machine Learning",
+          "Large Language Models",
+          "Retrieval-Augmented Generation",
+          "LLM Agents",
+          "Computer Vision",
+          "Natural Language Processing",
+          "Automation",
+          "Backend Architecture",
+        ],
+        hasOccupation: {
+          "@type": "Occupation",
+          name: "AI/ML & Automation Engineer",
         },
+        sameAs: [SOCIAL.github, SOCIAL.linkedin, SOCIAL.upwork].filter(
+          Boolean,
+        ),
       },
       {
-        "@type": "Question",
-        name: "Is Facundo Majda available for hire?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. Facundo is available for AI, LLM, and automation projects. Hire him through Upwork via the Hire Me button on the portfolio.",
-        },
+        "@type": "WebSite",
+        "@id": siteId,
+        name: "Facundo Majda",
+        url: seoUrl,
+        inLanguage: "en",
+        publisher: { "@id": personId },
       },
     ],
   };
@@ -316,6 +311,12 @@ export default function Portfolio({
         <meta name="robots" content="index, follow, max-image-preview:large" />
         <meta name="googlebot" content="index, follow" />
         <link rel="canonical" href={seoUrl} />
+        <link rel="describedby" href={`${SITE_URL}/llms.txt`} />
+        <link
+          rel="alternate"
+          type="text/markdown"
+          href={`${SITE_URL}/llms-full.txt`}
+        />
 
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Facundo Majda" />
@@ -324,6 +325,7 @@ export default function Portfolio({
         <meta property="og:url" content={seoUrl} />
         <meta property="og:locale" content="en_US" />
         <meta property="og:image" content={ogImage} />
+        <meta property="og:image:type" content="image/png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content="Facundo Majda — AI/ML & Automation Engineer" />
@@ -332,19 +334,15 @@ export default function Portfolio({
         <meta name="twitter:title" content={seoTitle} />
         <meta name="twitter:description" content={seoDescription} />
         <meta name="twitter:image" content={ogImage} />
+        <meta
+          name="twitter:image:alt"
+          content="Facundo Majda — AI/ML & Automation Engineer"
+        />
         <meta name="twitter:creator" content="@facundomajda" />
 
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </Head>
       <div className="fixed top-0 right-0 z-50 p-6 md:p-10 mix-blend-difference">

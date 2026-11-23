@@ -1,0 +1,43 @@
+# Facundo Majda
+
+> AI/ML & Automation Engineer. I design and ship production AI systems — RAG pipelines, LLM agents, computer vision, NLP — plus the backend, APIs and frontends that hold them up. 3+ years engineering, available for remote roles and selected projects.
+
+Facundo Majda is an AI/ML & Automation Engineer focused on taking AI from prototype to production: retrieval-augmented generation, LLM agents and orchestration, computer vision, NLP, and the automation that connects those systems to real operations. He works end to end — backend services and APIs through to the interfaces that make them usable.
+
+Canonical website: https://faqmajda.xyz
+
+## Contact
+
+- [Email](mailto:facundomajda13@gmail.com): facundomajda13@gmail.com
+- [GitHub](https://github.com/FacundoMajda)
+- [LinkedIn](https://www.linkedin.com/in/facundo-majda/)
+- [Upwork](https://www.upwork.com/freelancers/~014f767f0225d54d8e): for hiring
+
+## Stack
+
+- AI & Machine Learning: LangChain, LangGraph, PyTorch, Transformers, Hugging Face, Vercel AI SDK, Mastra, Scikit-learn, TensorFlow, Keras, MLflow, vLLM, ONNX, Weights & Biases, Ollama, RunPod, CoreWeave
+- Backend & Architecture: NestJS, Node.js, Python, FastAPI, Flask, Java, Spring Boot, Express
+- Mobile & Frontend: React, Next.js, TypeScript, Tailwind CSS, Angular, React Native, Expo
+- Databases: PostgreSQL, Redis, Supabase, MongoDB, MySQL, Qdrant, ChromaDB, Pinecone
+- Data Science: NumPy, Pandas, Matplotlib, Jupyter, Streamlit
+- DevOps & Observability: Docker, Git, GitHub Actions, Prometheus, OpenTelemetry, Grafana, Dokploy
+- Automation: n8n, Make, Zapier
+
+## Experience
+
+- Automation Specialist at Lumenlab (current)
+- AI Engineer & Backend Specialist, freelancing (current)
+- Solutions Architect at MF Legal & Consulting
+- Full Stack Engineer at Push Software
+
+## Projects
+
+- [Syllabi — Intelligent Tutoring System](https://faqmajda.xyz): AI & EdTech
+- Hackathon IPF 2025 — Intelligent Incident Reporting System: Human-Centered AI
+- Clinical RAG Assistant: AI & Healthcare
+- talkitdown — Offline Dictation & Transcription: Privacy-First AI
+- Hackathon Formosa 2024 — Plant Recognition: AI Engineering
+
+## Optional
+
+- [Full profile](https://faqmajda.xyz/llms-full.txt): the long-form version of this file
