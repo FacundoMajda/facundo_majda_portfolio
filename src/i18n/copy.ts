@@ -13,6 +13,7 @@ export type Copy = {
   themeLight: string;
   themeDark: string;
   menuItems: Record<string, string>;
+  stackCategories: Record<string, string>;
 
   heroLabel: string;
   heroHi: string;
@@ -68,6 +69,15 @@ export const COPY: Record<"en" | "es", Copy> = {
       Projects: "Projects",
       Education: "Education",
       Contact: "Contact",
+    },
+    stackCategories: {
+      "AI & Machine Learning": "AI & Machine Learning",
+      "Backend Architecture": "Backend Architecture",
+      "Mobile & Frontend Dev": "Mobile & Frontend Dev",
+      Databases: "Databases",
+      "Data Science & Analysis": "Data Science & Analysis",
+      Automation: "Automation",
+      "DevOps & Tools": "DevOps & Tools",
     },
 
     heroLabel: "[ AI/ML & AUTOMATION ENGINEER ]",
@@ -129,6 +139,15 @@ export const COPY: Record<"en" | "es", Copy> = {
       Projects: "Proyectos",
       Education: "Formación",
       Contact: "Contacto",
+    },
+    stackCategories: {
+      "AI & Machine Learning": "IA y Machine Learning",
+      "Backend Architecture": "Arquitectura backend",
+      "Mobile & Frontend Dev": "Mobile y frontend",
+      Databases: "Bases de datos",
+      "Data Science & Analysis": "Datos y análisis",
+      Automation: "Automatización",
+      "DevOps & Tools": "DevOps y herramientas",
     },
 
     heroLabel: "[ INGENIERO EN AI/ML Y AUTOMATIZACIÓN ]",

@@ -770,7 +770,7 @@ export default function Portfolio({
                   <div className="lg:col-span-5">
                     <Reveal delay={idx * 100}>
                       <h3 className="font-mono text-xl md:text-2xl uppercase tracking-[0.2em] text-muted-foreground/70">
-                        {cat.name}
+                        {c.stackCategories[cat.name] ?? cat.name}
                       </h3>
                     </Reveal>
                   </div>
