@@ -4,6 +4,8 @@ import type { ReactNode } from "react";
 import { SITE_URL } from "@/config/site";
 import { ServicePageNav } from "./ServicePageNav";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
+import { GlyphRain } from "@/components/canvasui/GlyphRain";
+import { Liquid } from "@/components/canvasui/Liquid";
 
 export type ServiceCard = { title: string; body: string };
 export type StackGroup = { group: string; items: string[] };
@@ -161,24 +163,46 @@ export function ServicePage({
           </a>
         </div>
 
-        <section className="px-6 md:px-[6vw] pt-32 pb-20 md:pt-40 md:pb-28">
-          <div className="flex items-baseline justify-between gap-6 border-b border-dashed border-border pb-4">
-            <Link
-              href="/"
-              className="t-label text-muted-foreground transition-colors hover:text-primary"
+        {/* Same hero as the portfolio: grid, glyph rain, liquid, display title. */}
+        <section className="relative min-h-[78vh] flex flex-col justify-start overflow-hidden">
+          <div className="absolute inset-0 z-0 opacity-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+
+          <GlyphRain
+            className="!absolute inset-0 z-10"
+            density={0.15}
+            speed={0.25}
+            cell={16}
+          >
+            <Liquid
+              className="!absolute inset-0 z-20"
+              intensity={0.8}
+              blend={1.5}
+              densityDissipation={0.9}
+              velocityDissipation={0.9}
+              curl={0.4}
+              radius={0.15}
             >
-              Facundo Majda
-            </Link>
-            <p className="t-label text-muted-foreground/70">{kicker}</p>
-          </div>
+              <div className="relative z-30 h-full px-6 md:px-[6vw] pt-28 pb-16 md:pt-32 md:pb-20 flex flex-col justify-center">
+                <div className="flex flex-col gap-2 border-b border-dashed border-border pb-4 md:flex-row md:items-baseline md:justify-between">
+                  <Link
+                    href="/"
+                    className="t-label text-muted-foreground transition-colors hover:text-primary"
+                  >
+                    Facundo Majda
+                  </Link>
+                  <p className="t-label text-muted-foreground/70">{kicker}</p>
+                </div>
 
-          <h1 className="t-display mt-14 max-w-[24ch] text-balance text-[clamp(2rem,5.5vw,4.5rem)] text-foreground">
-            {h1}
-          </h1>
+                <h1 className="t-display mt-12 max-w-[24ch] text-balance text-[clamp(2rem,5.5vw,4.5rem)] text-foreground">
+                  {h1}
+                </h1>
 
-          <div className="t-body mt-8 max-w-[62ch] text-lg text-muted-foreground">
-            {lede}
-          </div>
+                <div className="t-body mt-8 max-w-[62ch] text-lg text-muted-foreground">
+                  {lede}
+                </div>
+              </div>
+            </Liquid>
+          </GlyphRain>
         </section>
 
         <section className="px-6 md:px-[6vw] py-24 md:py-32 bg-card border-t border-border">

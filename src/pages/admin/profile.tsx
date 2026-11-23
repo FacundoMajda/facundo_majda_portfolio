@@ -9,8 +9,10 @@ import { CheckCircle2, Save } from "lucide-react";
 type ProfileRow = {
   heroTitle: string;
   heroTagline: string;
+  heroTaglineEs: string | null;
   aboutText: string;
   statusLine: string;
+  statusLineEs: string | null;
   yearsExp: number;
   contactEmail: string;
   seoTitle: string;
@@ -23,8 +25,10 @@ export async function getServerSideProps() {
     .select({
       heroTitle: profile.heroTitle,
       heroTagline: profile.heroTagline,
+      heroTaglineEs: profile.heroTaglineEs,
       aboutText: profile.aboutText,
       statusLine: profile.statusLine,
+      statusLineEs: profile.statusLineEs,
       yearsExp: profile.yearsExp,
       contactEmail: profile.contactEmail,
       seoTitle: profile.seoTitle,
@@ -40,8 +44,10 @@ export async function getServerSideProps() {
       : {
           heroTitle: "",
           heroTagline: "",
+          heroTaglineEs: "",
           aboutText: "",
           statusLine: "",
+          statusLineEs: "",
           yearsExp: 0,
           contactEmail: "",
           seoTitle: "",
@@ -100,7 +106,9 @@ export default function ProfileEditor({ initial }: { initial: ProfileRow }) {
   }> = [
     { key: "heroTitle", label: "Hero title", type: "text", hint: "e.g. AI/ML & Automation Engineer" },
     { key: "heroTagline", label: "Hero tagline", type: "text", hint: "Short subtitle next to the title" },
+    { key: "heroTaglineEs", label: "Hero tagline (ES)", type: "text", hint: "Versión en español. Vacío = usa la inglesa." },
     { key: "statusLine", label: "Status line", type: "text", hint: "Availability / call to action" },
+    { key: "statusLineEs", label: "Status line (ES)", type: "text", hint: "Versión en español. Vacío = usa la inglesa." },
     { key: "aboutText", label: "About text", type: "textarea", hint: "Markdown supported. Shown in About Me section." },
     { key: "yearsExp", label: "Years of experience", type: "number", hint: "Integer, used in the OVER X YEARS badge" },
     { key: "contactEmail", label: "Contact email", type: "email" },

@@ -1,6 +1,6 @@
 import { ServicePage } from "@/components/services/ServicePage";
 
-export default function ServicesHubPage() {
+export default function ServicesHubPageEs() {
   return (
     <ServicePage
       path="/es/servicios"
@@ -16,7 +16,7 @@ export default function ServicesHubPage() {
           artificial como especialidad. Estoy radicado en{" "}
           <strong className="text-foreground">Formosa, Argentina</strong>, y
           trabajo con empresas y equipos de la ciudad, del NEA, de todo el país
-          y del exterior. Abajo está cada área en detalle.
+          y del exterior.
         </>
       }
       services={[

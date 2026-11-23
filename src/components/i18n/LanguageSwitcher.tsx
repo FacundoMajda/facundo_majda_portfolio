@@ -3,6 +3,17 @@ import { useRouter } from "next/router";
 
 const LOCALE_COOKIE = "NEXT_LOCALE";
 
+// Pages that exist in both languages, so the switcher translates in place.
+// Anything else falls back to the section hub of the target language.
+const ENGLISH_TO_SPANISH: Record<string, string> = {
+  "/": "/es",
+  "/services": "/es/servicios",
+};
+const SPANISH_TO_ENGLISH: Record<string, string> = {
+  "/es": "/",
+  "/es/servicios": "/services",
+};
+
 function rememberLocale(locale: "en" | "es") {
   try {
     window.localStorage.setItem("locale", locale);
@@ -12,12 +23,12 @@ function rememberLocale(locale: "en" | "es") {
   }
 }
 
-// Language switcher for the localized site. The English site lives at `/` and
-// the Spanish services at `/es/*`; switching records the choice so the proxy
-// sends the visitor to their language on later visits.
 export function LanguageSwitcher({ className = "" }: { className?: string }) {
   const { pathname } = useRouter();
   const isSpanish = pathname === "/es" || pathname.startsWith("/es/");
+
+  const spanishHref = ENGLISH_TO_SPANISH[pathname] ?? "/es";
+  const englishHref = SPANISH_TO_ENGLISH[pathname] ?? "/services";
 
   const base = "t-label transition-colors";
 
@@ -28,7 +39,7 @@ export function LanguageSwitcher({ className = "" }: { className?: string }) {
       className={`inline-flex items-center gap-2 ${className}`}
     >
       <Link
-        href="/"
+        href={englishHref}
         hrefLang="en"
         onClick={() => rememberLocale("en")}
         aria-current={isSpanish ? undefined : "true"}
@@ -44,7 +55,7 @@ export function LanguageSwitcher({ className = "" }: { className?: string }) {
         /
       </span>
       <Link
-        href="/es"
+        href={spanishHref}
         hrefLang="es-AR"
         onClick={() => rememberLocale("es")}
         aria-current={isSpanish ? "true" : undefined}
