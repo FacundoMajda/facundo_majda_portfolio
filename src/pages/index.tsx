@@ -21,6 +21,20 @@ import {
 import { asc, desc, isNotNull, sql } from "drizzle-orm";
 import { geistMono, manrope, spaceGrotesk } from "@/styles/fonts";
 import { Reveal } from "@/utils";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
+
+// Icons come from CDNs: brand icons carry their own colour, but monochrome ones
+// are pure white/black and would vanish against one of the two themes. Invert the
+// monochrome ones so they always read against the page.
+function iconThemeClass(icon: string): string {
+  if (icon.includes("/ffffff") || icon.startsWith("/icons/")) {
+    return "invert dark:invert-0";
+  }
+  if (icon.includes("/000000")) {
+    return "dark:invert";
+  }
+  return "";
+}
 
 const SpinningBrain = () => (
   <svg
@@ -33,7 +47,7 @@ const SpinningBrain = () => (
     strokeWidth="1.5"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="animate-[spin_10s_linear_infinite] text-blue-500"
+    className="animate-[spin_10s_linear_infinite] text-primary"
   >
     <path d="M12 16v-4" />
     <path d="M12 8V4" />
@@ -76,7 +90,7 @@ function fmtRange(start: string, end: string | null, isCurrent: boolean) {
 }
 
 const MENU_ITEMS: { name: string; href: string; color: string }[] = [
-  { name: "Home", href: "#banner", color: "bg-blue-500" },
+  { name: "Home", href: "#banner", color: "bg-primary" },
   { name: "About Me", href: "#about-me", color: "bg-purple-500" },
   { name: "Expertise", href: "#stack", color: "bg-emerald-500" },
   { name: "Education", href: "#education", color: "bg-yellow-500" },
@@ -289,7 +303,7 @@ export default function Portfolio({
 
   return (
     <div
-      className={`bg-[#050505] text-slate-200 min-h-screen ${manrope.className} ${spaceGrotesk.variable} ${geistMono.variable} overflow-x-hidden selection:bg-blue-500 selection:text-white`}
+      className={`bg-background text-foreground min-h-screen ${manrope.className} ${spaceGrotesk.variable} ${geistMono.variable} overflow-x-hidden selection:bg-primary selection:text-primary-foreground`}
     >
       <Head>
         <title>{seoTitle}</title>
@@ -361,7 +375,7 @@ export default function Portfolio({
       </div>
 
       <div
-        className={`fixed inset-0 z-40 bg-black/90 transition-opacity duration-500 ${
+        className={`fixed inset-0 z-40 bg-black/70 transition-opacity duration-500 ${
           isMenuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -369,15 +383,15 @@ export default function Portfolio({
         onClick={() => setIsMenuOpen(false)}
       />
       <div
-        className={`fixed top-0 right-0 h-screen w-[520px] max-w-[calc(100vw-3rem)] bg-[#0a0a0a] border-l border-dashed border-zinc-800 z-40 transform transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] flex flex-col justify-center py-10 px-8 md:px-14 ${
+        className={`fixed top-0 right-0 h-screen w-[520px] max-w-[calc(100vw-3rem)] bg-card border-l border-dashed border-border z-40 transform transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] flex flex-col justify-center py-10 px-8 md:px-14 ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <div className="flex flex-col gap-10">
           <div>
-            <div className="mb-5 flex items-baseline justify-between border-b border-dashed border-zinc-800 pb-3">
-              <p className="t-label text-zinc-500">[ MENU ]</p>
-              <span className="t-meta text-zinc-600">
+            <div className="mb-5 flex items-baseline justify-between border-b border-dashed border-border pb-3">
+              <p className="t-label text-muted-foreground">[ MENU ]</p>
+              <span className="t-meta text-muted-foreground/70">
                 {String(MENU_ITEMS.length).padStart(2, "0")}
               </span>
             </div>
@@ -385,7 +399,7 @@ export default function Portfolio({
               {MENU_ITEMS.map((item, idx) => (
                 <li
                   key={idx}
-                  className="border-b border-zinc-900 last:border-0"
+                  className="border-b border-border last:border-0"
                 >
                   <a
                     href={item.href}
@@ -402,15 +416,15 @@ export default function Portfolio({
                     }}
                     className="group flex items-baseline gap-4 py-3 cursor-pointer"
                   >
-                    <span className="t-meta w-7 shrink-0 text-zinc-600 transition-colors group-hover:text-blue-500">
+                    <span className="t-meta w-7 shrink-0 text-muted-foreground/70 transition-colors group-hover:text-primary">
                       {String(idx + 1).padStart(2, "0")}
                     </span>
-                    <span className="t-title text-2xl md:text-3xl text-zinc-300 transition-all group-hover:translate-x-1 group-hover:text-white">
+                    <span className="t-title text-2xl md:text-3xl text-foreground transition-all group-hover:translate-x-1 group-hover:text-foreground">
                       {item.name}
                     </span>
                     <MoveUpRight
                       size={14}
-                      className="ml-auto shrink-0 text-zinc-700 opacity-0 transition-all group-hover:opacity-100 group-hover:text-blue-500"
+                      className="ml-auto shrink-0 text-muted-foreground/70 opacity-0 transition-all group-hover:opacity-100 group-hover:text-primary"
                     />
                   </a>
                 </li>
@@ -419,8 +433,8 @@ export default function Portfolio({
           </div>
 
           <div>
-            <div className="mb-4 border-b border-dashed border-zinc-800 pb-3">
-              <p className="t-label text-zinc-500">[ SOCIAL ]</p>
+            <div className="mb-4 border-b border-dashed border-border pb-3">
+              <p className="t-label text-muted-foreground">[ SOCIAL ]</p>
             </div>
             <div className="flex flex-wrap gap-x-5 gap-y-2">
               {socials
@@ -431,7 +445,7 @@ export default function Portfolio({
                     href={s.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="t-label text-zinc-400 transition-colors hover:text-blue-500"
+                    className="t-label text-muted-foreground transition-colors hover:text-primary"
                   >
                     [{s.platform}]
                   </a>
@@ -440,13 +454,20 @@ export default function Portfolio({
           </div>
 
           <div>
-            <div className="mb-4 border-b border-dashed border-zinc-800 pb-3">
-              <p className="t-label text-zinc-500">[ STATUS ]</p>
+            <div className="mb-4 border-b border-dashed border-border pb-3">
+              <p className="t-label text-muted-foreground">[ STATUS ]</p>
             </div>
-            <p className="t-body max-w-[42ch] text-zinc-400">
+            <p className="t-body max-w-[42ch] text-muted-foreground">
               {profile?.statusLine ??
                 "Available for remote engineering roles and selected projects"}
             </p>
+          </div>
+
+          <div>
+            <div className="mb-4 border-b border-dashed border-border pb-3">
+              <p className="t-label text-muted-foreground">[ THEME ]</p>
+            </div>
+            <ThemeToggle />
           </div>
         </div>
       </div>
@@ -472,7 +493,7 @@ export default function Portfolio({
               curl={0.4}
               radius={0.15}
             >
-              <div className="relative z-30 container mx-auto h-full flex flex-col lg:flex-row justify-start lg:justify-between items-center lg:items-end gap-12 lg:gap-16 px-6 md:px-20 lg:px-24 pt-20 md:pt-24 pb-12">
+              <div className="relative z-30 w-full h-full flex flex-col lg:flex-row justify-start lg:justify-between items-center lg:items-end gap-12 lg:gap-16 px-6 md:px-[6vw] pt-20 md:pt-24 pb-12 lg:pb-[25vh]">
                 <div className="w-full lg:max-w-[55%] space-y-1">
                   <Reveal>
                     <div className="flex flex-wrap items-center gap-2 mb-4">
@@ -481,11 +502,11 @@ export default function Portfolio({
                           href={SOCIAL.github}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg border border-zinc-700 text-zinc-300 text-sm font-medium hover:bg-zinc-800/50 hover:border-zinc-600 transition-colors"
+                          className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg border border-border text-foreground text-sm font-medium hover:bg-secondary hover:border-foreground/30 transition-colors"
                         >
                           <Github className="w-4 h-4" />
                           GitHub
-                          <ArrowUpRight className="w-3 h-3 text-zinc-500" />
+                          <ArrowUpRight className="w-3 h-3 text-muted-foreground" />
                         </a>
                       )}
                       {SOCIAL.linkedin && (
@@ -493,39 +514,39 @@ export default function Portfolio({
                           href={SOCIAL.linkedin}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg border border-zinc-700 text-zinc-300 text-sm font-medium hover:bg-zinc-800/50 hover:border-zinc-600 transition-colors"
+                          className="inline-flex items-center gap-1.5 h-9 px-3 rounded-lg border border-border text-foreground text-sm font-medium hover:bg-secondary hover:border-foreground/30 transition-colors"
                         >
                           <Linkedin className="w-4 h-4" />
                           LinkedIn
-                          <ArrowUpRight className="w-3 h-3 text-zinc-500" />
+                          <ArrowUpRight className="w-3 h-3 text-muted-foreground" />
                         </a>
                       )}
                     </div>
                     <h1
-                      className="t-display text-white"
+                      className="t-display text-foreground"
                       style={{
                         letterSpacing: "0.02em",
-                        fontSize: "clamp(2rem, 8vw, 6rem)",
+                        fontSize: "clamp(2rem, 8vw, 7.8rem)",
                       }}
                     >
-                      <span className="text-white">AI/ML &amp; </span>
-                      <span className="text-blue-600">Automation</span>
+                      <span className="text-foreground">AI/ML &amp; </span>
+                      <span className="text-primary">Automation</span>
                     </h1>
                   </Reveal>
                   <Reveal delay={25}>
-                    <p className="t-label mt-2 text-zinc-500">
+                    <p className="t-label mt-2 text-muted-foreground md:text-[0.975rem]">
                       [ AI/ML &amp; AUTOMATION ENGINEER ]
                     </p>
                   </Reveal>
                   <Reveal delay={50}>
                     <h2 className="mt-4">
-                      <span className="t-title block text-xl text-zinc-400 md:text-2xl">
+                      <span className="t-title block text-xl text-muted-foreground md:text-[1.95rem]">
                         Hi, I&apos;m{" "}
-                        <span className="text-white">Facundo Majda</span>
+                        <span className="text-foreground">Facundo Majda</span>
                       </span>
-                      <span className="t-body mt-2 block max-w-[58ch] text-zinc-400">
+                      <span className="t-body mt-2 block max-w-[58ch] text-muted-foreground md:text-[1.3rem]">
                         {profile?.heroTitle ?? "I design and ship production AI systems"} —{" "}
-                        <span className="text-blue-500">
+                        <span className="text-primary">
                           RAG pipelines, LLM agents, and the backend that holds them up
                         </span>
                         .
@@ -542,7 +563,7 @@ export default function Portfolio({
                           "linear-gradient(to right, transparent, black 5%, black 95%, transparent)",
                       }}
                     >
-                      <div className="marquee t-meta whitespace-nowrap uppercase text-zinc-500">
+                      <div className="marquee t-meta whitespace-nowrap uppercase text-muted-foreground md:text-[0.975rem]">
                         {profile?.heroTagline ?? "SWE | Data & AI-Driven Apps | FDE | Full-Stack + Automation"}{" "}
                         {profile?.heroTagline ?? "SWE | Data & AI-Driven Apps | FDE | Full-Stack + Automation"}
                       </div>
@@ -553,10 +574,10 @@ export default function Portfolio({
                 <div className="flex md:flex-row lg:flex-col gap-8 md:gap-12 lg:gap-8 text-center lg:text-right justify-center lg:justify-end lg:self-end">
                   <Reveal delay={300}>
                     <div>
-                      <h5 className="font-mono text-4xl sm:text-5xl md:text-6xl lg:text-5xl tabular-nums text-blue-500 mb-1">
+                      <h5 className="font-mono text-4xl sm:text-5xl md:text-[4.875rem] lg:text-[3.9rem] tabular-nums text-primary mb-1">
                         OVER {profile?.yearsExp ?? 3}+
                       </h5>
-                      <p className="t-label text-zinc-500">
+                      <p className="t-label text-muted-foreground">
                         Years Engineering
                       </p>
                     </div>
@@ -576,26 +597,26 @@ export default function Portfolio({
 
         <section
           id="about-me"
-          className="py-32 px-6 md:px-20 bg-[#0a0a0a] border-t border-zinc-900"
+          className="py-32 px-6 md:px-[6vw] bg-card border-t border-border"
         >
-          <div className="container mx-auto">
-            <div className="mb-10 flex items-baseline justify-between gap-6 border-b border-dashed border-zinc-800 pb-4">
-              <p className="t-label text-zinc-500">
+          <div className="w-full">
+            <div className="mb-10 flex items-baseline justify-between gap-6 border-b border-dashed border-border pb-4">
+              <p className="t-label text-muted-foreground">
                 [ ABOUT ]
               </p>
-              <span className="font-mono text-xs tabular-nums text-zinc-600">
+              <span className="font-mono text-xs tabular-nums text-muted-foreground/70">
                 {profile?.yearsExp ?? 3}+ years
               </span>
             </div>
 
             <Reveal>
-              <h2 className="t-display mb-16 max-w-[26ch] text-balance text-[clamp(1.75rem,4vw,3.5rem)] text-zinc-100">
+              <h2 className="t-display mb-16 max-w-[26ch] text-balance text-[clamp(1.75rem,4vw,3.5rem)] text-foreground">
                 An{" "}
-                <span className="text-blue-500">
+                <span className="text-primary">
                   AI/ML &amp; Automation Engineer
                 </span>{" "}
                 shipping production systems across the{" "}
-                <span className="text-blue-500">
+                <span className="text-primary">
                   full software lifecycle
                 </span>
                 .
@@ -603,7 +624,7 @@ export default function Portfolio({
             </Reveal>
 
             <Reveal>
-              <p className="t-label pb-3 border-b border-dashed border-zinc-800 text-zinc-500 mb-10">
+              <p className="t-label pb-3 border-b border-dashed border-border text-muted-foreground mb-10">
                 AI/ML · LLMs · Computer Vision · Backend · Automation
               </p>
             </Reveal>
@@ -611,11 +632,11 @@ export default function Portfolio({
             <div className="grid md:grid-cols-12 gap-8 md:gap-12 lg:gap-16">
               <div className="md:col-span-5">
                 <Reveal>
-                  <p className="t-label text-zinc-500">[ PROFILE ]</p>
+                  <p className="t-label text-muted-foreground">[ PROFILE ]</p>
                 </Reveal>
               </div>
               <div className="md:col-span-7">
-                <div className="t-body max-w-[62ch] space-y-8 text-lg text-zinc-300">
+                <div className="t-body max-w-[62ch] space-y-8 text-lg text-foreground">
                   <Reveal delay={100}>
                     <p>
                       I build software, work with data, and explore what AI can
@@ -627,7 +648,7 @@ export default function Portfolio({
                     </p>
                   </Reveal>
                   <Reveal delay={200}>
-                    <p className="text-zinc-400">
+                    <p className="text-muted-foreground">
                       I like getting my hands dirty, learning by building, and
                       taking ideas all the way to production.
                     </p>
@@ -637,46 +658,46 @@ export default function Portfolio({
             </div>
 
             <Reveal delay={300}>
-              <div className="mt-20 pt-12 border-t border-zinc-800">
-                <h3 className="font-mono text-2xl md:text-3xl uppercase tracking-[0.2em] text-zinc-100 mb-12">
+              <div className="mt-20 pt-12 border-t border-border">
+                <h3 className="font-mono text-2xl md:text-3xl uppercase tracking-[0.2em] text-foreground mb-12">
                   Systems I Build
                 </h3>
                 <div className="systems-grid grid sm:grid-cols-2 gap-x-10 gap-y-10">
                   <div className="group">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                      <h4 className="font-mono text-lg uppercase tracking-[0.14em] text-zinc-300 group-hover:text-white transition-colors">
+                      <span className="w-2 h-2 bg-primary rounded-full"></span>
+                      <h4 className="font-mono text-lg uppercase tracking-[0.14em] text-foreground group-hover:text-foreground transition-colors">
                         AI Systems
                       </h4>
                     </div>
-                    <p className="t-body text-zinc-400">I build with LLMs, RAG, and AI agents to make information more useful, connect models with real-world tools, and create applications that actually do something beyond generating text.</p>
+                    <p className="t-body text-muted-foreground">I build with LLMs, RAG, and AI agents to make information more useful, connect models with real-world tools, and create applications that actually do something beyond generating text.</p>
                   </div>
                   <div className="group">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                      <h4 className="font-mono text-lg uppercase tracking-[0.14em] text-zinc-300 group-hover:text-white transition-colors">
+                      <span className="w-2 h-2 bg-primary rounded-full"></span>
+                      <h4 className="font-mono text-lg uppercase tracking-[0.14em] text-foreground group-hover:text-foreground transition-colors">
                         Computer Vision
                       </h4>
                     </div>
-                    <p className="t-body text-zinc-400">Making cameras smarter. Detection, tracking, classification, and real-time systems that turn what a camera sees into something useful.</p>
+                    <p className="t-body text-muted-foreground">Making cameras smarter. Detection, tracking, classification, and real-time systems that turn what a camera sees into something useful.</p>
                   </div>
                   <div className="group">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                      <h4 className="font-mono text-lg uppercase tracking-[0.14em] text-zinc-300 group-hover:text-white transition-colors">
+                      <span className="w-2 h-2 bg-primary rounded-full"></span>
+                      <h4 className="font-mono text-lg uppercase tracking-[0.14em] text-foreground group-hover:text-foreground transition-colors">
                         Backend Systems
                       </h4>
                     </div>
-                    <p className="t-body text-zinc-400">The stuff that makes everything work. APIs, databases, services, integrations, and all the logic behind the applications people use.</p>
+                    <p className="t-body text-muted-foreground">The stuff that makes everything work. APIs, databases, services, integrations, and all the logic behind the applications people use.</p>
                   </div>
                   <div className="group">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                      <h4 className="font-mono text-lg uppercase tracking-[0.14em] text-zinc-300 group-hover:text-white transition-colors">
+                      <span className="w-2 h-2 bg-primary rounded-full"></span>
+                      <h4 className="font-mono text-lg uppercase tracking-[0.14em] text-foreground group-hover:text-foreground transition-colors">
                         Automation
                       </h4>
                     </div>
-                    <p className="t-body text-zinc-400">Making systems talk to each other and getting repetitive work out of the way. APIs, workflows, AI, and a bit of creative problem-solving.</p>
+                    <p className="t-body text-muted-foreground">Making systems talk to each other and getting repetitive work out of the way. APIs, workflows, AI, and a bit of creative problem-solving.</p>
                   </div>
                 </div>
               </div>
@@ -684,18 +705,18 @@ export default function Portfolio({
           </div>
         </section>
 
-        <section id="stack" className="py-32 px-6 md:px-20 bg-[#050505]">
-          <div className="container mx-auto">
+        <section id="stack" className="py-32 px-6 md:px-[6vw] bg-background">
+          <div className="w-full">
             <Reveal>
               <LazyEffect as={GlyphRain} density={0.2} speed={0.3} cell={14}>
-                <div className="mb-20 flex items-end justify-between gap-6 border-b border-dashed border-zinc-800 pb-4">
+                <div className="mb-20 flex items-end justify-between gap-6 border-b border-dashed border-border pb-4">
                   <div className="flex items-center gap-4">
                     <SpinningBrain />
-                    <h2 className="t-title text-2xl md:text-3xl text-zinc-100">
+                    <h2 className="t-title text-2xl md:text-3xl text-foreground">
                       [ EXPERTISE ]
                     </h2>
                   </div>
-                  <span className="font-mono text-xs tabular-nums text-zinc-600">
+                  <span className="font-mono text-xs tabular-nums text-muted-foreground/70">
                     {String(techs.length).padStart(2, "0")} tools
                   </span>
                 </div>
@@ -706,11 +727,11 @@ export default function Portfolio({
               {STACK_CATEGORIES.map((cat, idx) => (
                 <div
                   key={cat.name}
-                  className="grid lg:grid-cols-12 gap-y-6 md:gap-y-8 border-b border-dashed border-zinc-800 pb-10 md:pb-12 last:border-0"
+                  className="grid lg:grid-cols-12 gap-y-6 md:gap-y-8 border-b border-dashed border-border pb-10 md:pb-12 last:border-0"
                 >
                   <div className="lg:col-span-5">
                     <Reveal delay={idx * 100}>
-                      <h3 className="font-mono text-xl md:text-2xl uppercase tracking-[0.2em] text-zinc-600">
+                      <h3 className="font-mono text-xl md:text-2xl uppercase tracking-[0.2em] text-muted-foreground/70">
                         {cat.name}
                       </h3>
                     </Reveal>
@@ -726,9 +747,9 @@ export default function Portfolio({
                           <img
                             src={item.icon}
                             alt={item.name}
-                            className="w-5 h-5"
+                            className={`w-5 h-5 ${iconThemeClass(item.icon)}`}
                           />
-                          <span className="font-mono text-sm md:text-base text-zinc-400 hover:text-white transition-colors cursor-default">
+                          <span className="font-mono text-sm md:text-base text-muted-foreground hover:text-foreground transition-colors cursor-default">
                             {item.name}
                           </span>
                         </div>
@@ -742,46 +763,46 @@ export default function Portfolio({
           </div>
         </section>
 
-        <section id="education" className="py-32 px-6 md:px-20 bg-[#0a0a0a]">
-          <div className="container mx-auto">
+        <section id="education" className="py-32 px-6 md:px-[6vw] bg-card">
+          <div className="w-full">
             <Reveal>
               <LazyEffect as={VHS} wave={0.4} grain={0.15} jitter={0.3}>
-                <div className="mb-16 flex items-end justify-between gap-6 border-b border-dashed border-zinc-800 pb-4">
+                <div className="mb-16 flex items-end justify-between gap-6 border-b border-dashed border-border pb-4">
                   <div className="flex items-center gap-4">
                     <div className="w-2 h-2 bg-green-500 animate-pulse"></div>
-                    <h2 className="t-title text-2xl md:text-3xl text-zinc-100">
+                    <h2 className="t-title text-2xl md:text-3xl text-foreground">
                       [ EDUCATION ]
                     </h2>
                   </div>
-                  <span className="font-mono text-xs tabular-nums text-zinc-600">
+                  <span className="font-mono text-xs tabular-nums text-muted-foreground/70">
                     {String(EDUCATION.length).padStart(2, "0")} records
                   </span>
                 </div>
               </LazyEffect>
             </Reveal>
 
-            <div className="space-y-12 border-l border-dashed border-zinc-800 ml-3 md:ml-0">
+            <div className="space-y-12 border-l border-dashed border-border ml-3 md:ml-0">
               {EDUCATION.map((edu, idx) => (
                 <Reveal
                   key={idx}
                   delay={idx * 100}
                   className="relative pl-8 md:pl-12"
                 >
-                  <span className="absolute left-[-5px] top-2 w-2.5 h-2.5 bg-green-600 rounded-full ring-4 ring-black"></span>
+                  <span className="absolute left-[-5px] top-2 w-2.5 h-2.5 bg-green-600 rounded-full ring-4 ring-card"></span>
                   <div className="group">
                     <p className="t-meta text-green-500 mb-1">
                       {edu.date}
                     </p>
-                    <h3 className="t-title text-xl md:text-2xl text-white mb-2">
+                    <h3 className="t-title text-xl md:text-2xl text-foreground mb-2">
                       {edu.degree}
                     </h3>
-                    <p className="text-xl text-zinc-400 font-manrope mb-4">
+                    <p className="text-xl text-muted-foreground font-manrope mb-4">
                       {edu.link ? (
                         <a
                           href={edu.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="hover:text-blue-400 transition-colors"
+                          className="hover:text-primary transition-colors"
                         >
                           {edu.institution}
                         </a>
@@ -789,7 +810,7 @@ export default function Portfolio({
                         edu.institution
                       )}
                     </p>
-                    <p className="text-zinc-500 font-manrope max-w-2xl leading-relaxed">
+                    <p className="text-muted-foreground font-manrope max-w-2xl leading-relaxed">
                       {edu.desc}
                     </p>
                   </div>
@@ -799,46 +820,46 @@ export default function Portfolio({
           </div>
         </section>
 
-        <section id="experience" className="py-32 px-6 md:px-20 bg-zinc-900/20">
-          <div className="container mx-auto">
+        <section id="experience" className="py-32 px-6 md:px-[6vw] bg-secondary/50">
+          <div className="w-full">
             <Reveal>
               <LazyEffect as={Grid} tileSize={32}>
-                <div className="mb-16 flex items-end justify-between gap-6 border-b border-dashed border-zinc-800 pb-4">
+                <div className="mb-16 flex items-end justify-between gap-6 border-b border-dashed border-border pb-4">
                   <div className="flex items-center gap-4">
-                    <div className="w-2 h-2 bg-blue-500 animate-pulse"></div>
-                    <h2 className="t-title text-2xl md:text-3xl text-zinc-100">
+                    <div className="w-2 h-2 bg-primary animate-pulse"></div>
+                    <h2 className="t-title text-2xl md:text-3xl text-foreground">
                       [ EXPERIENCE ]
                     </h2>
                   </div>
-                  <span className="font-mono text-xs tabular-nums text-zinc-600">
+                  <span className="font-mono text-xs tabular-nums text-muted-foreground/70">
                     {String(EXPERIENCE.length).padStart(2, "0")} roles
                   </span>
                 </div>
               </LazyEffect>
             </Reveal>
 
-            <div className="space-y-12 border-l border-dashed border-zinc-800 ml-3 md:ml-0">
+            <div className="space-y-12 border-l border-dashed border-border ml-3 md:ml-0">
               {EXPERIENCE.map((job, idx) => (
                 <Reveal
                   key={idx}
                   delay={idx * 100}
                   className="relative pl-8 md:pl-12"
                 >
-                  <span className="absolute left-[-5px] top-2 w-2.5 h-2.5 bg-blue-600 rounded-full ring-4 ring-black"></span>
+                  <span className="absolute left-[-5px] top-2 w-2.5 h-2.5 bg-primary rounded-full ring-4 ring-card"></span>
                   <div className="group">
-                    <p className="t-meta text-blue-500 mb-1">
+                    <p className="t-meta text-primary mb-1">
                       {job.date}
                     </p>
-                    <h3 className="t-title text-xl md:text-2xl text-white mb-2">
+                    <h3 className="t-title text-xl md:text-2xl text-foreground mb-2">
                       {job.role}
                     </h3>
-                    <p className="text-xl text-zinc-400 font-manrope mb-4">
+                    <p className="text-xl text-muted-foreground font-manrope mb-4">
                       {job.link ? (
                         <a
                           href={job.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="hover:text-blue-400 transition-colors"
+                          className="hover:text-primary transition-colors"
                         >
                           {job.company}
                         </a>
@@ -846,7 +867,7 @@ export default function Portfolio({
                         job.company
                       )}
                     </p>
-                    <p className="text-zinc-500 font-manrope max-w-2xl leading-relaxed">
+                    <p className="text-muted-foreground font-manrope max-w-2xl leading-relaxed">
                       {job.desc}
                     </p>
                   </div>

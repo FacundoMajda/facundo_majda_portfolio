@@ -3,7 +3,12 @@ import "@/styles/globals.css";
 // The Pages Router only allows global CSS from this file, so it is imported here.
 import "@/components/blocx/contact-form.css";
 import type { AppProps } from "next/app";
+import { ThemeProvider } from "@/components/theme/theme-provider";
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <ThemeProvider>
+      <Component {...pageProps} />
+    </ThemeProvider>
+  );
 }

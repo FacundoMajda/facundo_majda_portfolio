@@ -2,8 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
+/* shadcn/ui token convention: HSL triplets in :root (light) /.dark, mapped in
+   tailwind.config.ts. The portfolio reads the same variables the ui/ kit does. */
+:root {
+  --background: 40 20% 98%;
+  --foreground: 240 6% 10%;
+  --card: 40 10% 96%;
+  --card-foreground: 240 6% 10%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 6% 10%;
+  --primary: 221 83% 53%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 240 5% 96%;
+  --secondary-foreground: 240 6% 10%;
+  --muted: 240 5% 96%;
+  --muted-foreground: 240 4% 46%;
+  --accent: 221 83% 53%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 240 6% 90%;
+  --input: 240 6% 90%;
+  --ring: 221 83% 53%;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 0 0% 2%;
+  --foreground: 0 0% 96%;
+  --card: 0 0% 4%;
+  --card-foreground: 0 0% 96%;
+  --popover: 0 0% 4%;
+  --popover-foreground: 0 0% 96%;
+  --primary: 217 91% 60%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 9%;
+  --secondary-foreground: 0 0% 96%;
+  --muted: 0 0% 9%;
+  --muted-foreground: 240 5% 65%;
+  --accent: 217 91% 60%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 240 4% 16%;
+  --input: 240 4% 16%;
+  --ring: 217 91% 60%;
+}
+
 body {
   font-family: var(--font-manrope), sans-serif;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
 }
 
 h1,
@@ -30,13 +79,13 @@ h3,
 /* The systems grid borrows the Contact Form's tile language: same ink, same
    hairline, so the two sections read as one system. */
 .systems-grid > div {
-  border: 1px solid #27272a;
-  background-color: #0f0f0f;
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--card));
   padding: 1.5rem;
   transition: border-color 0.3s ease;
 }
 .systems-grid > div:hover {
-  border-color: #3f3f46;
+  border-color: hsl(var(--ring));
 }
 /*
  * Type scale — one family per role, so nothing drifts.
@@ -96,5 +145,5 @@ h3,
   font-family: var(--font-geist-mono), ui-monospace, monospace;
   font-size: 11px;
   letter-spacing: 0.2em;
-  color: #52525b;
+  color: hsl(var(--muted-foreground));
 }

@@ -6,14 +6,14 @@
    A portrait tablet gets a tighter frame; at 760px wide and below it stacks and scrolls instead. */
 
 .cf-page {
-  --cf-paper: #050505;
-  --cf-ink: #0f0f0f;
-  --cf-line: #27272a;
-  --cf-accent: #3b82f6;
-  --cf-white-50: rgba(255, 255, 255, 0.5);
-  --cf-white-60: rgba(255, 255, 255, 0.6);
-  --cf-error: #f87171;
-  --cf-guide: rgba(255, 255, 255, 0.1);
+  --cf-paper: hsl(var(--background));
+  --cf-ink: hsl(var(--card));
+  --cf-line: hsl(var(--border));
+  --cf-accent: hsl(var(--primary));
+  --cf-white-50: hsl(var(--foreground) / 0.5);
+  --cf-white-60: hsl(var(--foreground) / 0.6);
+  --cf-error: hsl(var(--destructive));
+  --cf-guide: hsl(var(--foreground) / 0.1);
   --cf-ease: cubic-bezier(0.16, 1, 0.3, 1);
   /* The site speaks Geist Mono; the block keeps its own metrics but the same voice. */
   --cf-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
@@ -30,12 +30,11 @@
   --rail-x: min(6vw, calc(50vw + (var(--guide-x) - var(--fw) / 2) * var(--u)));
   --rail-y: calc(50% + (var(--guide-y) - var(--fh) / 2) * var(--u));
 
-  color-scheme: dark;
   margin: 0;
   overflow: hidden;
   overflow: clip;
   background: var(--cf-paper);
-  color: #fafafa;
+  color: hsl(var(--foreground));
   font-family: var(--cf-family);
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
@@ -104,8 +103,8 @@
   height: var(--pin);
   margin-top: calc(var(--pin) / -2);
   border-radius: 50%;
-  background: #18181b;
-  box-shadow: 0 0 0 1px #3f3f46, 0 4px 10px rgba(0, 0, 0, 0.55);
+  background: hsl(var(--card));
+  box-shadow: 0 0 0 1px hsl(var(--border)), 0 4px 10px rgba(0, 0, 0, 0.55);
   pointer-events: none;
 }
 .cf__pin::after {
@@ -113,7 +112,7 @@
   position: absolute;
   inset: 25%;
   border-radius: 50%;
-  background: linear-gradient(180deg, #52525b, #27272a);
+  background: linear-gradient(180deg, hsl(var(--muted-foreground)), hsl(var(--border)));
 }
 .cf__pin--l {
   left: calc(var(--rail-x) - var(--pin) / 2 + 0.5px);
@@ -223,18 +222,18 @@
   overflow: hidden;
   background: var(--cf-ink);
   border: 1px solid var(--cf-line);
-  color: #ffffff;
+  color: hsl(var(--foreground));
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 .cf__tile:focus-within {
-  border-color: rgba(59, 130, 246, 0.55);
-  background: #121214;
+  border-color: hsl(var(--primary) / 0.55);
+  background: hsl(var(--secondary));
 }
 .cf__label {
   position: absolute;
   top: calc(24 * var(--u));
   left: calc(28 * var(--u));
-  color: rgba(255, 255, 255, 0.78);
+  color: hsl(var(--muted-foreground));
   font-size: calc(22 * var(--u));
   line-height: normal;
   cursor: text;
@@ -256,7 +255,7 @@
   border: 1px solid var(--cf-white-50);
   border-radius: 0;
   background: transparent;
-  color: #ffffff;
+  color: hsl(var(--foreground));
   font: inherit;
   /* typed text stays readable however small the frame is drawn */
   font-size: max(13px, calc(18 * var(--u)));
@@ -273,12 +272,12 @@
   transition: opacity 0.25s ease, transform 0.35s var(--cf-ease);
 }
 .cf__input:hover {
-  border-color: rgba(255, 255, 255, 0.75);
+  border-color: hsl(var(--foreground) / 0.75);
 }
 .cf__input:focus {
   border-color: var(--cf-accent);
-  background: rgba(59, 130, 246, 0.06);
-  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.35);
+  background: hsl(var(--primary) / 0.08);
+  box-shadow: 0 0 0 1px hsl(var(--primary) / 0.35);
 }
 .cf__input:focus::placeholder {
   opacity: 0.45;
@@ -296,9 +295,9 @@
 }
 /* autofill keeps the black tile */
 .cf__input:-webkit-autofill {
-  -webkit-text-fill-color: #ffffff;
-  -webkit-box-shadow: 0 0 0 100px #0f0f0f inset;
-  caret-color: #ffffff;
+  -webkit-text-fill-color: hsl(var(--foreground));
+  -webkit-box-shadow: 0 0 0 100px hsl(var(--card)) inset;
+  caret-color: hsl(var(--foreground));
 }
 
 /* ---------- the button ---------- */
@@ -313,7 +312,7 @@
   padding: 0;
   border: 0;
   background: var(--cf-ink);
-  color: #ffffff;
+  color: hsl(var(--foreground));
   font: inherit;
   font-size: calc(52 * var(--u));
   line-height: 1.15;
@@ -394,8 +393,8 @@
   position: absolute;
   width: max(6px, calc(11 * var(--u)));
   height: max(6px, calc(11 * var(--u)));
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  background: #050505;
+  border: 1px solid hsl(var(--foreground) / 0.35);
+  background: hsl(var(--background));
   transition: transform 0.5s var(--cf-ease);
 }
 .cf__corner--tl { top: calc(-5.5 * var(--u)); left: calc(-5.5 * var(--u)); }
@@ -405,7 +404,7 @@
 
 @media (hover: hover) {
   .cf__submit.is-idle:hover {
-    color: #ffffff;
+    color: hsl(var(--primary-foreground));
   }
   .cf__submit.is-idle:hover .cf__fill {
     clip-path: inset(0 0 0 0);

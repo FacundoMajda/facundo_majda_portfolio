@@ -25,19 +25,19 @@ export default function ProjectModal({ project, onClose }: Props) {
         onClick={onClose}
       />
 
-      <div className="relative w-full max-w-4xl mx-4 bg-[#0b0b0b] border border-zinc-800 rounded-lg overflow-auto max-h-[85vh] p-8 text-zinc-100">
+      <div className="relative w-full max-w-4xl mx-4 bg-card border border-border rounded-lg overflow-auto max-h-[85vh] p-8 text-foreground">
         <button
-          className="absolute top-4 right-4 text-zinc-400 hover:text-white"
+          className="absolute top-4 right-4 text-muted-foreground hover:text-foreground"
           onClick={onClose}
           aria-label="Close modal"
         >
           <X className="w-6 h-6" />
         </button>
 
-        <h3 className="font-anton text-4xl mb-2 text-zinc-100">
+        <h3 className="font-anton text-4xl mb-2 text-foreground">
           {project.title}
         </h3>
-        <p className="text-xs font-bold text-blue-500 mb-4 uppercase tracking-widest">
+        <p className="text-xs font-bold text-primary mb-4 uppercase tracking-widest">
           {project.category}
         </p>
 
@@ -45,7 +45,7 @@ export default function ProjectModal({ project, onClose }: Props) {
           {project.tech.map((t, i) => (
             <span
               key={i}
-              className="text-zinc-400 text-xs font-manrope border border-zinc-800 rounded-full px-3 py-1"
+              className="text-muted-foreground text-xs font-manrope border border-border rounded-full px-3 py-1"
             >
               {t}
             </span>
@@ -66,8 +66,8 @@ export default function ProjectModal({ project, onClose }: Props) {
                 const items = listLines.map((l) => l.replace(/^- |^• /, ""));
                 return (
                   <div key={idx} className="mb-3">
-                    <h5 className="text-zinc-200 font-bold mb-2">{heading}</h5>
-                    <ul className="list-disc list-inside ml-4 text-zinc-400">
+                    <h5 className="text-foreground font-bold mb-2">{heading}</h5>
+                    <ul className="list-disc list-inside ml-4 text-muted-foreground">
                       {items.map((it, i) => (
                         <li key={i}>{it}</li>
                       ))}
@@ -78,7 +78,7 @@ export default function ProjectModal({ project, onClose }: Props) {
 
               // Fallback: treat as paragraph
               return (
-                <p key={idx} className="text-zinc-400 mb-3">
+                <p key={idx} className="text-muted-foreground mb-3">
                   {section}
                 </p>
               );
@@ -90,13 +90,13 @@ export default function ProjectModal({ project, onClose }: Props) {
 
         {/* Project PDF (separate, visually distinct) */}
         {project.projectPdf && (
-          <div className="mt-4 bg-[#071024] border border-zinc-800 p-4 rounded flex items-center justify-between">
+          <div className="mt-4 bg-primary/10 border border-border p-4 rounded flex items-center justify-between">
             <div>
-              <div className="font-manrope text-sm text-zinc-100 font-bold">
+              <div className="font-manrope text-sm text-foreground font-bold">
                 {project.projectPdf.title}
               </div>
               {project.projectPdf.note && (
-                <div className="text-zinc-400 text-sm">
+                <div className="text-muted-foreground text-sm">
                   {project.projectPdf.note}
                 </div>
               )}
@@ -106,7 +106,7 @@ export default function ProjectModal({ project, onClose }: Props) {
               target="_blank"
               rel="noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="text-blue-400 hover:underline flex items-center gap-2"
+              className="text-primary hover:underline flex items-center gap-2"
             >
               <FileText className="w-4 h-4" /> View PDF
             </a>
@@ -117,7 +117,7 @@ export default function ProjectModal({ project, onClose }: Props) {
         {project.devNotes && project.devNotes.length > 0 && (
           <div className="mt-4">
             <button
-              className="text-sm text-zinc-400 font-manrope mb-3 hover:text-white underline"
+              className="text-sm text-muted-foreground font-manrope mb-3 hover:text-foreground underline"
               onClick={() => setShowDevNotes((s) => !s)}
             >
               {showDevNotes
@@ -126,18 +126,18 @@ export default function ProjectModal({ project, onClose }: Props) {
             </button>
 
             {showDevNotes && (
-              <div className="bg-[#070707] border border-zinc-800 p-4 rounded">
-                <h4 className="text-zinc-300 font-bold mb-3">
+              <div className="bg-secondary border border-border p-4 rounded">
+                <h4 className="text-foreground font-bold mb-3">
                   Development Notes
                 </h4>
                 <div className="flex flex-col gap-3">
                   {project.devNotes.map((n, i) => (
                     <div
                       key={i}
-                      className="p-3 bg-[#080808] border border-zinc-900 rounded flex gap-3"
+                      className="p-3 bg-secondary border border-border rounded flex gap-3"
                     >
                       <div className="flex-shrink-0">
-                        <div className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-xs font-bold text-zinc-200">
+                        <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-xs font-bold text-foreground">
                           {n.author
                             ? n.author
                                 .split(" ")
@@ -150,21 +150,21 @@ export default function ProjectModal({ project, onClose }: Props) {
 
                       <div className="flex-1">
                         <div className="flex items-center justify-between">
-                          <div className="text-sm text-zinc-200 font-semibold">
+                          <div className="text-sm text-foreground font-semibold">
                             {n.author ?? "Unknown"}
                           </div>
                           {n.date && (
-                            <div className="text-xs text-zinc-500">
+                            <div className="text-xs text-muted-foreground">
                               {n.date}
                             </div>
                           )}
                         </div>
-                        <div className="mt-2 text-zinc-200 text-sm leading-relaxed">
+                        <div className="mt-2 text-foreground text-sm leading-relaxed">
                           {n.content}
                         </div>
-                        <div className="mt-3 flex items-center gap-4 text-xs text-zinc-500">
-                          <button className="hover:text-white">Reply</button>
-                          <button className="hover:text-white">Share</button>
+                        <div className="mt-3 flex items-center gap-4 text-xs text-muted-foreground">
+                          <button className="hover:text-foreground">Reply</button>
+                          <button className="hover:text-foreground">Share</button>
                         </div>
                       </div>
                     </div>
@@ -177,18 +177,18 @@ export default function ProjectModal({ project, onClose }: Props) {
 
         {project.evidence && project.evidence.length > 0 && (
           <div className="mt-4">
-            <h4 className="text-zinc-300 font-bold mb-4">Evidence & Links</h4>
+            <h4 className="text-foreground font-bold mb-4">Evidence & Links</h4>
             <div className="flex flex-col gap-4">
               {project.evidence.map((ev, i) => (
                 <div
                   key={i}
-                  className="bg-[#070707] border border-zinc-800 p-4 rounded"
+                  className="bg-secondary border border-border p-4 rounded"
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <div className="font-manrope text-sm text-zinc-200">
-                      <strong className="text-zinc-100">{ev.title}</strong>
+                    <div className="font-manrope text-sm text-foreground">
+                      <strong className="text-foreground">{ev.title}</strong>
                       {ev.type === "repo" ? (
-                        <span className="ml-3 text-zinc-500 text-xs">
+                        <span className="ml-3 text-muted-foreground text-xs">
                           Private repository
                         </span>
                       ) : (
@@ -197,20 +197,20 @@ export default function ProjectModal({ project, onClose }: Props) {
                             href={ev.link}
                             target="_blank"
                             rel="noreferrer"
-                            className="ml-3 text-blue-400 hover:underline text-xs"
+                            className="ml-3 text-primary hover:underline text-xs"
                           >
                             View
                           </a>
                         )
                       )}
                     </div>
-                    <div className="text-xs text-zinc-500 uppercase tracking-widest">
+                    <div className="text-xs text-muted-foreground uppercase tracking-widest">
                       {ev.type}
                     </div>
                   </div>
 
                   {ev.note && (
-                    <p className="text-zinc-400 text-sm mb-3">{ev.note}</p>
+                    <p className="text-muted-foreground text-sm mb-3">{ev.note}</p>
                   )}
 
                   {ev.images && ev.images.length > 0 && (
@@ -228,7 +228,7 @@ export default function ProjectModal({ project, onClose }: Props) {
                             alt={`${project.title} screenshot ${j + 1}`}
                             width={220}
                             height={124}
-                            className="object-cover rounded border border-zinc-800"
+                            className="object-cover rounded border border-border"
                           />
                         </a>
                       ))}
@@ -242,7 +242,7 @@ export default function ProjectModal({ project, onClose }: Props) {
 
         <div className="mt-6 flex justify-end">
           {project.link && project.link.includes("github") ? (
-            <div className="text-sm font-manrope uppercase text-zinc-500">
+            <div className="text-sm font-manrope uppercase text-muted-foreground">
               Repository: Private
             </div>
           ) : (
@@ -251,7 +251,7 @@ export default function ProjectModal({ project, onClose }: Props) {
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-manrope uppercase text-zinc-300 hover:text-blue-400"
+                className="text-sm font-manrope uppercase text-foreground hover:text-primary"
               >
                 Open link <span className="ml-2">↗</span>
               </a>
