@@ -493,7 +493,7 @@ export default function Portfolio({
               curl={0.4}
               radius={0.15}
             >
-              <div className="relative z-30 w-full h-full flex flex-col lg:flex-row justify-start lg:justify-between items-center lg:items-end gap-12 lg:gap-16 px-6 md:px-[6vw] pt-20 md:pt-24 pb-12 lg:pb-[25vh]">
+              <div className="relative z-30 w-full h-full flex flex-col lg:flex-row justify-start lg:justify-between items-center lg:items-end gap-12 lg:gap-16 px-6 md:px-[6vw] pt-20 md:pt-24 pb-12 lg:pb-[15vh]">
                 <div className="w-full lg:max-w-[55%] space-y-1">
                   <Reveal>
                     <div className="flex flex-wrap items-center gap-2 mb-4">
