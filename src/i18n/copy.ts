@@ -1,6 +1,7 @@
 // Every user-visible string of the portfolio lives here, in both languages.
-// Codes stays English; only the copy is localized. Add a key here and both
+// Code stays English; only the copy is localized. Add a key here and both
 // locales must provide it (the Copy type enforces it).
+// Database content is localized with real columns (see src/db/schema.ts).
 export type Copy = {
   menuLabel: string;
   toggleMenu: string;

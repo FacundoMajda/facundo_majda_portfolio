@@ -25,7 +25,7 @@ import { Reveal } from "@/utils";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { SITE_URL } from "@/config/site";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
-import { useCopy } from "@/i18n/useCopy";
+import { useCopy, useIsSpanish } from "@/i18n/useCopy";
 
 // Icons come from CDNs: brand icons carry their own colour, but monochrome ones
 // are pure white/black and would vanish against one of the two themes. Invert the
@@ -113,9 +113,11 @@ type ExperienceRow = {
   company: string;
   link: string | null;
   role: string;
+  roleEs: string | null;
   startDate: string;
   endDate: string | null;
   description: string;
+  descriptionEs: string | null;
   isCurrent: boolean;
   order: number;
 };
@@ -123,14 +125,18 @@ type EducationRow = {
   institution: string;
   link: string | null;
   degree: string;
+  degreeEs: string | null;
   startDate: string;
   endDate: string | null;
   description: string;
+  descriptionEs: string | null;
   order: number;
 };
 type ProfileRow = {
   heroTitle: string;
   heroTagline: string;
+  heroTaglineEs: string | null;
+  statusLineEs: string | null;
   aboutText: string;
   statusLine: string;
   yearsExp: number;
@@ -153,8 +159,10 @@ export async function getServerSideProps({ res }: GetServerSidePropsContext) {
     .select({
       heroTitle: profile.heroTitle,
       heroTagline: profile.heroTagline,
+      heroTaglineEs: profile.heroTaglineEs,
       aboutText: profile.aboutText,
       statusLine: profile.statusLine,
+      statusLineEs: profile.statusLineEs,
       yearsExp: profile.yearsExp,
       contactEmail: profile.contactEmail,
       seoTitle: profile.seoTitle,
@@ -215,6 +223,7 @@ export default function Portfolio({
 
   const SOCIAL = Object.fromEntries(socials.map((s) => [s.platform, s.url]));
   const c = useCopy();
+  const isEs = useIsSpanish();
 
   const STACK_CATEGORIES = techs.reduce<{ name: string; items: { name: string; icon: string }[] }[]>(
     (acc, t) => {
@@ -233,16 +242,20 @@ export default function Portfolio({
     institution: e.institution,
     link: e.link,
     degree: e.degree,
+    degreeEs: e.degreeEs,
     date: e.endDate ? fmtRange(e.startDate, e.endDate, false) : fmtRange(e.startDate, null, true),
     desc: e.description,
+    descEs: e.descriptionEs,
   }));
 
   const EXPERIENCE = experiences.map((j) => ({
     company: j.company,
     link: j.link,
     role: j.role,
+    roleEs: j.roleEs,
     date: fmtRange(j.startDate, j.endDate, j.isCurrent),
     desc: j.description,
+    descEs: j.descriptionEs,
   }));
 
   const seoTitle = profile?.seoTitle ?? "Facundo Majda — AI/ML & Automation Engineer";
@@ -471,7 +484,8 @@ export default function Portfolio({
               <p className="t-label text-muted-foreground">{c.statusLabel}</p>
             </div>
             <p className="t-body max-w-[42ch] text-muted-foreground">
-              {profile?.statusLine ??
+              {(isEs ? profile?.statusLineEs : null) ??
+                profile?.statusLine ??
                 "Available for remote engineering roles and selected projects"}
             </p>
           </div>
@@ -608,8 +622,8 @@ export default function Portfolio({
                       }}
                     >
                       <div className="marquee t-meta whitespace-nowrap uppercase text-muted-foreground md:text-[0.975rem]">
-                        {profile?.heroTagline ?? "SWE | Data & AI-Driven Apps | FDE | Full-Stack + Automation"}{" "}
-                        {profile?.heroTagline ?? "SWE | Data & AI-Driven Apps | FDE | Full-Stack + Automation"}
+                        {(isEs ? profile?.heroTaglineEs : null) ?? profile?.heroTagline ?? "SWE | Data & AI-Driven Apps | FDE | Full-Stack + Automation"}{" "}
+                        {(isEs ? profile?.heroTaglineEs : null) ?? profile?.heroTagline ?? "SWE | Data & AI-Driven Apps | FDE | Full-Stack + Automation"}
                       </div>
                     </div>
                   </Reveal>
@@ -832,7 +846,7 @@ export default function Portfolio({
                       {edu.date}
                     </p>
                     <h3 className="t-title text-xl md:text-2xl text-foreground mb-2">
-                      {edu.degree}
+                      {(isEs ? edu.degreeEs : null) ?? edu.degree}
                     </h3>
                     <p className="text-xl text-muted-foreground font-manrope mb-4">
                       {edu.link ? (
@@ -849,7 +863,7 @@ export default function Portfolio({
                       )}
                     </p>
                     <p className="text-muted-foreground font-manrope max-w-2xl leading-relaxed">
-                      {edu.desc}
+                      {(isEs ? edu.descEs : null) ?? edu.desc}
                     </p>
                   </div>
                 </Reveal>
@@ -889,7 +903,7 @@ export default function Portfolio({
                       {job.date}
                     </p>
                     <h3 className="t-title text-xl md:text-2xl text-foreground mb-2">
-                      {job.role}
+                      {(isEs ? job.roleEs : null) ?? job.role}
                     </h3>
                     <p className="text-xl text-muted-foreground font-manrope mb-4">
                       {job.link ? (
@@ -906,7 +920,7 @@ export default function Portfolio({
                       )}
                     </p>
                     <p className="text-muted-foreground font-manrope max-w-2xl leading-relaxed">
-                      {job.desc}
+                      {(isEs ? job.descEs : null) ?? job.desc}
                     </p>
                   </div>
                 </Reveal>
