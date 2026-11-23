@@ -480,6 +480,12 @@ export default function Portfolio({
             >
               Desarrollador de software en Formosa
             </a>
+            <a
+              href="/es/inteligencia-artificial-formosa"
+              className="t-label mt-2 block text-muted-foreground transition-colors hover:text-primary"
+            >
+              Inteligencia artificial en Formosa
+            </a>
           </div>
 
           <div>

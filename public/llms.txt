@@ -5,6 +5,12 @@
 Facundo Majda is an AI/ML & Automation Engineer focused on taking AI from prototype to production: retrieval-augmented generation, LLM agents and orchestration, computer vision, NLP, and the automation that connects those systems to real operations. He works end to end — backend services and APIs through to the interfaces that make them usable.
 
 Canonical website: https://faqmajda.xyz
+Based in: Formosa, Argentina — works with clients in the city, the region (NEA), across Argentina and abroad.
+
+## Servicios (español)
+
+- [Desarrollador de software en Formosa](https://faqmajda.xyz/es/desarrollador-software-formosa): desarrollo de software, IA y automatización para empresas de Formosa y el NEA.
+- [Inteligencia artificial en Formosa](https://faqmajda.xyz/es/inteligencia-artificial-formosa): RAG, agentes con LLM, visión por computadora y automatización.
 
 ## Contact
 

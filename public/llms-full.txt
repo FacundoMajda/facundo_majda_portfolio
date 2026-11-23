@@ -5,8 +5,9 @@
 Canonical website: https://faqmajda.xyz
 Name: Facundo Majda
 Job title: AI/ML & Automation Engineer
+Location: Formosa, Formosa, Argentina
 Years of experience: 3+
-Availability: available for remote engineering roles and selected projects
+Availability: available for remote engineering roles and selected projects; works with clients in Formosa, the NEA, across Argentina and abroad
 Email: facundomajda13@gmail.com
 GitHub: https://github.com/FacundoMajda
 LinkedIn: https://www.linkedin.com/in/facundo-majda/
