@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  useEffect,
-  useRef,
-  useState,
-  useSyncExternalStore,
-  type ReactNode,
-} from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 export interface GridOptions {
   /** Size of each grid tile in CSS pixels. */
@@ -46,8 +40,8 @@ export interface GridOptions {
 }
 
 export interface GridElements {
-  /** Canvas with layoutsubtree that hosts the HTML content. */
-  source: HTMLCanvasElement;
+  /** Canvas with layoutsubtree that hosts the HTML content. Only needed when capturing. */
+  source?: HTMLCanvasElement;
   /** The element inside the source canvas that gets captured. */
   content: HTMLElement;
   /** Canvas the WebGL effect renders to. */
@@ -341,10 +335,13 @@ export function createGrid(
   });
   if (!gl || gl.isContextLost()) return null;
 
-  const sourceCtx = source.getContext("2d") as ElementImageContext | null;
-  const paintable = source as PaintableCanvas;
+  const sourceCtx = source
+    ? (source.getContext("2d") as ElementImageContext | null)
+    : null;
+  const paintable = source as PaintableCanvas | undefined;
   const htmlInCanvas = Boolean(
     sourceCtx &&
+    paintable &&
     typeof sourceCtx.drawElementImage === "function" &&
     typeof paintable.requestPaint === "function",
   );
@@ -352,11 +349,11 @@ export function createGrid(
   let contentDirty = false;
   let wake = () => {};
 
-  if (htmlInCanvas) {
+  if (htmlInCanvas && sourceCtx && paintable) {
     paintable.onpaint = () => {
       try {
-        sourceCtx!.reset();
-        sourceCtx!.drawElementImage!(content, 0, 0);
+        sourceCtx.reset();
+        sourceCtx.drawElementImage!(content, 0, 0);
         contentDirty = true;
         wake();
       } catch {}
@@ -500,7 +497,7 @@ export function createGrid(
       1,
       Math.max(0.05, content.clientWidth / Math.max(output.clientWidth, 1)),
     );
-    if (htmlInCanvas) {
+    if (htmlInCanvas && source && paintable) {
       const cssWidth = Math.max(1, Math.round(source.clientWidth));
       const cssHeight = Math.max(1, Math.round(source.clientHeight));
       if (source.width !== cssWidth * scale || source.height !== cssHeight * scale) {
@@ -514,7 +511,7 @@ export function createGrid(
   syncCanvasSize();
 
   function uploadContent() {
-    if (!htmlInCanvas || !contentDirty) return;
+    if (!htmlInCanvas || !contentDirty || !source || !sourceCtx) return;
     contentDirty = false;
     gl!.bindTexture(gl!.TEXTURE_2D, contentTexture);
     gl!.texImage2D(
@@ -799,7 +796,7 @@ export function createGrid(
         gl!.deleteShader(pass.fragmentShader);
       }
       gl!.deleteBuffer(quad);
-      if (htmlInCanvas) paintable.onpaint = null;
+      if (paintable) paintable.onpaint = null;
     },
   };
 }
@@ -810,38 +807,22 @@ export interface GridProps extends GridOptions {
   style?: React.CSSProperties;
 }
 
-const emptySubscribe = () => () => {};
-
 export function Grid({ children, className, style, ...options }: GridProps) {
-  const sourceRef = useRef<HTMLCanvasElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const outputRef = useRef<HTMLCanvasElement>(null);
   const instanceRef = useRef<GridInstance | null>(null);
   const [initialOptions] = useState(options);
-  const [failed, setFailed] = useState(false);
-
-  const supported = useSyncExternalStore(
-    emptySubscribe,
-    supportsHtmlInCanvas,
-    () => false,
-  );
-  const native = supported && !failed;
 
   useEffect(() => {
-    const source = sourceRef.current;
     const content = contentRef.current;
     const output = outputRef.current;
-    if (!source || !content || !output) return;
-    instanceRef.current = createGrid(
-      { source, content, output },
-      initialOptions,
-    );
-    if (native && !instanceRef.current) setFailed(true);
+    if (!content || !output) return;
+    instanceRef.current = createGrid({ content, output }, initialOptions);
     return () => {
       instanceRef.current?.destroy();
       instanceRef.current = null;
     };
-  }, [initialOptions, native]);
+  }, [initialOptions]);
 
   useEffect(() => {
     instanceRef.current?.setOptions(options);
@@ -849,44 +830,6 @@ export function Grid({ children, className, style, ...options }: GridProps) {
 
   return (
     <div className={className} style={{ position: "relative", ...style }}>
-      <canvas
-        ref={sourceRef}
-        // @ts-expect-error experimental html-in-canvas attribute
-        layoutsubtree="true"
-        suppressHydrationWarning
-        style={
-          native
-            ? { position: "absolute", inset: 0, width: "100%", height: "100%" }
-            : { display: "none" }
-        }
-      >
-        {native ? (
-          <div
-            ref={contentRef}
-            style={{
-              position: "relative",
-              width: "100%",
-              height: "100%",
-              overflow: "auto",
-            }}
-          >
-            {children}
-          </div>
-        ) : null}
-      </canvas>
-      {!native ? (
-        <div
-          ref={contentRef}
-          style={{
-            position: "relative",
-            width: "100%",
-            height: "100%",
-            overflow: "auto",
-          }}
-        >
-          {children}
-        </div>
-      ) : null}
       <canvas
         ref={outputRef}
         aria-hidden
@@ -898,6 +841,17 @@ export function Grid({ children, className, style, ...options }: GridProps) {
           pointerEvents: "none",
         }}
       />
+      <div
+        ref={contentRef}
+        style={{
+          position: "relative",
+          zIndex: 1,
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        {children}
+      </div>
     </div>
   );
 }
