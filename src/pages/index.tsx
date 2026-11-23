@@ -472,6 +472,18 @@ export default function Portfolio({
 
           <div>
             <div className="mb-4 border-b border-dashed border-border pb-3">
+              <p className="t-label text-muted-foreground">[ SERVICIOS ]</p>
+            </div>
+            <a
+              href="/es/desarrollador-software-formosa"
+              className="t-label text-muted-foreground transition-colors hover:text-primary"
+            >
+              Desarrollador de software en Formosa
+            </a>
+          </div>
+
+          <div>
+            <div className="mb-4 border-b border-dashed border-border pb-3">
               <p className="t-label text-muted-foreground">[ THEME ]</p>
             </div>
             <ThemeToggle />
