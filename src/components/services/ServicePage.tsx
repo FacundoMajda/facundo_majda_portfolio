@@ -41,7 +41,6 @@ export function ServicePage({
   h1,
   lede,
   services,
-  stack,
   faq,
   servicesHeading = "Servicios",
 }: Props) {
@@ -230,37 +229,6 @@ export function ServicePage({
         </section>
 
         <section className="px-6 md:px-[6vw] py-24 md:py-32 border-t border-border">
-          <div className="mb-12 flex items-end justify-between gap-6 border-b border-dashed border-border pb-4">
-            <h2 className="t-title text-2xl md:text-3xl text-foreground">
-              [ TECNOLOGÍAS ]
-            </h2>
-            <span className="font-mono text-xs tabular-nums text-muted-foreground/70">
-              {String(
-                stack.reduce((total, group) => total + group.items.length, 0),
-              ).padStart(2, "0")}
-            </span>
-          </div>
-
-          <div className="flex flex-col gap-8">
-            {stack.map((group) => (
-              <div key={group.group} className="flex flex-col gap-3 border-b border-dashed border-border pb-6 last:border-0">
-                <p className="t-label text-muted-foreground">{group.group}</p>
-                <ul className="flex flex-wrap gap-2">
-                  {group.items.map((item) => (
-                    <li
-                      key={item}
-                      className="t-meta border border-border px-3 py-1 text-muted-foreground"
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="px-6 md:px-[6vw] py-24 md:py-32 bg-card border-t border-border">
           <div className="mb-16 flex items-end justify-between gap-6 border-b border-dashed border-border pb-4">
             <h2 className="t-title text-2xl md:text-3xl text-foreground">
               [ PREGUNTAS FRECUENTES ]
