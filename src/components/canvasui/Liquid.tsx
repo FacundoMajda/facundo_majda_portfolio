@@ -923,8 +923,22 @@ export function Liquid({
   const outputRef = useRef<HTMLCanvasElement>(null);
   const instanceRef = useRef<LiquidInstance | null>(null);
   const [initialOptions] = useState(options);
+  const [ready, setReady] = useState(false);
+
+  // Defer the WebGL effect until after the page has loaded, so the hero paints
+  // its text first (fast LCP) and the canvas starts once the main thread is free.
+  useEffect(() => {
+    const start = () => setReady(true);
+    if (document.readyState === "complete") {
+      start();
+      return;
+    }
+    window.addEventListener("load", start, { once: true });
+    return () => window.removeEventListener("load", start);
+  }, []);
 
   useEffect(() => {
+    if (!ready) return;
     const content = contentRef.current;
     const output = outputRef.current;
     if (!content || !output) return;
@@ -933,7 +947,7 @@ export function Liquid({
       instanceRef.current?.destroy();
       instanceRef.current = null;
     };
-  }, [initialOptions]);
+  }, [initialOptions, ready]);
 
   useEffect(() => {
     instanceRef.current?.setOptions(options);
