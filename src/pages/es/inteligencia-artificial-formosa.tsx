@@ -1,6 +1,8 @@
 import Head from "next/head";
 import Link from "next/link";
 import { SITE_URL } from "@/config/site";
+import { ServicePageNav } from "@/components/services/ServicePageNav";
+import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 
 const TITLE =
   "Inteligencia Artificial en Formosa | RAG, Agentes y Visión — Facundo Majda";
@@ -73,7 +75,7 @@ const FAQ = [
   },
 ];
 
-export default function InteligenciaArtificialFormosa() {
+export default function AiFormosaPage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -165,12 +167,15 @@ export default function InteligenciaArtificialFormosa() {
             <Link href="/" className="t-title text-sm text-foreground">
               Facundo Majda
             </Link>
-            <a
-              href={`mailto:${EMAIL}`}
-              className="t-label text-muted-foreground transition-colors hover:text-primary"
-            >
-              [ CONTACTO ]
-            </a>
+            <div className="flex items-center gap-4">
+              <LanguageSwitcher />
+              <a
+                href={`mailto:${EMAIL}`}
+                className="t-label text-muted-foreground transition-colors hover:text-primary"
+              >
+                [ CONTACTO ]
+              </a>
+            </div>
           </div>
         </header>
 
@@ -248,6 +253,8 @@ export default function InteligenciaArtificialFormosa() {
               Desarrollo de software en Formosa
             </Link>
           </div>
+
+          <ServicePageNav current="/es/inteligencia-artificial-formosa" />
 
           <div className="mt-14 flex flex-wrap gap-5 border-t border-border pt-6">
             <a

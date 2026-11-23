@@ -10,6 +10,13 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
+  async rewrites() {
+    return [
+      // The sitemap is generated so lastmod is real and localized pages are
+      // listed with their hreflang alternates.
+      { source: "/sitemap.xml", destination: "/api/sitemap" },
+    ];
+  },
   async redirects() {
     return [
       {

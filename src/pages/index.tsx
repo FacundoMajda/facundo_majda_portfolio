@@ -24,6 +24,7 @@ import { geistMono, manrope, spaceGrotesk } from "@/styles/fonts";
 import { Reveal } from "@/utils";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { SITE_URL } from "@/config/site";
+import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 
 // Icons come from CDNs: brand icons carry their own colour, but monochrome ones
 // are pure white/black and would vanish against one of the two themes. Invert the
@@ -320,6 +321,9 @@ export default function Portfolio({
         <meta name="robots" content="index, follow, max-image-preview:large" />
         <meta name="googlebot" content="index, follow" />
         <link rel="canonical" href={seoUrl} />
+        <link rel="alternate" hrefLang="en" href={seoUrl} />
+        <link rel="alternate" hrefLang="es-AR" href={`${SITE_URL}/es`} />
+        <link rel="alternate" hrefLang="x-default" href={seoUrl} />
         <link rel="describedby" href={`${SITE_URL}/llms.txt`} />
         <link
           rel="alternate"
@@ -475,6 +479,12 @@ export default function Portfolio({
               <p className="t-label text-muted-foreground">[ SERVICIOS ]</p>
             </div>
             <a
+              href="/es"
+              className="t-label text-muted-foreground transition-colors hover:text-primary"
+            >
+              Todos los servicios (español)
+            </a>
+            <a
               href="/es/desarrollador-software-formosa"
               className="t-label text-muted-foreground transition-colors hover:text-primary"
             >
@@ -486,6 +496,13 @@ export default function Portfolio({
             >
               Inteligencia artificial en Formosa
             </a>
+          </div>
+
+          <div>
+            <div className="mb-4 border-b border-dashed border-border pb-3">
+              <p className="t-label text-muted-foreground">[ LANGUAGE ]</p>
+            </div>
+            <LanguageSwitcher />
           </div>
 
           <div>

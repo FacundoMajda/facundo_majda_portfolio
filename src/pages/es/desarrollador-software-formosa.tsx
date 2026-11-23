@@ -1,6 +1,8 @@
 import Head from "next/head";
 import Link from "next/link";
 import { SITE_URL } from "@/config/site";
+import { ServicePageNav } from "@/components/services/ServicePageNav";
+import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 
 const TITLE =
   "Desarrollador de Software e Ingeniero de IA en Formosa | Facundo Majda";
@@ -129,7 +131,7 @@ const FAQ = [
   },
 ];
 
-export default function DesarrolladorSoftwareFormosa() {
+export default function SoftwareDeveloperFormosaPage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -236,12 +238,15 @@ export default function DesarrolladorSoftwareFormosa() {
             <Link href="/" className="t-title text-sm text-foreground">
               Facundo Majda
             </Link>
-            <a
-              href={`mailto:${EMAIL}`}
-              className="t-label text-muted-foreground transition-colors hover:text-primary"
-            >
-              [ CONTACTO ]
-            </a>
+            <div className="flex items-center gap-4">
+              <LanguageSwitcher />
+              <a
+                href={`mailto:${EMAIL}`}
+                className="t-label text-muted-foreground transition-colors hover:text-primary"
+              >
+                [ CONTACTO ]
+              </a>
+            </div>
           </div>
         </header>
 
@@ -343,6 +348,8 @@ export default function DesarrolladorSoftwareFormosa() {
               Ver portfolio completo
             </Link>
           </div>
+
+          <ServicePageNav current="/es/desarrollador-software-formosa" />
 
           <div className="mt-14 flex flex-wrap gap-5 border-t border-border pt-6">
             <a
