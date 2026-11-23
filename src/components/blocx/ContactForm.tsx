@@ -27,9 +27,12 @@ import { animate, AnimatePresence, motion, MotionConfig, type Variants } from "m
  * the Pages Router only allows global CSS from the custom App.
  */
 
+import { useCopy } from "@/i18n/useCopy";
+import type { Copy } from "@/i18n/copy";
+
 const HAND = "/blocx/contact-form/hand.webp";
 const EASE_OUT = [0.16, 1, 0.3, 1] as const;
-const TITLE = "Wanna Work With Me...";
+// Title, labels and errors come from the locale dictionary (see useCopy).
 
 export type ContactValues = { email: string; contact: string; message: string };
 
@@ -42,19 +45,21 @@ type Field = {
   inputMode?: "email" | "tel" | "text";
 };
 
-const FIELDS: Field[] = [
-  { name: "email", label: "Email", placeholder: "Enter Your Email...", type: "email", autoComplete: "email", inputMode: "email" },
-  { name: "contact", label: "Contact", placeholder: "Enter Your Contact...", type: "tel", autoComplete: "tel", inputMode: "tel" },
-  { name: "message", label: "Message", placeholder: "Enter Your Message...", type: "text", autoComplete: "off" },
-];
+function buildFields(c: Copy): Field[] {
+  return [
+    { name: "email", label: c.contactEmailLabel, placeholder: c.contactEmailPlaceholder, type: "email", autoComplete: "email", inputMode: "email" },
+    { name: "contact", label: c.contactContactLabel, placeholder: c.contactContactPlaceholder, type: "tel", autoComplete: "tel", inputMode: "tel" },
+    { name: "message", label: c.contactMessageLabel, placeholder: c.contactMessagePlaceholder, type: "text", autoComplete: "off" },
+  ];
+}
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function validate(v: ContactValues): Partial<Record<keyof ContactValues, string>> {
+function validate(v: ContactValues, c: Copy): Partial<Record<keyof ContactValues, string>> {
   const errors: Partial<Record<keyof ContactValues, string>> = {};
-  if (!EMAIL.test(v.email.trim())) errors.email = "Enter a valid email";
-  if (v.contact.trim() && !/^[+\d][\d\s().-]{5,}$/.test(v.contact.trim())) errors.contact = "Enter a valid number";
-  if (v.message.trim().length < 2) errors.message = "Tell me a little about it";
+  if (!EMAIL.test(v.email.trim())) errors.email = c.contactErrorEmail;
+  if (v.contact.trim() && !/^[+\d][\d\s().-]{5,}$/.test(v.contact.trim())) errors.contact = c.contactErrorContact;
+  if (v.message.trim().length < 2) errors.message = c.contactErrorMessage;
   return errors;
 }
 
@@ -79,11 +84,14 @@ export default function ContactForm({
   const [values, setValues] = useState<ContactValues>({ email: "", contact: "", message: "" });
   const [errors, setErrors] = useState<Partial<Record<keyof ContactValues, string>>>({});
   const [status, setStatus] = useState<Status>("idle");
+  const c = useCopy();
+  const TITLE = c.contactTitle;
+  const FIELDS = buildFields(c);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (status !== "idle") return;
-    const found = validate(values);
+    const found = validate(values, c);
     setErrors(found);
     const wrong = FIELDS.filter((f) => found[f.name]);
     if (wrong.length) {
@@ -258,9 +266,9 @@ export default function ContactForm({
                     >
                       {status === "idle" && (
                         <span className="cf__roll">
-                          <span className="cf__roll-line">Contact Me</span>
+                          <span className="cf__roll-line">{c.contactSubmit}</span>
                           <span className="cf__roll-line" aria-hidden>
-                            Contact Me
+                            {c.contactSubmit}
                             <svg className="cf__arrow" viewBox="0 0 24 24" aria-hidden>
                               <path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>

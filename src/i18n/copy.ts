@@ -40,6 +40,18 @@ export type Copy = {
   sys4Title: string;
   sys4Body: string;
 
+  contactTitle: string;
+  contactEmailLabel: string;
+  contactEmailPlaceholder: string;
+  contactContactLabel: string;
+  contactContactPlaceholder: string;
+  contactMessageLabel: string;
+  contactMessagePlaceholder: string;
+  contactSubmit: string;
+  contactErrorEmail: string;
+  contactErrorContact: string;
+  contactErrorMessage: string;
+
   expertiseLabel: string;
   tools: string;
   educationLabel: string;
@@ -111,6 +123,18 @@ export const COPY: Record<"en" | "es", Copy> = {
     sys4Body:
       "Making systems talk to each other and getting repetitive work out of the way. APIs, workflows, AI, and a bit of creative problem-solving.",
 
+    contactTitle: "Wanna Work With Me...",
+    contactEmailLabel: "Email",
+    contactEmailPlaceholder: "Enter Your Email...",
+    contactContactLabel: "Contact",
+    contactContactPlaceholder: "Enter Your Contact...",
+    contactMessageLabel: "Message",
+    contactMessagePlaceholder: "Enter Your Message...",
+    contactSubmit: "Contact Me",
+    contactErrorEmail: "Enter a valid email",
+    contactErrorContact: "Enter a valid number",
+    contactErrorMessage: "Tell me a little about it",
+
     expertiseLabel: "[ EXPERTISE ]",
     tools: "tools",
     educationLabel: "[ EDUCATION ]",
@@ -180,6 +204,18 @@ export const COPY: Record<"en" | "es", Copy> = {
     sys4Title: "Automatización",
     sys4Body:
       "Hacer que los sistemas se hablen entre sí y sacar de encima el trabajo repetitivo. APIs, flujos, IA y bastante resolución creativa de problemas.",
+
+    contactTitle: "¿Trabajamos juntos?",
+    contactEmailLabel: "Email",
+    contactEmailPlaceholder: "Tu email...",
+    contactContactLabel: "Contacto",
+    contactContactPlaceholder: "Tu teléfono o usuario...",
+    contactMessageLabel: "Mensaje",
+    contactMessagePlaceholder: "Tu mensaje...",
+    contactSubmit: "Escribime",
+    contactErrorEmail: "Ingresá un email válido",
+    contactErrorContact: "Ingresá un número válido",
+    contactErrorMessage: "Contame un poco más",
 
     expertiseLabel: "[ ESPECIALIDADES ]",
     tools: "herramientas",
