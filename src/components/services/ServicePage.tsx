@@ -29,8 +29,8 @@ type Props = {
   servicesHeading?: string;
 };
 
-// Shared chrome for every localized service page: same Head, schema and layout.
-// Each page is only content, so nothing drifts between them.
+// Same visual system as the portfolio: full-bleed 6vw gutters, bracketed
+// section markers on dashed rules, numbered tiles, the shared type scale.
 export function ServicePage({
   path,
   title,
@@ -92,7 +92,7 @@ export function ServicePage({
             "@type": "ListItem",
             position: 2,
             name: "Servicios (español)",
-            item: `${SITE_URL}/es`,
+            item: `${SITE_URL}/es/servicios`,
           },
           { "@type": "ListItem", position: 3, name: h1, item: url },
         ],
@@ -149,57 +149,79 @@ export function ServicePage({
         />
       </Head>
 
-      <main className="min-h-screen bg-background text-foreground">
-        <header className="border-b border-border">
-          <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-5 md:px-[6vw]">
-            <Link href="/" className="t-title text-sm text-foreground">
+      <main className="min-h-screen bg-background text-foreground overflow-x-hidden">
+        {/* Same fixed control as the portfolio: language first, then contact. */}
+        <div className="fixed top-0 right-0 z-50 flex items-center gap-5 p-6 md:p-10">
+          <LanguageSwitcher />
+          <a
+            href={`mailto:${email}`}
+            className="t-label text-muted-foreground transition-colors hover:text-primary"
+          >
+            [ CONTACTO ]
+          </a>
+        </div>
+
+        <section className="px-6 md:px-[6vw] pt-32 pb-20 md:pt-40 md:pb-28">
+          <div className="flex items-baseline justify-between gap-6 border-b border-dashed border-border pb-4">
+            <Link
+              href="/"
+              className="t-label text-muted-foreground transition-colors hover:text-primary"
+            >
               Facundo Majda
             </Link>
-            <div className="flex items-center gap-4">
-              <LanguageSwitcher />
-              <a
-                href={`mailto:${email}`}
-                className="t-label text-muted-foreground transition-colors hover:text-primary"
-              >
-                [ CONTACTO ]
-              </a>
-            </div>
+            <p className="t-label text-muted-foreground/70">{kicker}</p>
           </div>
-        </header>
 
-        <article className="mx-auto max-w-3xl px-6 py-16 md:px-[6vw] md:py-24">
-          <p className="t-label text-muted-foreground">{kicker}</p>
-
-          <h1 className="t-display mt-6 text-balance text-[clamp(2rem,5vw,3.5rem)] text-foreground">
+          <h1 className="t-display mt-14 max-w-[24ch] text-balance text-[clamp(2rem,5.5vw,4.5rem)] text-foreground">
             {h1}
           </h1>
 
-          <div className="t-body mt-6 max-w-[62ch] text-muted-foreground">
+          <div className="t-body mt-8 max-w-[62ch] text-lg text-muted-foreground">
             {lede}
           </div>
+        </section>
 
-          <h2 className="t-title mt-14 text-xl text-foreground">
-            {servicesHeading}
-          </h2>
-          <div className="mt-6 grid gap-6 sm:grid-cols-2">
+        <section className="px-6 md:px-[6vw] py-24 md:py-32 bg-card border-t border-border">
+          <div className="mb-16 flex items-end justify-between gap-6 border-b border-dashed border-border pb-4">
+            <h2 className="t-title text-2xl md:text-3xl text-foreground">
+              [ {servicesHeading.toUpperCase()} ]
+            </h2>
+            <span className="font-mono text-xs tabular-nums text-muted-foreground/70">
+              {String(services.length).padStart(2, "0")}
+            </span>
+          </div>
+
+          <div className="systems-grid grid sm:grid-cols-2 gap-x-10 gap-y-10">
             {services.map((service) => (
-              <div key={service.title} className="border border-border p-5">
-                <h3 className="t-title text-sm text-foreground">
+              <div key={service.title}>
+                <h3 className="t-title text-lg text-foreground">
                   {service.title}
                 </h3>
-                <p className="t-body mt-2 text-sm text-muted-foreground">
+                <p className="t-body mt-3 text-muted-foreground">
                   {service.body}
                 </p>
               </div>
             ))}
           </div>
+        </section>
 
-          <h2 className="t-title mt-14 text-xl text-foreground">Tecnologías</h2>
-          <div className="mt-6 flex flex-col gap-5">
+        <section className="px-6 md:px-[6vw] py-24 md:py-32 border-t border-border">
+          <div className="mb-12 flex items-end justify-between gap-6 border-b border-dashed border-border pb-4">
+            <h2 className="t-title text-2xl md:text-3xl text-foreground">
+              [ TECNOLOGÍAS ]
+            </h2>
+            <span className="font-mono text-xs tabular-nums text-muted-foreground/70">
+              {String(
+                stack.reduce((total, group) => total + group.items.length, 0),
+              ).padStart(2, "0")}
+            </span>
+          </div>
+
+          <div className="flex flex-col gap-8">
             {stack.map((group) => (
-              <div key={group.group}>
+              <div key={group.group} className="flex flex-col gap-3 border-b border-dashed border-border pb-6 last:border-0">
                 <p className="t-label text-muted-foreground">{group.group}</p>
-                <ul className="mt-2 flex flex-wrap gap-2">
+                <ul className="flex flex-wrap gap-2">
                   {group.items.map((item) => (
                     <li
                       key={item}
@@ -212,29 +234,47 @@ export function ServicePage({
               </div>
             ))}
           </div>
+        </section>
 
-          <h2 className="t-title mt-14 text-xl text-foreground">
-            Preguntas frecuentes
-          </h2>
-          <dl className="mt-6 flex flex-col gap-5">
+        <section className="px-6 md:px-[6vw] py-24 md:py-32 bg-card border-t border-border">
+          <div className="mb-16 flex items-end justify-between gap-6 border-b border-dashed border-border pb-4">
+            <h2 className="t-title text-2xl md:text-3xl text-foreground">
+              [ PREGUNTAS FRECUENTES ]
+            </h2>
+            <span className="font-mono text-xs tabular-nums text-muted-foreground/70">
+              {String(faq.length).padStart(2, "0")}
+            </span>
+          </div>
+
+          <dl className="space-y-10">
             {faq.map((item) => (
-              <div key={item.q} className="border-b border-border pb-5">
-                <dt className="t-title text-sm text-foreground">{item.q}</dt>
-                <dd className="t-body mt-2 text-muted-foreground">{item.a}</dd>
+              <div key={item.q} className="border-b border-border pb-8 last:border-0">
+                <dt className="t-title text-lg text-foreground">{item.q}</dt>
+                <dd className="t-body mt-3 max-w-[62ch] text-muted-foreground">
+                  {item.a}
+                </dd>
               </div>
             ))}
           </dl>
+        </section>
 
-          <h2 className="t-title mt-14 text-xl text-foreground">Contacto</h2>
-          <p className="t-body mt-6 max-w-[62ch] text-muted-foreground">
+        <section className="px-6 md:px-[6vw] py-24 md:py-32 border-t border-border">
+          <div className="mb-12 flex items-end justify-between gap-6 border-b border-dashed border-border pb-4">
+            <h2 className="t-title text-2xl md:text-3xl text-foreground">
+              [ CONTACTO ]
+            </h2>
+          </div>
+
+          <p className="t-body max-w-[62ch] text-lg text-muted-foreground">
             Contame qué necesitás y te respondo con un enfoque técnico y una
             propuesta por etapas. Estoy en Formosa, disponible para la ciudad,
             el NEA, toda Argentina y el exterior.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
+
+          <div className="mt-10 flex flex-wrap gap-3">
             <a
               href={`mailto:${email}`}
-              className="t-label border border-border px-4 py-2 text-foreground transition-colors hover:border-primary hover:text-primary"
+              className="t-label border border-border px-5 py-3 text-foreground transition-colors hover:border-primary hover:text-primary"
             >
               Escribime por email
             </a>
@@ -242,13 +282,13 @@ export function ServicePage({
               href={upwork}
               target="_blank"
               rel="noreferrer"
-              className="t-label border border-border px-4 py-2 text-foreground transition-colors hover:border-primary hover:text-primary"
+              className="t-label border border-border px-5 py-3 text-foreground transition-colors hover:border-primary hover:text-primary"
             >
               Perfil en Upwork
             </a>
             <Link
               href="/"
-              className="t-label border border-border px-4 py-2 text-muted-foreground transition-colors hover:text-foreground"
+              className="t-label border border-border px-5 py-3 text-muted-foreground transition-colors hover:text-foreground"
             >
               Ver portfolio completo
             </Link>
@@ -256,7 +296,7 @@ export function ServicePage({
 
           <ServicePageNav current={path} />
 
-          <div className="mt-14 flex flex-wrap gap-5 border-t border-border pt-6">
+          <div className="mt-16 flex flex-wrap gap-5 border-t border-dashed border-border pt-6">
             <a
               href={github}
               target="_blank"
@@ -282,7 +322,7 @@ export function ServicePage({
               [ UPWORK ]
             </a>
           </div>
-        </article>
+        </section>
       </main>
     </>
   );
