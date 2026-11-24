@@ -45,6 +45,35 @@ refresh does not help.
 - `src/pages/_document.tsx` — `lang="en"`, `theme-color`, PWA manifest link,
   `apple-mobile-web-app-capable` meta.
 
+### Client bundle crash: "DATABASE_URL is not set" on the live site
+
+**Symptoms.** Production pages showed *"Application error: a client-side
+exception has occurred"*; the browser console logged `Error: DATABASE_URL is
+not set` from a client chunk. The SSR HTML was fine — `curl` could not see it.
+
+**Root cause.** `src/lib/portfolio-content.ts` (server loader, imports `@/db`)
+also held pure helpers (`resolveSeo`, `fmtRange`, fallback constants).
+`index.tsx` imported those helpers into the component body, so webpack kept
+the whole module — including `src/db/index.ts`, which throws at import time
+when `DATABASE_URL` is missing — inside the browser bundle. Before the split,
+`@/db` was only reached from `getServerSideProps`, which Next strips from the
+client bundle; the first import used by render logic dragged it in.
+
+**Permanent fixes applied (do not revert):**
+
+- Pure pieces live in `src/lib/portfolio-shared.ts` (isomorphic; must never
+  import `@/db`). `portfolio-content.ts` is server-only and may only be
+  imported from `getServerSideProps` and API routes.
+- Post-build gate: no `.next/static/**` chunk may contain the string
+  `DATABASE_URL is not set`:
+  ```powershell
+  Get-ChildItem .next\static -Recurse -Filter *.js |
+    Select-String "DATABASE_URL is not set"
+  ```
+- **`curl` proves nothing about the client.** After touching imports on any
+  page, verify in a real browser (console + hydration), not only with HTTP
+  status codes.
+
 ### Recovering from a stale `ReferenceError` that the source no longer has
 
 After any edit that changes imports, modules, or exports:

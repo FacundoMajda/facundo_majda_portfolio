@@ -17,14 +17,14 @@ import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { SITE_URL } from "@/config/site";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 import { useCopy, useIsSpanish } from "@/i18n/useCopy";
+import { loadPortfolioContent } from "@/lib/portfolio-content";
 import {
   FALLBACK_HERO_TAGLINE,
   FALLBACK_STATUS_LINE,
   fmtRange,
-  loadPortfolioContent,
   resolveSeo,
   type PortfolioContent,
-} from "@/lib/portfolio-content";
+} from "@/lib/portfolio-shared";
 
 // Icons come from CDNs: brand icons carry their own colour, but monochrome ones
 // are pure white/black and would vanish against one of the two themes. Invert the

@@ -4,9 +4,9 @@ import {
   FALLBACK_HERO_TAGLINE,
   FALLBACK_STATUS_LINE,
   fmtRange,
-  loadPortfolioContent,
   resolveSeo,
-} from "@/lib/portfolio-content";
+} from "@/lib/portfolio-shared";
+import { loadPortfolioContent } from "@/lib/portfolio-content";
 import type { Locale, MarkdownMirror } from "./types";
 
 // The home page's markdown mirror (served at /index.md and /es.md): it renders
