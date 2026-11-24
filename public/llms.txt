@@ -7,6 +7,13 @@ Facundo Majda is an AI/ML & Automation Engineer focused on taking AI from protot
 Canonical website: https://faqmajda.xyz
 Based in: Formosa, Argentina — works with clients in the city, the region (NEA), across Argentina and abroad.
 
+## Markdown mirrors
+
+Every page has a markdown version at its path plus `.md`, with the same content as the HTML page:
+
+- [Home](https://faqmajda.xyz/index.md) · [Español](https://faqmajda.xyz/es.md) · [Services](https://faqmajda.xyz/services.md) · [Servicios](https://faqmajda.xyz/es/servicios.md)
+- The Spanish service pages follow the same rule: `/es/saas.md`, `/es/computer-vision.md`, `/es/automatizacion-empresas.md`, `/es/desarrollo-software-a-medida.md`, `/es/desarrollador-software-formosa.md`, `/es/inteligencia-artificial-formosa.md`
+
 ## Servicios (español)
 
 - [Desarrollador de software en Formosa](https://faqmajda.xyz/es/desarrollador-software-formosa): desarrollo de software, IA y automatización para empresas de Formosa y el NEA.

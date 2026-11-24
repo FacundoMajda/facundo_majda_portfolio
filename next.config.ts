@@ -15,6 +15,8 @@ const nextConfig: NextConfig = {
       // The sitemap is generated so lastmod is real and localized pages are
       // listed with their hreflang alternates.
       { source: "/sitemap.xml", destination: "/api/sitemap" },
+      // Markdown mirrors: /<path>.md serves the page's markdown version.
+      { source: "/:path*.md", destination: "/api/md/:path*" },
     ];
   },
   async redirects() {
