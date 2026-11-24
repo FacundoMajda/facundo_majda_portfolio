@@ -140,21 +140,25 @@ export default function Portfolio({
     descEs: j.descriptionEs,
   }));
 
-  const { title: seoTitle, description: seoDescription, url: seoUrl } =
-    resolveSeo(profile);
+  const {
+    title: seoTitle,
+    description: seoDescription,
+    canonical,
+    origin,
+  } = resolveSeo(profile, isEs ? "es" : "en");
   const ogImage = `${SITE_URL}/og.png`;
-  const personId = `${seoUrl}/#person`;
-  const siteId = `${seoUrl}/#website`;
+  const personId = `${origin}/#person`;
+  const siteId = `${origin}/#website`;
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "ProfilePage",
-        "@id": seoUrl,
-        url: seoUrl,
+        "@id": canonical,
+        url: canonical,
         name: seoTitle,
         description: seoDescription,
-        inLanguage: "en",
+        inLanguage: isEs ? "es" : "en",
         isPartOf: { "@id": siteId },
         mainEntity: { "@id": personId },
       },
@@ -163,7 +167,7 @@ export default function Portfolio({
         "@id": personId,
         name: "Facundo Majda",
         jobTitle: "AI/ML & Automation Engineer",
-        url: seoUrl,
+        url: origin,
         email: profile?.contactEmail
           ? `mailto:${profile.contactEmail}`
           : undefined,
@@ -193,8 +197,8 @@ export default function Portfolio({
         "@type": "WebSite",
         "@id": siteId,
         name: "Facundo Majda",
-        url: seoUrl,
-        inLanguage: "en",
+        url: origin,
+        inLanguage: isEs ? "es" : "en",
         publisher: { "@id": personId },
       },
     ],
@@ -214,10 +218,10 @@ export default function Portfolio({
         <meta name="author" content="Facundo Majda" />
         <meta name="robots" content="index, follow, max-image-preview:large" />
         <meta name="googlebot" content="index, follow" />
-        <link rel="canonical" href={seoUrl} />
-        <link rel="alternate" hrefLang="en" href={seoUrl} />
+        <link rel="canonical" href={canonical} />
+        <link rel="alternate" hrefLang="en" href={origin} />
         <link rel="alternate" hrefLang="es-AR" href={`${SITE_URL}/es`} />
-        <link rel="alternate" hrefLang="x-default" href={seoUrl} />
+        <link rel="alternate" hrefLang="x-default" href={origin} />
         <link rel="describedby" href={`${SITE_URL}/llms.txt`} />
         <link rel="describedby" href={`${SITE_URL}/llms-full.txt`} />
         <link
@@ -231,22 +235,19 @@ export default function Portfolio({
         <meta property="og:site_name" content="Facundo Majda" />
         <meta property="og:title" content={seoTitle} />
         <meta property="og:description" content={seoDescription} />
-        <meta property="og:url" content={seoUrl} />
-        <meta property="og:locale" content="en_US" />
+        <meta property="og:url" content={canonical} />
+        <meta property="og:locale" content={isEs ? "es_AR" : "en_US"} />
         <meta property="og:image" content={ogImage} />
         <meta property="og:image:type" content="image/png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content="Facundo Majda — AI/ML & Automation Engineer" />
+        <meta property="og:image:alt" content={seoTitle} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={seoTitle} />
         <meta name="twitter:description" content={seoDescription} />
         <meta name="twitter:image" content={ogImage} />
-        <meta
-          name="twitter:image:alt"
-          content="Facundo Majda — AI/ML & Automation Engineer"
-        />
+        <meta name="twitter:image:alt" content={seoTitle} />
         <meta name="twitter:creator" content="@facundomajda" />
 
         <script
@@ -376,24 +377,35 @@ export default function Portfolio({
               <p className="t-label text-muted-foreground">{c.servicesLabel}</p>
             </div>
 
-            <a
-              href="/es/servicios"
-              className="t-label block text-muted-foreground transition-colors hover:text-primary"
-            >
-              Todos los servicios (español)
-            </a>
-            <a
-              href="/es/desarrollador-software-formosa"
-              className="t-label mt-2 block text-muted-foreground transition-colors hover:text-primary"
-            >
-              Desarrollador de software en Formosa
-            </a>
-            <a
-              href="/es/inteligencia-artificial-formosa"
-              className="t-label mt-2 block text-muted-foreground transition-colors hover:text-primary"
-            >
-              Inteligencia artificial en Formosa
-            </a>
+            {isEs ? (
+              <>
+                <a
+                  href="/es/servicios"
+                  className="t-label block text-muted-foreground transition-colors hover:text-primary"
+                >
+                  Todos los servicios (español)
+                </a>
+                <a
+                  href="/es/desarrollador-software-formosa"
+                  className="t-label mt-2 block text-muted-foreground transition-colors hover:text-primary"
+                >
+                  Desarrollador de software en Formosa
+                </a>
+                <a
+                  href="/es/inteligencia-artificial-formosa"
+                  className="t-label mt-2 block text-muted-foreground transition-colors hover:text-primary"
+                >
+                  Inteligencia artificial en Formosa
+                </a>
+              </>
+            ) : (
+              <a
+                href="/services"
+                className="t-label block text-muted-foreground transition-colors hover:text-primary"
+              >
+                All services
+              </a>
+            )}
           </div>
 
           <div>

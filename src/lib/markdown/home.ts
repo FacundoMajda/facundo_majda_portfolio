@@ -24,7 +24,7 @@ export async function renderHomeMirror(
     experiences,
     educations,
   } = await loadPortfolioContent(locale);
-  const seo = resolveSeo(p);
+  const seo = resolveSeo(p, locale);
 
   const blocks: string[] = [];
 

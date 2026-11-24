@@ -3,28 +3,67 @@ import { SITE_URL } from "@/config/site";
 import { SERVICE_PAGES } from "@/content/service-pages";
 
 // Dynamic sitemap. Replaces the static public/sitemap.xml so the lastmod is
-// real and every localized page is listed with its language alternates.
+// real and every localized page is listed with its own language alternates.
+type SitemapAlternate = { hreflang: string; href: string };
+type SitemapEntry = { loc: string; alternates: SitemapAlternate[] };
+
 export default function handler(_req: NextApiRequest, res: NextApiResponse) {
   const lastmod = new Date().toISOString().slice(0, 10);
-  const entries = [
-    { loc: `${SITE_URL}/`, lang: "en" },
-    { loc: `${SITE_URL}/es`, lang: "es-AR" },
-    ...SERVICE_PAGES.map((page) => ({
-      loc: `${SITE_URL}${page.path}`,
-      lang: "es-AR",
-    })),
-  ];
+  const EN_HOME = `${SITE_URL}/`;
+  const ES_HOME = `${SITE_URL}/es`;
+  const EN_SERVICES = `${SITE_URL}/services`;
+  const ES_SERVICES = `${SITE_URL}/es/servicios`;
 
-  const alternates = [
-    `<xhtml:link rel="alternate" hreflang="en" href="${SITE_URL}/"/>`,
-    `<xhtml:link rel="alternate" hreflang="es-AR" href="${SITE_URL}/es"/>`,
-    `<xhtml:link rel="alternate" hreflang="x-default" href="${SITE_URL}/"/>`,
-  ].join("");
+  const entries: SitemapEntry[] = [
+    {
+      loc: EN_HOME,
+      alternates: [
+        { hreflang: "en", href: EN_HOME },
+        { hreflang: "es-AR", href: ES_HOME },
+        { hreflang: "x-default", href: EN_HOME },
+      ],
+    },
+    {
+      loc: ES_HOME,
+      alternates: [
+        { hreflang: "en", href: EN_HOME },
+        { hreflang: "es-AR", href: ES_HOME },
+        { hreflang: "x-default", href: EN_HOME },
+      ],
+    },
+    {
+      loc: EN_SERVICES,
+      alternates: [
+        { hreflang: "en", href: EN_SERVICES },
+        { hreflang: "es-AR", href: ES_SERVICES },
+        { hreflang: "x-default", href: EN_SERVICES },
+      ],
+    },
+    ...SERVICE_PAGES.map((page): SitemapEntry => {
+      const loc = `${SITE_URL}${page.path}`;
+      if (page.path === "/es/servicios") {
+        return {
+          loc,
+          alternates: [
+            { hreflang: "en", href: EN_SERVICES },
+            { hreflang: "es-AR", href: loc },
+            { hreflang: "x-default", href: EN_SERVICES },
+          ],
+        };
+      }
+      return { loc, alternates: [{ hreflang: "es-AR", href: loc }] };
+    }),
+  ];
 
   const urls = entries
     .map(
       (entry) =>
-        `  <url>\n    <loc>${entry.loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    ${alternates}\n  </url>`,
+        `  <url>\n    <loc>${entry.loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    ${entry.alternates
+          .map(
+            (alt) =>
+              `<xhtml:link rel="alternate" hreflang="${alt.hreflang}" href="${alt.href}"/>`,
+          )
+          .join("")}\n  </url>`,
     )
     .join("\n");
 

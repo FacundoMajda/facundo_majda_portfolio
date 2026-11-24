@@ -71,16 +71,33 @@ export type PortfolioContent = {
 export const DEFAULT_SEO_TITLE = "Facundo Majda — AI/ML & Automation Engineer";
 export const DEFAULT_SEO_DESCRIPTION =
   "AI/ML & Automation Engineer. I design and ship production AI systems — RAG pipelines, LLM agents, computer vision, and the backend that holds them up.";
+export const DEFAULT_SEO_TITLE_ES =
+  "Facundo Majda — Ingeniero en AI/ML y Automatización";
+export const DEFAULT_SEO_DESCRIPTION_ES =
+  "Ingeniero en AI/ML y automatización. Diseño y llevo a producción sistemas de IA — pipelines RAG, agentes con LLM, visión por computadora y el backend que los sostiene.";
 export const FALLBACK_HERO_TAGLINE =
   "SWE | Data & AI-Driven Apps | FDE | Full-Stack + Automation";
 export const FALLBACK_STATUS_LINE =
   "Available for remote engineering roles and selected projects";
 
-export function resolveSeo(row: ProfileRow | null) {
+// `origin` is the site root (profile.seoUrl, seeded to SITE_URL); `canonical`
+// is the page itself. /es is its own canonical but shares the site origin in
+// the hreflang links and the JSON-LD person/website ids.
+export function resolveSeo(row: ProfileRow | null, locale: Locale = "en") {
+  const origin = row?.seoUrl ?? SITE_URL;
+  if (locale === "es") {
+    return {
+      title: DEFAULT_SEO_TITLE_ES,
+      description: DEFAULT_SEO_DESCRIPTION_ES,
+      canonical: `${SITE_URL}/es`,
+      origin,
+    };
+  }
   return {
     title: row?.seoTitle ?? DEFAULT_SEO_TITLE,
     description: row?.seoDescription ?? DEFAULT_SEO_DESCRIPTION,
-    url: row?.seoUrl ?? SITE_URL,
+    canonical: origin,
+    origin,
   };
 }
 
