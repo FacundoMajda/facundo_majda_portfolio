@@ -11,21 +11,20 @@ import { Liquid } from "@/components/canvasui/Liquid";
 import { VHS } from "@/components/canvasui/VHS";
 import ProjectModal from "@/components/ProjectModal";
 import type { ProjectItem } from "@/types";
-import { db } from "@/db";
-import {
-  profile,
-  socialLink,
-  techTag,
-  experience,
-  education,
-} from "@/db/schema";
-import { asc, desc, isNotNull, sql } from "drizzle-orm";
 import { geistMono, manrope, spaceGrotesk } from "@/styles/fonts";
 import { Reveal } from "@/utils";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { SITE_URL } from "@/config/site";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 import { useCopy, useIsSpanish } from "@/i18n/useCopy";
+import {
+  FALLBACK_HERO_TAGLINE,
+  FALLBACK_STATUS_LINE,
+  fmtRange,
+  loadPortfolioContent,
+  resolveSeo,
+  type PortfolioContent,
+} from "@/lib/portfolio-content";
 
 // Icons come from CDNs: brand icons carry their own colour, but monochrome ones
 // are pure white/black and would vanish against one of the two themes. Invert the
@@ -65,34 +64,6 @@ const SpinningBrain = () => (
   </svg>
 );
 
-const MONTH_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-function fmtMonth(date: Date) {
-  return MONTH_SHORT[date.getUTCMonth()];
-}
-
-function fmtYear(date: Date) {
-  return String(date.getUTCFullYear());
-}
-
-function fmtRange(start: string, end: string | null, isCurrent: boolean) {
-  const startDate = new Date(start);
-  const endDate = end ? new Date(end) : null;
-  const startMonth = fmtMonth(startDate);
-  const startYear = fmtYear(startDate);
-  if (!endDate) {
-    if (isCurrent) return `${startMonth} ${startYear} — Present`;
-    return `${startMonth} ${startYear} —`;
-  }
-  const endMonth = fmtMonth(endDate);
-  const endYear = fmtYear(endDate);
-  if (startMonth === endMonth && startYear === endYear) {
-    return `${startMonth} ${startYear}`;
-  }
-  if (startYear === endYear) return `${startMonth} — ${endMonth} ${endYear}`;
-  return `${startMonth} ${startYear} — ${endMonth} ${endYear}`;
-}
-
 const MENU_ITEMS: { name: string; href: string; color: string }[] = [
   { name: "Home", href: "#banner", color: "bg-primary" },
   { name: "About Me", href: "#about-me", color: "bg-purple-500" },
@@ -101,52 +72,10 @@ const MENU_ITEMS: { name: string; href: string; color: string }[] = [
   { name: "Experience", href: "#experience", color: "bg-pink-500" },
 ];
 
-type SocialLinkRow = { platform: string; url: string };
-type TechTagRow = {
-  name: string;
-  category: string;
-  iconUrl: string | null;
-  featured: boolean;
-  order: number;
-};
-type ExperienceRow = {
-  company: string;
-  link: string | null;
-  role: string;
-  roleEs: string | null;
-  startDate: string;
-  endDate: string | null;
-  description: string;
-  descriptionEs: string | null;
-  isCurrent: boolean;
-  order: number;
-};
-type EducationRow = {
-  institution: string;
-  link: string | null;
-  degree: string;
-  degreeEs: string | null;
-  startDate: string;
-  endDate: string | null;
-  description: string;
-  descriptionEs: string | null;
-  order: number;
-};
-type ProfileRow = {
-  heroTitle: string;
-  heroTagline: string;
-  heroTaglineEs: string | null;
-  statusLineEs: string | null;
-  aboutText: string;
-  statusLine: string;
-  yearsExp: number;
-  contactEmail: string;
-  seoTitle: string;
-  seoDescription: string;
-  seoUrl: string;
-};
-
-export async function getServerSideProps({ res }: GetServerSidePropsContext) {
+export async function getServerSideProps({
+  res,
+  resolvedUrl,
+}: GetServerSidePropsContext) {
   // The landing is DB-driven but changes rarely. Let the Vercel edge cache it
   // and revalidate in the background, so repeat visits skip the SSR round-trip
   // (Vercel's default for pages with getServerSideProps is no-store).
@@ -155,54 +84,12 @@ export async function getServerSideProps({ res }: GetServerSidePropsContext) {
     "public, s-maxage=3600, stale-while-revalidate=86400",
   );
 
-  const profileRows = await db
-    .select({
-      heroTitle: profile.heroTitle,
-      heroTagline: profile.heroTagline,
-      heroTaglineEs: profile.heroTaglineEs,
-      aboutText: profile.aboutText,
-      statusLine: profile.statusLine,
-      statusLineEs: profile.statusLineEs,
-      yearsExp: profile.yearsExp,
-      contactEmail: profile.contactEmail,
-      seoTitle: profile.seoTitle,
-      seoDescription: profile.seoDescription,
-      seoUrl: profile.seoUrl,
-    })
-    .from(profile)
-    .limit(1);
-  const profileRow = profileRows[0] as ProfileRow | undefined;
+  // /es is a real route, not Next i18n: the locale comes from the path, the
+  // same rule useIsSpanish applies, so the loader resolves the right columns.
+  const path = resolvedUrl.split("?")[0];
+  const locale = path === "/es" || path.startsWith("/es/") ? "es" : "en";
 
-  const socialRows = await db
-    .select()
-    .from(socialLink)
-    .orderBy(asc(socialLink.order));
-
-  const techRows = await db
-    .select()
-    .from(techTag)
-    .where(isNotNull(techTag.iconUrl))
-    .orderBy(asc(techTag.category), asc(techTag.order));
-
-  const expRows = await db
-    .select()
-    .from(experience)
-    .orderBy(
-      desc(sql`coalesce(${experience.endDate}, ${experience.startDate})`),
-      asc(experience.order),
-    );
-
-  const eduRows = await db.select().from(education).orderBy(asc(education.order));
-
-  return {
-    props: {
-      profile: profileRow ?? null,
-      socials: socialRows as SocialLinkRow[],
-      techs: techRows as TechTagRow[],
-      experiences: expRows.map((r) => ({ ...r, startDate: r.startDate.toISOString(), endDate: r.endDate ? r.endDate.toISOString() : null })) as unknown as ExperienceRow[],
-      educations: eduRows.map((r) => ({ ...r, startDate: r.startDate.toISOString(), endDate: r.endDate ? r.endDate.toISOString() : null })) as unknown as EducationRow[],
-    },
-  };
+  return { props: await loadPortfolioContent(locale) };
 }
 
 export default function Portfolio({
@@ -211,19 +98,14 @@ export default function Portfolio({
   techs,
   experiences,
   educations,
-}: {
-  profile: ProfileRow | null;
-  socials: SocialLinkRow[];
-  techs: TechTagRow[];
-  experiences: ExperienceRow[];
-  educations: EducationRow[];
-}) {
+}: PortfolioContent) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
 
   const SOCIAL = Object.fromEntries(socials.map((s) => [s.platform, s.url]));
   const c = useCopy();
   const isEs = useIsSpanish();
+  const mdPath = isEs ? "/es" : "/index";
 
   const STACK_CATEGORIES = techs.reduce<{ name: string; items: { name: string; icon: string }[] }[]>(
     (acc, t) => {
@@ -258,11 +140,8 @@ export default function Portfolio({
     descEs: j.descriptionEs,
   }));
 
-  const seoTitle = profile?.seoTitle ?? "Facundo Majda — AI/ML & Automation Engineer";
-  const seoDescription =
-    profile?.seoDescription ??
-    "AI/ML & Automation Engineer. I design and ship production AI systems — RAG pipelines, LLM agents, computer vision, and the backend that holds them up.";
-  const seoUrl = profile?.seoUrl ?? SITE_URL;
+  const { title: seoTitle, description: seoDescription, url: seoUrl } =
+    resolveSeo(profile);
   const ogImage = `${SITE_URL}/og.png`;
   const personId = `${seoUrl}/#person`;
   const siteId = `${seoUrl}/#website`;
@@ -297,7 +176,7 @@ export default function Portfolio({
           "Large Language Models",
           "Retrieval-Augmented Generation",
           "LLM Agents",
-          "{c.sys2Title}",
+          `${c.sys2Title}`,
           "Natural Language Processing",
           "Automation",
           "Backend Architecture",
@@ -330,7 +209,7 @@ export default function Portfolio({
         <meta name="description" content={seoDescription} />
         <meta
           name="keywords"
-          content="AI Engineer, Machine Learning, LLM, RAG, {c.sys2Title}, Automation, Backend, NestJS, Spring Boot, PyTorch, LangChain, Portfolio"
+          content={`AI Engineer, Machine Learning, LLM, RAG, ${c.sys2Title}, Automation, Backend, NestJS, Spring Boot, PyTorch, LangChain, Portfolio`}
         />
         <meta name="author" content="Facundo Majda" />
         <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -340,10 +219,12 @@ export default function Portfolio({
         <link rel="alternate" hrefLang="es-AR" href={`${SITE_URL}/es`} />
         <link rel="alternate" hrefLang="x-default" href={seoUrl} />
         <link rel="describedby" href={`${SITE_URL}/llms.txt`} />
+        <link rel="describedby" href={`${SITE_URL}/llms-full.txt`} />
         <link
           rel="alternate"
           type="text/markdown"
-          href={`${SITE_URL}/llms-full.txt`}
+          href={`${SITE_URL}${mdPath}.md`}
+          title="Markdown version"
         />
 
         <meta property="og:type" content="website" />
@@ -486,7 +367,7 @@ export default function Portfolio({
             <p className="t-body max-w-[42ch] text-muted-foreground">
               {(isEs ? profile?.statusLineEs : null) ??
                 profile?.statusLine ??
-                "Available for remote engineering roles and selected projects"}
+                FALLBACK_STATUS_LINE}
             </p>
           </div>
 
@@ -623,8 +504,8 @@ export default function Portfolio({
                       }}
                     >
                       <div className="marquee t-meta whitespace-nowrap uppercase text-muted-foreground md:text-[0.975rem]">
-                        {(isEs ? profile?.heroTaglineEs : null) ?? profile?.heroTagline ?? "SWE | Data & AI-Driven Apps | FDE | Full-Stack + Automation"}{" "}
-                        {(isEs ? profile?.heroTaglineEs : null) ?? profile?.heroTagline ?? "SWE | Data & AI-Driven Apps | FDE | Full-Stack + Automation"}
+                        {(isEs ? profile?.heroTaglineEs : null) ?? profile?.heroTagline ?? FALLBACK_HERO_TAGLINE}{" "}
+                        {(isEs ? profile?.heroTaglineEs : null) ?? profile?.heroTagline ?? FALLBACK_HERO_TAGLINE}
                       </div>
                     </div>
                   </Reveal>
