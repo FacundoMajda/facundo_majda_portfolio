@@ -1,6 +1,9 @@
 import { SITE_URL } from "@/config/site";
 import { SERVICE_PAGES } from "@/content/service-pages";
-import { getServicePageContent } from "@/content/service-pages-content";
+import {
+  getServicePageContent,
+  servicePageLocale,
+} from "@/content/service-pages-content";
 import type { MarkdownMirror } from "./types";
 
 // Markdown mirror of a service page, served at <path>.md. It renders from the
@@ -55,14 +58,18 @@ export async function renderServiceMirror(
     );
   }
 
-  const related = SERVICE_PAGES.filter((page) => page.path !== path);
-  if (related.length > 0) {
-    blocks.push("## [ SERVICIOS ]");
-    blocks.push(
-      related
-        .map((page) => `- [${page.label}](${SITE_URL}${page.path})`)
-        .join("\n"),
-    );
+  // The related-links cluster is Spanish-only chrome, like on the HTML pages:
+  // the /services mirror must not re-add it.
+  if (servicePageLocale(path) === "es") {
+    const related = SERVICE_PAGES.filter((page) => page.path !== path);
+    if (related.length > 0) {
+      blocks.push("## [ SERVICIOS ]");
+      blocks.push(
+        related
+          .map((page) => `- [${page.label}](${SITE_URL}${page.path})`)
+          .join("\n"),
+      );
+    }
   }
 
   return {

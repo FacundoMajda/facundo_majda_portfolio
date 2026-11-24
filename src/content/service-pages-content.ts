@@ -62,8 +62,8 @@ export type BespokePagePath =
 
 export type AnyServicePageContent = ServicePageContent | BespokePageContent;
 
-// The contact section shared by the six <ServicePage/> instances.
-const SERVICE_PAGE_CONTACT: PageContact = {
+// The contact section shared by the five Spanish <ServicePage/> instances.
+const ES_SERVICE_PAGE_CONTACT: PageContact = {
   heading: "[ CONTACTO ]",
   body: "Contame qué necesitás y te respondo con un enfoque técnico y una propuesta por etapas. Estoy en Formosa, disponible para la ciudad, el NEA, toda Argentina y el exterior.",
   actions: [
@@ -72,6 +72,50 @@ const SERVICE_PAGE_CONTACT: PageContact = {
     { label: "Ver portfolio completo", href: "/", muted: true },
   ],
 };
+
+// The contact section for the English /services page.
+const EN_SERVICE_PAGE_CONTACT: PageContact = {
+  heading: "[ CONTACT ]",
+  body: "Tell me what you need and I'll come back with a technical approach and a staged proposal. I'm based in Formosa, available for the city, the region, across the country and abroad.",
+  actions: [
+    { label: "Email me", href: `mailto:${CONTACT.email}` },
+    { label: "Upwork profile", href: CONTACT.upwork, newTab: true },
+    { label: "See the full portfolio", href: "/", muted: true },
+  ],
+};
+
+// Per-locale chrome for the <ServicePage/> shell (contact control, breadcrumb
+// names, jobTitle, og:locale). The ES values reproduce the strings the
+// Spanish pages already shipped; EN serves /services.
+export type ServicePageChrome = {
+  contact: string;
+  homeCrumb: string;
+  servicesCrumb: string;
+  jobTitle: string;
+  ogLocale: string;
+};
+
+export const SERVICE_PAGE_CHROME: Record<"en" | "es", ServicePageChrome> = {
+  en: {
+    contact: "[ CONTACT ]",
+    homeCrumb: "Home",
+    servicesCrumb: "Services",
+    jobTitle: "Software developer and AI engineer",
+    ogLocale: "en_US",
+  },
+  es: {
+    contact: "[ CONTACTO ]",
+    homeCrumb: "Inicio",
+    servicesCrumb: "Servicios (español)",
+    jobTitle: "Desarrollador de software e ingeniero de IA",
+    ogLocale: "es_AR",
+  },
+};
+
+// Locale of a service page, derived from its path.
+export function servicePageLocale(path: string): "en" | "es" {
+  return path.startsWith("/es") ? "es" : "en";
+}
 
 export const SERVICE_PAGES_CONTENT: Record<ServicePagePath, ServicePageContent> =
   {
@@ -120,7 +164,7 @@ export const SERVICE_PAGES_CONTENT: Record<ServicePagePath, ServicePageContent> 
           body: "APIs, databases, integrations and deployment with observability. The base that holds everything else up.",
         },
       ],
-      faqHeading: "[ PREGUNTAS FRECUENTES ]",
+      faqHeading: "[ FREQUENTLY ASKED QUESTIONS ]",
       faq: [
         {
           q: "Where are you based and who do you work with?",
@@ -139,7 +183,7 @@ export const SERVICE_PAGES_CONTENT: Record<ServicePagePath, ServicePageContent> 
           a: "Write to me about what you need and the problem you want to solve. You get a technical approach and a staged proposal back.",
         },
       ],
-      contact: SERVICE_PAGE_CONTACT,
+      contact: EN_SERVICE_PAGE_CONTACT,
     },
 
     "/es/servicios": {
@@ -207,7 +251,7 @@ export const SERVICE_PAGES_CONTENT: Record<ServicePagePath, ServicePageContent> 
           a: "Escribime contando qué necesitás y qué problema querés resolver. Te respondo con un enfoque técnico y una propuesta por etapas.",
         },
       ],
-      contact: SERVICE_PAGE_CONTACT,
+      contact: ES_SERVICE_PAGE_CONTACT,
     },
 
     "/es/computer-vision": {
@@ -276,7 +320,7 @@ export const SERVICE_PAGES_CONTENT: Record<ServicePagePath, ServicePageContent> 
           a: "Sí. La detección termina en eventos y datos que se conectan a tu backend, tus alertas o tu panel.",
         },
       ],
-      contact: SERVICE_PAGE_CONTACT,
+      contact: ES_SERVICE_PAGE_CONTACT,
     },
 
     "/es/automatizacion-empresas": {
@@ -342,7 +386,7 @@ export const SERVICE_PAGES_CONTENT: Record<ServicePagePath, ServicePageContent> 
           a: "No. Le saca la parte mecánica. Las decisiones y el criterio siguen siendo humanos; lo repetitivo se automatiza.",
         },
       ],
-      contact: SERVICE_PAGE_CONTACT,
+      contact: ES_SERVICE_PAGE_CONTACT,
     },
 
     "/es/desarrollo-software-a-medida": {
@@ -411,7 +455,7 @@ export const SERVICE_PAGES_CONTENT: Record<ServicePagePath, ServicePageContent> 
           a: "Sí. Puedo quedarme para mantenimiento y mejoras, o dejar todo documentado para que lo tome otro equipo.",
         },
       ],
-      contact: SERVICE_PAGE_CONTACT,
+      contact: ES_SERVICE_PAGE_CONTACT,
     },
 
     "/es/saas": {
@@ -479,7 +523,7 @@ export const SERVICE_PAGES_CONTENT: Record<ServicePagePath, ServicePageContent> 
           a: "Es parte del diseño: aislamiento entre cuentas, permisos, cifrado y control de acceso, no algo que se agrega al final.",
         },
       ],
-      contact: SERVICE_PAGE_CONTACT,
+      contact: ES_SERVICE_PAGE_CONTACT,
     },
   };
 

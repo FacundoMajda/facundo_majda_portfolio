@@ -105,6 +105,7 @@ export default function SoftwareDeveloperFormosaPage() {
         <title>{TITLE}</title>
         <meta name="description" content={DESCRIPTION} />
         <link rel="canonical" href={URL} />
+        <link rel="alternate" hrefLang="es-AR" href={URL} />
         <link
           rel="alternate"
           type="text/markdown"
@@ -117,6 +118,7 @@ export default function SoftwareDeveloperFormosaPage() {
         <meta property="og:title" content={TITLE} />
         <meta property="og:description" content={DESCRIPTION} />
         <meta property="og:url" content={URL} />
+        <meta property="og:locale" content="es_AR" />
         <meta property="og:image" content={`${SITE_URL}/og.png`} />
         <meta property="og:image:type" content="image/png" />
         <meta property="og:image:width" content="1200" />

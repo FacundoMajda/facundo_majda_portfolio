@@ -4,6 +4,8 @@ import { SITE_URL } from "@/config/site";
 import {
   CONTACT,
   SERVICE_PAGES_CONTENT,
+  SERVICE_PAGE_CHROME,
+  servicePageLocale,
   type ServicePagePath,
 } from "@/content/service-pages-content";
 import { ServicePageNav } from "./ServicePageNav";
@@ -28,7 +30,23 @@ export function ServicePage({ path }: { path: ServicePagePath }) {
     contact,
   } = content;
   const url = `${SITE_URL}${path}`;
+  const locale = servicePageLocale(path);
+  const chrome = SERVICE_PAGE_CHROME[locale];
+  const enServicesUrl = `${SITE_URL}/services`;
+  const esServiciosUrl = `${SITE_URL}/es/servicios`;
+  const hubUrl = locale === "es" ? esServiciosUrl : enServicesUrl;
   const { email, github, linkedin, upwork } = CONTACT;
+
+  // Only /services and /es/servicios have a counterpart in the other
+  // language; every other ES landing self-references.
+  const alternates =
+    path === "/services" || path === "/es/servicios"
+      ? [
+          { hrefLang: "en", href: enServicesUrl },
+          { hrefLang: "es-AR", href: esServiciosUrl },
+          { hrefLang: "x-default", href: enServicesUrl },
+        ]
+      : [{ hrefLang: "es-AR", href: url }];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -48,7 +66,7 @@ export function ServicePage({ path }: { path: ServicePagePath }) {
         provider: {
           "@type": "Person",
           name: "Facundo Majda",
-          jobTitle: "Desarrollador de software e ingeniero de IA",
+          jobTitle: chrome.jobTitle,
           url: SITE_URL,
           address: {
             "@type": "PostalAddress",
@@ -71,12 +89,17 @@ export function ServicePage({ path }: { path: ServicePagePath }) {
         "@type": "BreadcrumbList",
         "@id": `${url}/#breadcrumb`,
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Inicio", item: SITE_URL },
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: chrome.homeCrumb,
+            item: SITE_URL,
+          },
           {
             "@type": "ListItem",
             position: 2,
-            name: "Servicios (español)",
-            item: `${SITE_URL}/es/servicios`,
+            name: chrome.servicesCrumb,
+            item: hubUrl,
           },
           { "@type": "ListItem", position: 3, name: h1, item: url },
         ],
@@ -85,7 +108,7 @@ export function ServicePage({ path }: { path: ServicePagePath }) {
         "@type": "Person",
         "@id": `${SITE_URL}/#person`,
         name: "Facundo Majda",
-        jobTitle: "Desarrollador de software e ingeniero de IA",
+        jobTitle: chrome.jobTitle,
         url: SITE_URL,
         address: {
           "@type": "PostalAddress",
@@ -113,9 +136,14 @@ export function ServicePage({ path }: { path: ServicePagePath }) {
         <title>{title}</title>
         <meta name="description" content={description} />
         <link rel="canonical" href={url} />
-        <link rel="alternate" hrefLang="es-AR" href={url} />
-        <link rel="alternate" hrefLang="en" href={SITE_URL} />
-        <link rel="alternate" hrefLang="x-default" href={SITE_URL} />
+        {alternates.map((alternate) => (
+          <link
+            key={alternate.hrefLang}
+            rel="alternate"
+            hrefLang={alternate.hrefLang}
+            href={alternate.href}
+          />
+        ))}
         <link
           rel="alternate"
           type="text/markdown"
@@ -127,7 +155,7 @@ export function ServicePage({ path }: { path: ServicePagePath }) {
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:url" content={url} />
-        <meta property="og:locale" content="es_AR" />
+        <meta property="og:locale" content={chrome.ogLocale} />
         <meta property="og:image" content={`${SITE_URL}/og.png`} />
         <meta property="og:image:type" content="image/png" />
         <meta property="og:image:width" content="1200" />
@@ -147,7 +175,7 @@ export function ServicePage({ path }: { path: ServicePagePath }) {
             href={`mailto:${email}`}
             className="t-label text-muted-foreground transition-colors hover:text-primary"
           >
-            [ CONTACTO ]
+            {chrome.contact}
           </a>
         </div>
 
