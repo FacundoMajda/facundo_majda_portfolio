@@ -1,79 +1,26 @@
 import Head from "next/head";
 import Link from "next/link";
 import { SITE_URL } from "@/config/site";
+import { BESPOKE_PAGES_CONTENT, CONTACT } from "@/content/service-pages-content";
 import { ServicePageNav } from "@/components/services/ServicePageNav";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 
-const TITLE =
-  "Inteligencia Artificial en Formosa | RAG, Agentes y Visión — Facundo Majda";
-const DESCRIPTION =
-  "Implemento inteligencia artificial en producción para empresas de Formosa y el NEA: asistentes con RAG sobre tus datos, agentes con LLM, visión por computadora y automatización. Radicado en Formosa, Argentina.";
 const PATH = "/es/inteligencia-artificial-formosa";
+const PAGE = BESPOKE_PAGES_CONTENT[PATH];
+const TITLE = PAGE.title;
+const DESCRIPTION = PAGE.description;
 const URL = `${SITE_URL}${PATH}`;
 
-const EMAIL = "facundomajda13@gmail.com";
-const GITHUB = "https://github.com/FacundoMajda";
-const LINKEDIN = "https://www.linkedin.com/in/facundo-majda/";
-const UPWORK = "https://www.upwork.com/freelancers/~014f767f0225d54d8e";
+const {
+  email: EMAIL,
+  github: GITHUB,
+  linkedin: LINKEDIN,
+  upwork: UPWORK,
+} = CONTACT;
 
-const SERVICES = [
-  {
-    title: "Asistentes con tus documentos (RAG)",
-    body: "Un asistente que responde con la información real de tu empresa — contratos, manuales, base de conocimiento — citando la fuente. Sin inventar.",
-  },
-  {
-    title: "Agentes con LLM",
-    body: "Agentes que ejecutan tareas: consultar sistemas, completar formularios, responder consultas. Acotados, observables y seguros.",
-  },
-  {
-    title: "Visión por computadora",
-    body: "Detección y seguimiento de objetos, análisis de video e inspección automatizada con modelos como YOLO.",
-  },
-  {
-    title: "Automatización con IA",
-    body: "Flujos que combinan APIs, n8n y modelos para eliminar trabajo manual y conectar tus herramientas.",
-  },
-  {
-    title: "Integración con tus sistemas",
-    body: "La IA no vive sola: la conecto a tu backend, tu base de datos y tus procesos internos.",
-  },
-  {
-    title: "Evaluación y puesta en producción",
-    body: "Mido calidad, latencia y costo, y dejo el sistema funcionando, monitoreado y mantenible.",
-  },
-];
-
-const STACK = [
-  "Python",
-  "PyTorch",
-  "LangChain",
-  "LangGraph",
-  "Transformers",
-  "vLLM",
-  "Qdrant",
-  "PostgreSQL",
-  "FastAPI",
-  "OpenTelemetry",
-];
-
-const FAQ = [
-  {
-    q: "¿Atendés empresas de Formosa?",
-    a: "Sí. Estoy radicado en Formosa y trabajo con empresas de la ciudad, del NEA, de toda Argentina y del exterior.",
-  },
-  {
-    q: "¿Qué tipo de proyectos de IA hacés?",
-    a: "Asistentes con RAG sobre tus datos, agentes con LLM, visión por computadora y automatización de procesos. Siempre apuntando a que funcione en producción, no a un demo.",
-  },
-  {
-    q: "¿Trabajás remoto o presencial?",
-    a: "Las dos. Trabajo remoto por defecto y presencial en Formosa cuando el proyecto lo pide.",
-  },
-  {
-    q: "¿Cómo empiezo?",
-    a: "Escribime contando qué problema querés resolver. Te respondo con un enfoque concreto y una propuesta por etapas.",
-  },
-];
+const SERVICES = PAGE.services;
+const STACK = PAGE.stack.flatMap((group) => group.items);
+const FAQ = PAGE.faq;
 
 export default function AiFormosaPage() {
   const jsonLd = {
@@ -143,6 +90,12 @@ export default function AiFormosaPage() {
         <title>{TITLE}</title>
         <meta name="description" content={DESCRIPTION} />
         <link rel="canonical" href={URL} />
+        <link
+          rel="alternate"
+          type="text/markdown"
+          href={`${URL}.md`}
+          title="Markdown version"
+        />
         <meta name="robots" content="index, follow, max-image-preview:large" />
 
         <meta property="og:type" content="website" />
@@ -180,23 +133,26 @@ export default function AiFormosaPage() {
         </header>
 
         <article className="mx-auto max-w-3xl px-6 py-16 md:px-[6vw] md:py-24">
-          <p className="t-label text-muted-foreground">
-            [ INTELIGENCIA ARTIFICIAL · LLM · VISIÓN ]
-          </p>
+          <p className="t-label text-muted-foreground">{PAGE.kicker}</p>
 
           <h1 className="t-display mt-6 text-balance text-[clamp(2rem,5vw,3.5rem)] text-foreground">
-            Inteligencia artificial en Formosa
+            {PAGE.h1}
           </h1>
 
           <p className="t-body mt-6 max-w-[62ch] text-muted-foreground">
-            Implemento inteligencia artificial que <strong className="text-foreground">funciona
-            en producción</strong> para empresas de Formosa y del NEA: asistentes
-            con RAG sobre tus propios datos, agentes con LLM, visión por
-            computadora y automatización. Estoy radicado en Formosa, Argentina.
+            {PAGE.lede.map((segment, index) =>
+              segment.strong ? (
+                <strong key={index} className="text-foreground">
+                  {segment.text}
+                </strong>
+              ) : (
+                segment.text
+              ),
+            )}
           </p>
 
           <h2 className="t-title mt-14 text-xl text-foreground">
-            Qué puedo construir
+            {PAGE.servicesHeading}
           </h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-2">
             {SERVICES.map((s) => (
@@ -209,7 +165,9 @@ export default function AiFormosaPage() {
             ))}
           </div>
 
-          <h2 className="t-title mt-14 text-xl text-foreground">Tecnologías</h2>
+          <h2 className="t-title mt-14 text-xl text-foreground">
+            {PAGE.stackHeading}
+          </h2>
           <ul className="mt-6 flex flex-wrap gap-2">
             {STACK.map((t) => (
               <li
@@ -222,7 +180,7 @@ export default function AiFormosaPage() {
           </ul>
 
           <h2 className="t-title mt-14 text-xl text-foreground">
-            Preguntas frecuentes
+            {PAGE.faqHeading}
           </h2>
           <dl className="mt-6 flex flex-col gap-5">
             {FAQ.map((f) => (
@@ -233,25 +191,35 @@ export default function AiFormosaPage() {
             ))}
           </dl>
 
-          <h2 className="t-title mt-14 text-xl text-foreground">Contacto</h2>
+          <h2 className="t-title mt-14 text-xl text-foreground">
+            {PAGE.contact.heading}
+          </h2>
           <p className="t-body mt-6 max-w-[62ch] text-muted-foreground">
-            Contame qué problema querés resolver con IA y te respondo con un
-            enfoque concreto. Estoy en Formosa, disponible para la ciudad, el NEA,
-            toda Argentina y el exterior.
+            {PAGE.contact.body}
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <a
-              href={`mailto:${EMAIL}`}
-              className="t-label border border-border px-4 py-2 text-foreground transition-colors hover:border-primary hover:text-primary"
-            >
-              Escribime por email
-            </a>
-            <Link
-              href="/es/desarrollador-software-formosa"
-              className="t-label border border-border px-4 py-2 text-foreground transition-colors hover:border-primary hover:text-primary"
-            >
-              Desarrollo de software en Formosa
-            </Link>
+            {PAGE.contact.actions.map((action) => {
+              const className = `t-label border border-border px-4 py-2 ${
+                action.muted
+                  ? "text-muted-foreground transition-colors hover:text-foreground"
+                  : "text-foreground transition-colors hover:border-primary hover:text-primary"
+              }`;
+              return action.href.startsWith("/") ? (
+                <Link key={action.label} href={action.href} className={className}>
+                  {action.label}
+                </Link>
+              ) : (
+                <a
+                  key={action.label}
+                  href={action.href}
+                  target={action.newTab ? "_blank" : undefined}
+                  rel={action.newTab ? "noreferrer" : undefined}
+                  className={className}
+                >
+                  {action.label}
+                </a>
+              );
+            })}
           </div>
 
           <ServicePageNav current="/es/inteligencia-artificial-formosa" />

@@ -1,135 +1,26 @@
 import Head from "next/head";
 import Link from "next/link";
 import { SITE_URL } from "@/config/site";
+import { BESPOKE_PAGES_CONTENT, CONTACT } from "@/content/service-pages-content";
 import { ServicePageNav } from "@/components/services/ServicePageNav";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 
-const TITLE =
-  "Desarrollador de Software e Ingeniero de IA en Formosa | Facundo Majda";
-const DESCRIPTION =
-  "Facundo Majda, desarrollador de software freelance radicado en Formosa, Argentina. Software a medida, sistemas empresariales, backend y APIs, inteligencia artificial, Machine Learning y automatización para empresas. Remoto y presencial.";
 const PATH = "/es/desarrollador-software-formosa";
+const PAGE = BESPOKE_PAGES_CONTENT[PATH];
+const TITLE = PAGE.title;
+const DESCRIPTION = PAGE.description;
 const URL = `${SITE_URL}${PATH}`;
 
-const EMAIL = "facundomajda13@gmail.com";
-const GITHUB = "https://github.com/FacundoMajda";
-const LINKEDIN = "https://www.linkedin.com/in/facundo-majda/";
-const UPWORK = "https://www.upwork.com/freelancers/~014f767f0225d54d8e";
+const {
+  email: EMAIL,
+  github: GITHUB,
+  linkedin: LINKEDIN,
+  upwork: UPWORK,
+} = CONTACT;
 
-const SERVICES = [
-  {
-    title: "Software a medida y sistemas empresariales",
-    body: "Sistemas de gestión, paneles internos y herramientas propias. Diseño la arquitectura, la base de datos y las APIs, y lo dejo funcionando en producción.",
-  },
-  {
-    title: "Plataformas SaaS y aplicaciones web",
-    body: "Aplicaciones web y plataformas multiusuario y multiempresa, desde la arquitectura hasta el despliegue.",
-  },
-  {
-    title: "Backend, APIs e integraciones",
-    body: "Servicios en Python, Node/TypeScript y Java. APIs REST, integraciones entre sistemas, e-commerce, pagos y facturación.",
-  },
-  {
-    title: "Inteligencia artificial y Machine Learning",
-    body: "Asistentes con RAG sobre tus documentos y datos, aplicaciones con LLM, agentes, fine-tuning con LoRA y procesamiento inteligente de documentos. El foco: resolver problemas concretos y llevarlo a producción.",
-  },
-  {
-    title: "Visión por computadora",
-    body: "Detección y seguimiento de objetos, análisis de video e inspección automatizada con modelos como YOLO y ByteTrack.",
-  },
-  {
-    title: "Automatización de procesos",
-    body: "Flujos que conectan tus herramientas (n8n, APIs propias) y eliminan tareas manuales, integrando tus sistemas existentes.",
-  },
-  {
-    title: "Datos y analítica",
-    body: "Pipelines de datos, tableros y modelos (PyTorch, Scikit-learn) para tomar decisiones con tus números.",
-  },
-  {
-    title: "Infraestructura y puesta en producción",
-    body: "Docker, Linux, despliegue, observabilidad y mantenimiento. El sistema queda funcionando y monitoreado, no en un demo.",
-  },
-];
-
-const STACK: { group: string; items: string[] }[] = [
-  {
-    group: "Lenguajes",
-    items: ["Python", "TypeScript", "JavaScript", "Java", "SQL"],
-  },
-  { group: "Backend", items: ["FastAPI", "NestJS", "Node.js", "Spring Boot"] },
-  { group: "Frontend", items: ["React", "Next.js", "Angular", "Tailwind CSS"] },
-  {
-    group: "Datos",
-    items: ["PostgreSQL", "Supabase", "Qdrant", "Redis", "Drizzle ORM"],
-  },
-  {
-    group: "IA / ML",
-    items: [
-      "PyTorch",
-      "Hugging Face",
-      "LangChain",
-      "LangGraph",
-      "RAG",
-      "LLM",
-      "LoRA",
-      "Computer Vision",
-      "YOLO",
-      "ByteTrack",
-      "OpenAI API",
-    ],
-  },
-  {
-    group: "Infra y automatización",
-    items: ["Docker", "Linux", "Git", "OpenTelemetry", "n8n", "AWS", "Vercel"],
-  },
-];
-
-const FAQ = [
-  {
-    q: "¿Trabajás con empresas de Formosa?",
-    a: "Sí. Estoy radicado en Formosa y trabajo con empresas, profesionales y equipos de la ciudad, del NEA, de toda Argentina y del exterior. Remoto por defecto, y presencial en Formosa cuando el proyecto lo requiere.",
-  },
-  {
-    q: "¿Qué tipo de software desarrollás?",
-    a: "Aplicaciones web, plataformas SaaS, sistemas empresariales, APIs, backends, integraciones entre servicios y software a medida. Trabajo tanto en la arquitectura como en el desarrollo, el despliegue y el mantenimiento.",
-  },
-  {
-    q: "¿Desarrollás sistemas con inteligencia artificial?",
-    a: "Sí. Asistentes con RAG sobre documentación y datos propios, aplicaciones con LLM, agentes, fine-tuning con LoRA, procesamiento de documentos y visión por computadora. El foco está en resolver problemas concretos y llevarlos a producción.",
-  },
-  {
-    q: "¿Hacés automatización de procesos empresariales?",
-    a: "Sí. Automatizaciones e integraciones con Python, TypeScript, APIs y herramientas de orquestación. Conecto sistemas existentes, automatizo flujos operativos y proceso información para reducir tareas manuales.",
-  },
-  {
-    q: "¿Trabajás con backend, APIs y bases de datos?",
-    a: "Sí. Diseño y desarrollo backends, APIs REST, sistemas multiusuario y multiempresa, integraciones y modelos de datos, con Python, FastAPI, Node.js, PostgreSQL y lo que pida cada proyecto.",
-  },
-  {
-    q: "¿Desarrollás sistemas de visión artificial?",
-    a: "Sí. Detección y seguimiento de objetos, procesamiento de video, análisis de imágenes y monitoreo en tiempo real, considerando hardware y despliegue.",
-  },
-  {
-    q: "¿Podés desarrollar un proyecto desde cero?",
-    a: "Sí. Participo desde la definición técnica y la arquitectura hasta el frontend, el backend, la infraestructura, el despliegue y la puesta en producción. También me incorporo a proyectos existentes para agregar funcionalidades o resolver problemas técnicos.",
-  },
-  {
-    q: "¿Trabajás remoto o presencial?",
-    a: "Principalmente remoto con clientes de Argentina y de otros países. También presencial en Formosa cuando las características del proyecto lo requieren.",
-  },
-  {
-    q: "¿Trabajás como freelancer?",
-    a: "Sí. Trabajo como desarrollador freelance y también puedo integrarme a equipos de ingeniería por proyecto o por contratación; el alcance y la modalidad se definen según el trabajo.",
-  },
-  {
-    q: "¿Qué tecnologías utilizás?",
-    a: "Python, TypeScript, JavaScript, React, Next.js, FastAPI, Node.js, PostgreSQL, Docker y el ecosistema de IA y Machine Learning, entre otras. La elección depende de los requisitos del proyecto.",
-  },
-  {
-    q: "¿Cómo puedo contratarte?",
-    a: "Escribime contando qué necesitás desarrollar, qué problema querés resolver y el alcance estimado. Analizo los requisitos y te respondo con un enfoque técnico, una propuesta y las etapas de implementación.",
-  },
-];
+const SERVICES = PAGE.services;
+const STACK = PAGE.stack;
+const FAQ = PAGE.faq;
 
 export default function SoftwareDeveloperFormosaPage() {
   const jsonLd = {
@@ -214,6 +105,12 @@ export default function SoftwareDeveloperFormosaPage() {
         <title>{TITLE}</title>
         <meta name="description" content={DESCRIPTION} />
         <link rel="canonical" href={URL} />
+        <link
+          rel="alternate"
+          type="text/markdown"
+          href={`${URL}.md`}
+          title="Markdown version"
+        />
         <meta name="robots" content="index, follow, max-image-preview:large" />
 
         <meta property="og:type" content="website" />
@@ -251,25 +148,27 @@ export default function SoftwareDeveloperFormosaPage() {
         </header>
 
         <article className="mx-auto max-w-3xl px-6 py-16 md:px-[6vw] md:py-24">
-          <p className="t-label text-muted-foreground">
-            [ INGENIERÍA DE SOFTWARE · IA · BACKEND · AUTOMATIZACIÓN ]
-          </p>
+          <p className="t-label text-muted-foreground">{PAGE.kicker}</p>
 
           <h1 className="t-display mt-6 text-balance text-[clamp(2rem,5vw,3.5rem)] text-foreground">
-            Desarrollador de software e ingeniero de IA en Formosa
+            {PAGE.h1}
           </h1>
 
           <p className="t-body mt-6 max-w-[62ch] text-muted-foreground">
-            Soy <strong className="text-foreground">Facundo Majda</strong>{" "}
-            y desarrollo software que funciona en producción: aplicaciones y
-            sistemas a medida, backend y APIs, integraciones, infraestructura,
-            automatización e inteligencia artificial. Estoy radicado en{" "}
-            <strong className="text-foreground">Formosa, Argentina</strong>, y
-            trabajo con clientes de la ciudad, del NEA, de todo el país y del
-            exterior.
+            {PAGE.lede.map((segment, index) =>
+              segment.strong ? (
+                <strong key={index} className="text-foreground">
+                  {segment.text}
+                </strong>
+              ) : (
+                segment.text
+              ),
+            )}
           </p>
 
-          <h2 className="t-title mt-14 text-xl text-foreground">Servicios</h2>
+          <h2 className="t-title mt-14 text-xl text-foreground">
+            {PAGE.servicesHeading}
+          </h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-2">
             {SERVICES.map((s) => (
               <div key={s.title} className="border border-border p-5">
@@ -282,7 +181,7 @@ export default function SoftwareDeveloperFormosaPage() {
           </div>
 
           <h2 className="t-title mt-14 text-xl text-foreground">
-            Tecnologías
+            {PAGE.stackHeading}
           </h2>
           <div className="mt-6 flex flex-col gap-5">
             {STACK.map((g) => (
@@ -303,7 +202,7 @@ export default function SoftwareDeveloperFormosaPage() {
           </div>
 
           <h2 className="t-title mt-14 text-xl text-foreground">
-            Preguntas frecuentes
+            {PAGE.faqHeading}
           </h2>
           <dl className="mt-6 flex flex-col gap-5">
             {FAQ.map((f) => (
@@ -314,39 +213,35 @@ export default function SoftwareDeveloperFormosaPage() {
             ))}
           </dl>
 
-          <h2 className="t-title mt-14 text-xl text-foreground">Contacto</h2>
+          <h2 className="t-title mt-14 text-xl text-foreground">
+            {PAGE.contact.heading}
+          </h2>
           <p className="t-body mt-6 max-w-[62ch] text-muted-foreground">
-            Contame qué necesitás desarrollar y te respondo con un enfoque
-            técnico y una propuesta por etapas. Estoy en Formosa, disponible para
-            la ciudad, el NEA, toda Argentina y el exterior.
+            {PAGE.contact.body}
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <a
-              href={`mailto:${EMAIL}`}
-              className="t-label border border-border px-4 py-2 text-foreground transition-colors hover:border-primary hover:text-primary"
-            >
-              Escribime por email
-            </a>
-            <a
-              href={UPWORK}
-              target="_blank"
-              rel="noreferrer"
-              className="t-label border border-border px-4 py-2 text-foreground transition-colors hover:border-primary hover:text-primary"
-            >
-              Perfil en Upwork
-            </a>
-            <Link
-              href="/es/inteligencia-artificial-formosa"
-              className="t-label border border-border px-4 py-2 text-foreground transition-colors hover:border-primary hover:text-primary"
-            >
-              Inteligencia artificial en Formosa
-            </Link>
-            <Link
-              href="/"
-              className="t-label border border-border px-4 py-2 text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Ver portfolio completo
-            </Link>
+            {PAGE.contact.actions.map((action) => {
+              const className = `t-label border border-border px-4 py-2 ${
+                action.muted
+                  ? "text-muted-foreground transition-colors hover:text-foreground"
+                  : "text-foreground transition-colors hover:border-primary hover:text-primary"
+              }`;
+              return action.href.startsWith("/") ? (
+                <Link key={action.label} href={action.href} className={className}>
+                  {action.label}
+                </Link>
+              ) : (
+                <a
+                  key={action.label}
+                  href={action.href}
+                  target={action.newTab ? "_blank" : undefined}
+                  rel={action.newTab ? "noreferrer" : undefined}
+                  className={className}
+                >
+                  {action.label}
+                </a>
+              );
+            })}
           </div>
 
           <ServicePageNav current="/es/desarrollador-software-formosa" />

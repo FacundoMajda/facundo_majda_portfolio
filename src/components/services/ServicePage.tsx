@@ -1,49 +1,32 @@
 import Head from "next/head";
 import Link from "next/link";
-import type { ReactNode } from "react";
 import { SITE_URL } from "@/config/site";
+import {
+  CONTACT,
+  SERVICE_PAGES_CONTENT,
+  type ServicePagePath,
+} from "@/content/service-pages-content";
 import { ServicePageNav } from "./ServicePageNav";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 import { GlyphRain } from "@/components/canvasui/GlyphRain";
 import { Liquid } from "@/components/canvasui/Liquid";
 
-export type ServiceCard = { title: string; body: string };
-export type StackGroup = { group: string; items: string[] };
-export type FaqItem = { q: string; a: string };
-
-export const CONTACT = {
-  email: "facundomajda13@gmail.com",
-  github: "https://github.com/FacundoMajda",
-  linkedin: "https://www.linkedin.com/in/facundo-majda/",
-  upwork: "https://www.upwork.com/freelancers/~014f767f0225d54d8e",
-};
-
-type Props = {
-  path: string;
-  title: string;
-  description: string;
-  kicker: string;
-  h1: string;
-  lede: ReactNode;
-  services: ServiceCard[];
-  stack: StackGroup[];
-  faq: FaqItem[];
-  servicesHeading?: string;
-};
-
 // Same visual system as the portfolio: full-bleed 6vw gutters, bracketed
 // section markers on dashed rules, numbered tiles, the shared type scale.
-export function ServicePage({
-  path,
-  title,
-  description,
-  kicker,
-  h1,
-  lede,
-  services,
-  faq,
-  servicesHeading = "Servicios",
-}: Props) {
+export function ServicePage({ path }: { path: ServicePagePath }) {
+  const content = SERVICE_PAGES_CONTENT[path];
+  const {
+    title,
+    description,
+    kicker,
+    h1,
+    lede,
+    servicesHeading,
+    services,
+    faqHeading,
+    faq,
+    contact,
+  } = content;
   const url = `${SITE_URL}${path}`;
   const { email, github, linkedin, upwork } = CONTACT;
 
@@ -133,6 +116,12 @@ export function ServicePage({
         <link rel="alternate" hrefLang="es-AR" href={url} />
         <link rel="alternate" hrefLang="en" href={SITE_URL} />
         <link rel="alternate" hrefLang="x-default" href={SITE_URL} />
+        <link
+          rel="alternate"
+          type="text/markdown"
+          href={`${url}.md`}
+          title="Markdown version"
+        />
         <meta name="robots" content="index, follow, max-image-preview:large" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={title} />
@@ -197,7 +186,15 @@ export function ServicePage({
                 </h1>
 
                 <div className="t-body mt-8 max-w-[62ch] text-lg text-muted-foreground">
-                  {lede}
+                  {lede.map((segment, index) =>
+                    segment.strong ? (
+                      <strong key={index} className="text-foreground">
+                        {segment.text}
+                      </strong>
+                    ) : (
+                      segment.text
+                    ),
+                  )}
                 </div>
               </div>
             </Liquid>
@@ -207,7 +204,7 @@ export function ServicePage({
         <section className="px-6 md:px-[6vw] py-24 md:py-32 bg-card border-t border-border">
           <div className="mb-16 flex items-end justify-between gap-6 border-b border-dashed border-border pb-4">
             <h2 className="t-title text-2xl md:text-3xl text-foreground">
-              [ {servicesHeading.toUpperCase()} ]
+              {servicesHeading}
             </h2>
             <span className="font-mono text-xs tabular-nums text-muted-foreground/70">
               {String(services.length).padStart(2, "0")}
@@ -231,7 +228,7 @@ export function ServicePage({
         <section className="px-6 md:px-[6vw] py-24 md:py-32 border-t border-border">
           <div className="mb-16 flex items-end justify-between gap-6 border-b border-dashed border-border pb-4">
             <h2 className="t-title text-2xl md:text-3xl text-foreground">
-              [ PREGUNTAS FRECUENTES ]
+              {faqHeading}
             </h2>
             <span className="font-mono text-xs tabular-nums text-muted-foreground/70">
               {String(faq.length).padStart(2, "0")}
@@ -253,37 +250,37 @@ export function ServicePage({
         <section className="px-6 md:px-[6vw] py-24 md:py-32 border-t border-border">
           <div className="mb-12 flex items-end justify-between gap-6 border-b border-dashed border-border pb-4">
             <h2 className="t-title text-2xl md:text-3xl text-foreground">
-              [ CONTACTO ]
+              {contact.heading}
             </h2>
           </div>
 
           <p className="t-body max-w-[62ch] text-lg text-muted-foreground">
-            Contame qué necesitás y te respondo con un enfoque técnico y una
-            propuesta por etapas. Estoy en Formosa, disponible para la ciudad,
-            el NEA, toda Argentina y el exterior.
+            {contact.body}
           </p>
 
           <div className="mt-10 flex flex-wrap gap-3">
-            <a
-              href={`mailto:${email}`}
-              className="t-label border border-border px-5 py-3 text-foreground transition-colors hover:border-primary hover:text-primary"
-            >
-              Escribime por email
-            </a>
-            <a
-              href={upwork}
-              target="_blank"
-              rel="noreferrer"
-              className="t-label border border-border px-5 py-3 text-foreground transition-colors hover:border-primary hover:text-primary"
-            >
-              Perfil en Upwork
-            </a>
-            <Link
-              href="/"
-              className="t-label border border-border px-5 py-3 text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Ver portfolio completo
-            </Link>
+            {contact.actions.map((action) => {
+              const className = `t-label border border-border px-5 py-3 ${
+                action.muted
+                  ? "text-muted-foreground transition-colors hover:text-foreground"
+                  : "text-foreground transition-colors hover:border-primary hover:text-primary"
+              }`;
+              return action.href.startsWith("/") ? (
+                <Link key={action.label} href={action.href} className={className}>
+                  {action.label}
+                </Link>
+              ) : (
+                <a
+                  key={action.label}
+                  href={action.href}
+                  target={action.newTab ? "_blank" : undefined}
+                  rel={action.newTab ? "noreferrer" : undefined}
+                  className={className}
+                >
+                  {action.label}
+                </a>
+              );
+            })}
           </div>
 
           <ServicePageNav current={path} />
