@@ -16,7 +16,7 @@ Every page has a markdown version at its path plus `.md`, with the same content 
 
 ## Servicios (español)
 
-- [Desarrollador de software en Formosa](https://faqmajda.xyz/es/desarrollador-software-formosa): desarrollo de software, IA y automatización para empresas de Formosa y el NEA.
+- [Programador y desarrollador de software en Formosa](https://faqmajda.xyz/es/desarrollador-software-formosa): desarrollo de software, IA y automatización para empresas de Formosa y el NEA.
 - [Inteligencia artificial en Formosa](https://faqmajda.xyz/es/inteligencia-artificial-formosa): RAG, agentes con LLM, visión por computadora y automatización.
 
 ## Contact

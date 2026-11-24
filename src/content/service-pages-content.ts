@@ -534,16 +534,16 @@ export const BESPOKE_PAGES_CONTENT: Record<
   "/es/desarrollador-software-formosa": {
     kind: "bespoke",
     title:
-      "Desarrollador de Software e Ingeniero de IA en Formosa | Facundo Majda",
+      "Programador y Desarrollador de Software en Formosa | Facundo Majda",
     description:
-      "Facundo Majda, desarrollador de software freelance radicado en Formosa, Argentina. Software a medida, sistemas empresariales, backend y APIs, inteligencia artificial, Machine Learning y automatización para empresas. Remoto y presencial.",
+      "Facundo Majda, programador y desarrollador de software freelance radicado en Formosa, Argentina. Software a medida, sistemas empresariales, backend y APIs, inteligencia artificial, Machine Learning y automatización para empresas. Remoto y presencial.",
     kicker: "[ INGENIERÍA DE SOFTWARE · IA · BACKEND · AUTOMATIZACIÓN ]",
     h1: "Desarrollador de software e ingeniero de IA en Formosa",
     lede: [
       { text: "Soy " },
       { text: "Facundo Majda", strong: true },
       {
-        text: " y desarrollo software que funciona en producción: aplicaciones y sistemas a medida, backend y APIs, integraciones, infraestructura, automatización e inteligencia artificial. Estoy radicado en ",
+        text: " y trabajo como programador freelance: desarrollo software que funciona en producción — aplicaciones y sistemas a medida, backend y APIs, integraciones, infraestructura, automatización e inteligencia artificial. Estoy radicado en ",
       },
       { text: "Formosa, Argentina", strong: true },
       {
@@ -634,6 +634,10 @@ export const BESPOKE_PAGES_CONTENT: Record<
     ],
     faqHeading: "Preguntas frecuentes",
     faq: [
+      {
+        q: "¿Cómo contratar a un programador en Formosa?",
+        a: "Escribime contando qué necesitás resolver — un sistema, una aplicación web, una automatización o un proyecto de IA. Te respondo con un enfoque técnico y una propuesta por etapas. Si estás en Formosa, coordinamos una reunión presencial cuando el proyecto lo requiera.",
+      },
       {
         q: "¿Trabajás con empresas de Formosa?",
         a: "Sí. Estoy radicado en Formosa y trabajo con empresas, profesionales y equipos de la ciudad, del NEA, de toda Argentina y del exterior. Remoto por defecto, y presencial en Formosa cuando el proyecto lo requiere.",

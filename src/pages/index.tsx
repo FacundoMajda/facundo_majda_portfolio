@@ -172,6 +172,12 @@ export default function Portfolio({
           ? `mailto:${profile.contactEmail}`
           : undefined,
         description: seoDescription,
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Formosa",
+          addressRegion: "Formosa",
+          addressCountry: "AR",
+        },
         image: ogImage,
         knowsLanguage: ["en", "es"],
         knowsAbout: [
