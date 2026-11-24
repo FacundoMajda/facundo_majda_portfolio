@@ -536,14 +536,14 @@ export const BESPOKE_PAGES_CONTENT: Record<
     title:
       "Programador y Desarrollador de Software en Formosa | Facundo Majda",
     description:
-      "Facundo Majda, programador y desarrollador de software freelance radicado en Formosa, Argentina. Software a medida, sistemas empresariales, backend y APIs, inteligencia artificial, Machine Learning y automatización para empresas. Remoto y presencial.",
+      "Facundo Majda, programador y desarrollador de software freelance radicado en Formosa, Argentina. Programación y software a medida, sistemas empresariales, backend y APIs, inteligencia artificial, Machine Learning y automatización para empresas. Remoto y presencial.",
     kicker: "[ INGENIERÍA DE SOFTWARE · IA · BACKEND · AUTOMATIZACIÓN ]",
     h1: "Desarrollador de software e ingeniero de IA en Formosa",
     lede: [
       { text: "Soy " },
       { text: "Facundo Majda", strong: true },
       {
-        text: " y trabajo como programador freelance: desarrollo software que funciona en producción — aplicaciones y sistemas a medida, backend y APIs, integraciones, infraestructura, automatización e inteligencia artificial. Estoy radicado en ",
+        text: " y trabajo como programador freelance: programación y desarrollo de software que funciona en producción — aplicaciones y sistemas a medida, backend y APIs, integraciones, infraestructura, automatización e inteligencia artificial. Estoy radicado en ",
       },
       { text: "Formosa, Argentina", strong: true },
       {
